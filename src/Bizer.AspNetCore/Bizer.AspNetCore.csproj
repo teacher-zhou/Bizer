@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../common.props" />
+  <PropertyGroup>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="NSwag.AspNetCore" Version="13.19.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bizer\Bizer.csproj" />
+  </ItemGroup>
+</Project>

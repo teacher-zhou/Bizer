@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../common.props" />
+  <PropertyGroup>
+	  
+  </PropertyGroup>
+  <ItemGroup Condition="$(TargetFramework) == 'net7.0'">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
+  </ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework) == 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
+	</ItemGroup>
+</Project>
