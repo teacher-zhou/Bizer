@@ -6,7 +6,7 @@ namespace Bizer;
 /// 定义让接口具备 HTTP 方式访问的路由形式。标记该特性的接口可以被自动识别远程 api。
 /// </summary>
 [AttributeUsage(AttributeTargets.Interface)]
-public class ApiRouteAttribute : Attribute, IRouteProvider
+public class ApiRouteAttribute : Attribute
 {
     /// <summary>
     /// 初始化 <see cref="ApiRouteAttribute"/> 类的新实例。

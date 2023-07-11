@@ -14,4 +14,7 @@
 	<ItemGroup Condition="$(TargetFramework) == 'net7.0'">
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Bizer\Bizer.csproj" />
+	</ItemGroup>
 </Project>

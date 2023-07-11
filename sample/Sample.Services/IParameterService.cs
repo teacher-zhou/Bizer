@@ -1,24 +1,19 @@
 ﻿using Bizer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sample.Services;
 [ApiRoute("api/parameter")]
 public interface IParameterService
 {
-    [Get]
+    [Get("name")]
     Task Get(string name);
 
-    [Get]
+    [Get("by-name")]
     Task GetByName(string name, string password);
 
-    [Get("{value}")]
+    [Get("by-name/{value}")]
     Task GetByNameValue(string name, string password, [Path]string value);
 
-    [Post]
+    [Post()]
     Task<int> PostAsync(PostModel model);
 
     [Put("{id}")]
@@ -27,7 +22,7 @@ public interface IParameterService
     [Delete("{id}")]
     Task DeleteAsync([Path]string id);
 
-    [Post]
+    [Post("as-form")]
     Task PostAsForm([Form] string name, [Form] string value);
 }
 

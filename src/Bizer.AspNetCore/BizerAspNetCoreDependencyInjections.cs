@@ -21,14 +21,13 @@ public static class BizerAspNetCoreDependencyInjections
         configure?.Invoke(apiOptions);
 
         services.AddSingleton(apiOptions);
-        services.AddSingleton<IRemotingConverter, ApiConverter>();
 
         services.AddSwaggerDocument(apiOptions.ConfigureSwaggerDocument);
         services.AddEndpointsApiExplorer();
 
         services.AddControllers(options =>
         {
-            options.Conventions.Add(new DynamicHttpApiConvention(apiOptions, new ApiConverter(apiOptions)));
+            options.Conventions.Add(new DynamicHttpApiConvention(apiOptions, new RemotingConverter()));
             options.Filters.Add(new ProducesAttribute("application/json"));
         })
         .ConfigureApplicationPartManager(applicationPart =>

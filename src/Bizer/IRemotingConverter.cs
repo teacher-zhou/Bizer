@@ -10,24 +10,29 @@ public interface IRemotingConverter
     /// <summary>
     /// 能否被 api 发现。
     /// </summary>
-    /// <param name="method"></param>
+    /// <param name="interfaceType">当前接口。</param>
     /// <returns></returns>
-    bool CanApiExplorer(MethodInfo method);
+    bool CanApiExplore(Type interfaceType);
+
+    /// <summary>
+    /// 能否被 api 发现。
+    /// </summary>
+    /// <param name="method">运行的方法。</param>
+    /// <returns></returns>
+    bool CanApiExplore(MethodInfo? method);
     /// <summary>
     /// 获取 api 路由。
     /// </summary>
     /// <param name="interfaceType">接口的类型。</param>
-    /// <param name="invokingMethodName">正在执行的方法。</param>
-    /// <param name="httpMethodAttribute"><see cref="HttpMethodAttribute"/> 特性。</param>
+    /// <param name="method">正在执行的方法。</param>
     /// <returns></returns>
-    string GetApiRoute(Type interfaceType,string invokingMethodName, HttpMethodAttribute? httpMethodAttribute);
+    string GetApiRoute(Type interfaceType,MethodInfo method);
     /// <summary>
     /// 从接口方法中获取 <see cref="HttpMethod"/> 。
     /// </summary>
-    /// <param name="invokingMethodName">正在执行的方法。</param>
     /// <param name="method">当前的方法。</param>
     /// <returns></returns>
-    HttpMethod GetHttpMethod(string invokingMethodName, MethodInfo method);
+    HttpMethod GetHttpMethod(MethodInfo method);
     /// <summary>
     /// 获取方法的参数。
     /// </summary>

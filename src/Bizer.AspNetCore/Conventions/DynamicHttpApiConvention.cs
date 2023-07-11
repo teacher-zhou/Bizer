@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.VisualBasic;
 using System.Reflection;
 
 namespace Bizer.AspNetCore.Conventions;
@@ -56,19 +54,9 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
                 continue;
             }
 
-            var method= FindInterfaceMethodFromAction(action);
+            var method = FindInterfaceMethodFromAction(action);
 
-            action.ApiExplorer.IsVisible = _converter.CanApiExplorer(method);
-
-            //var actionMethodAttribute = FindHttpMethodFromAction(action);
-            //if ( actionMethodAttribute is null )
-            //{
-            //    action.ApiExplorer.IsVisible = false;
-            //    continue;
-            //}
-            //action.ApiExplorer.IsVisible = true;
-
-
+            action.ApiExplorer.IsVisible = _converter.CanApiExplore(method);
         }
     }
 
@@ -131,17 +119,11 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
                 var methodParameter = method.GetParameters().SingleOrDefault(m => m.Name == parameter.Name);
 
-                if (!parameters.TryGetValue(ApiConverter.GetMethodCacheKey(method), out var output))
+                if (!parameters.TryGetValue(RemotingConverter.GetMethodCacheKey(method), out var output))
                 {
                     continue;
                 }
 
-                //var httpParameterAttribute = methodParameter.GetCustomAttribute<HttpParameterAttribute>();
-                //if ( httpParameterAttribute is null )
-                //{
-                //    parameter.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromQueryAttribute() { Name = methodParameter.Name } });
-                //    continue;
-                //}
                 var parameterName = output.parameterName;
                 parameter.BindingInfo = output.type switch
                 {
@@ -169,10 +151,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     {
         foreach ( var selector in action.Selectors )
         {
-            if ( selector.AttributeRouteModel == null )
-            {
-                selector.AttributeRouteModel = new AttributeRouteModel(GenerateRoute(action));
-            }
+            selector.AttributeRouteModel ??= new AttributeRouteModel(GenerateRoute(action));
 
             if ( !selector.ActionConstraints.Any() )
             {
@@ -189,60 +168,15 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     /// <exception cref="InvalidOperationException"></exception>
     RouteAttribute GenerateRoute(ActionModel action)
     {
-        if ( _interfaceAsControllerType is null )
-        {
-            throw new InvalidOperationException($"不能识别成 Controller");
-        }
         _interfaceAsControllerType.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute);
 
-        //var routeAppender = new List<string>();
-        //if ( _interfaceAsControllerType.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute) )
-        //{
-        //    routeAppender.Add(routeAttribute!.Template);
-        //}
-        //else
-        //{
-        //    var name = _interfaceAsControllerType.Name;
+        var method=FindInterfaceMethodFromAction(action);
 
-        //    _controller_Suffix_Keywords.Where(suffix => name.EndsWith(suffix))
-        //        .ForEach(text =>
-        //        {
-        //            name = name.Replace(text, "");
-        //        });
-        //    routeAppender.Add(name);
-        //}
-
-        #region 方法的路由
-
-        var httpMethodAttribute = FindHttpMethodFromAction(action);
-        //if ( string.IsNullOrWhiteSpace(httpMethodAttribute!.Template) )
-        //{
-        //    var actionName = action.ActionName;
-
-        //    if ( actionName.EndsWith("Async") )
-        //    {
-        //        actionName = actionName.Replace("Async", string.Empty);
-        //    }
-
-        //    foreach ( var trimPrefix in _action_Prefix_Keywords.Where(trimPrefix => actionName.StartsWith(trimPrefix)) )
-        //    {
-        //        actionName = actionName[trimPrefix.Length..];
-        //        break;
-        //    }
-        //    routeAppender.Add(actionName);
-        //}
-        //else
-        //{
-        //    routeAppender.Add(httpMethodAttribute!.Template);
-        //}
-        #endregion
-
-
-        var routeTemplate = _converter.GetApiRoute(_interfaceAsControllerType, action.ActionName, httpMethodAttribute);
+        var routeTemplate = _converter.GetApiRoute(_interfaceAsControllerType, method);
 
         return new(routeTemplate)
         {
-            Name = routeAttribute?.Name ?? httpMethodAttribute?.Name ?? action.ActionName,
+            Name = routeAttribute?.Name ??  action.ActionName,
             Order = routeAttribute?.Order ?? 0
         };
     }
@@ -264,7 +198,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
             return default;
         }
 
-        return actionMethod.GetCustomAttributes<HttpMethodAttribute>().OrderBy(m => m.Order).FirstOrDefault();
+        return actionMethod.GetCustomAttributes<HttpMethodAttribute>().FirstOrDefault();
     }
 
     /// <summary>
@@ -278,14 +212,10 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
         var methodName = action.ActionName;
 
-        var actionReflectedMethod = _interfaceAsControllerType.GetMethods().SingleOrDefault(t => t.Name == action.ActionMethod.Name);
-        if(actionReflectedMethod  is null )
-        {
-            throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
-        }
-        var methodKey = ApiConverter.GetMethodCacheKey(actionReflectedMethod);
+        var actionReflectedMethod = _interfaceAsControllerType.GetMethods().SingleOrDefault(t => t.Name == action.ActionMethod.Name) ?? throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
+        var methodKey = RemotingConverter.GetMethodCacheKey(actionReflectedMethod);
 
-        var actionMethod = allmethods.SingleOrDefault(m => ApiConverter.GetMethodCacheKey(m) == methodKey);
+        var actionMethod = allmethods.SingleOrDefault(m => RemotingConverter.GetMethodCacheKey(m) == methodKey);
         return actionMethod;
     }
 
@@ -298,19 +228,9 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     {
         //var httpMethodAttribute = FindHttpMethodFromAction(action);
         var method= FindInterfaceMethodFromAction(action);
-        var httpMethod = _converter.GetHttpMethod(action.ActionName, method);
+        var httpMethod = _converter.GetHttpMethod(method);
         
         return httpMethod.Method;
-
-        //if ( httpMethodAttribute is null )
-        //{
-        //    if ( _action_HttpMethod_Mapping.TryGetValue(action.ActionName, out var mappingMethodName) )
-        //    {
-        //        return mappingMethodName;
-        //    }
-        //    return HttpMethods.Get;
-        //}
-        //return httpMethodAttribute.Method.Method;
     }
 
 
