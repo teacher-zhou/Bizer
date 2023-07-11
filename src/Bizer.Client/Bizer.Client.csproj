@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../common.props" />
+  <PropertyGroup>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Castle.Core" Version="5.0.0" />
+		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework) == 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="$(TargetFramework) == 'net7.0'">
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+	</ItemGroup>
+</Project>

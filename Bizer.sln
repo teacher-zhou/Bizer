@@ -18,9 +18,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer", "src\Bizer\Bizer.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.AspNetCore", "src\Bizer.AspNetCore\Bizer.AspNetCore.csproj", "{37BEEA8A-A0F9-4F49-8336-753EB50BA3D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Services", "sample\Sample.Services\Sample.Services.csproj", "{D9EC8968-B009-4E34-902F-9F253039E46E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Services", "sample\Sample.Services\Sample.Services.csproj", "{D9EC8968-B009-4E34-902F-9F253039E46E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WebApi", "sample\Sample.WebApi\Sample.WebApi.csproj", "{D280B47D-A729-45B0-9364-73280314BE68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.WebApi", "sample\Sample.WebApi\Sample.WebApi.csproj", "{D280B47D-A729-45B0-9364-73280314BE68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizer.Client", "src\Bizer.Client\Bizer.Client.csproj", "{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{D280B47D-A729-45B0-9364-73280314BE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D280B47D-A729-45B0-9364-73280314BE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D280B47D-A729-45B0-9364-73280314BE68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{37BEEA8A-A0F9-4F49-8336-753EB50BA3D7} = {36920AB0-7BBF-420E-BE8F-8E1E99AC16E4}
 		{D9EC8968-B009-4E34-902F-9F253039E46E} = {19BDE7E5-138D-4975-AC1F-94DC9FD92014}
 		{D280B47D-A729-45B0-9364-73280314BE68} = {19BDE7E5-138D-4975-AC1F-94DC9FD92014}
+		{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F} = {36920AB0-7BBF-420E-BE8F-8E1E99AC16E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0F12E82-F4B7-48EB-9DE7-4F2F7040E14A}

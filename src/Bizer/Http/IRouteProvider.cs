@@ -1,4 +1,4 @@
-﻿namespace Bizer.Http;
+﻿namespace Bizer;
 
 /// <summary>
 /// 定义路由提供器。

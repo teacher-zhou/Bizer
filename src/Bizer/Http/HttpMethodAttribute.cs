@@ -1,4 +1,4 @@
-﻿namespace Bizer.Http;
+﻿namespace Bizer;
 
 /// <summary>
 /// 定义 HTTP 的请求方式的特性。

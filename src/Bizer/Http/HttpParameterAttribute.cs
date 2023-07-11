@@ -1,4 +1,4 @@
-﻿namespace Bizer.Http;
+﻿namespace Bizer;
 
 /// <summary>
 /// 定义参数的访问方式。
@@ -92,7 +92,7 @@ public class FormAttribute : HttpParameterAttribute
     /// 初始化 <see cref="FormAttribute"/> 类的新实例。
     /// </summary>
     /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public FormAttribute(string? name=default) : base(HttpParameterType.FromForm, name)
+    public FormAttribute(string? name = default) : base(HttpParameterType.FromForm, name)
     {
 
     }
