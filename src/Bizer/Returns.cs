@@ -10,8 +10,12 @@ public record class Returns
     /// 初始化 <see cref="Returns"/> 类的新实例。
     /// </summary>
     /// <param name="errors">错误集合。</param>
-    public Returns(IEnumerable<string?>? errors) => Errors = errors ?? Array.Empty<string?>();
-
+    /// <param name="code">代码。</param>
+    public Returns(IEnumerable<string?>? errors, string? code = default)
+    {
+        Errors = errors ?? Array.Empty<string?>();
+        Code = code ?? default;
+    }
 
     /// <summary>
     /// 获取返回的错误信息数组。
@@ -19,9 +23,24 @@ public record class Returns
     public IEnumerable<string?> Errors { get; private set; } = Array.Empty<string?>();
 
     /// <summary>
+    /// 获取一个布尔值，表示结果编码。
+    /// </summary>
+    public string? Code { get; protected set; }
+
+    /// <summary>
     /// 获取一个布尔值，表示返回结果是否成功。
     /// </summary>
     public virtual bool Succeed => !Errors.Any();
+
+    /// <summary>
+    /// 设置结果编码。
+    /// </summary>
+    /// <param name="code">结果编码。</param>
+    public Returns SetCode(string? code)
+    {
+        Code = code;
+        return this;
+    }
 
     /// <summary>
     /// 表示操作结果是成功的。
@@ -59,12 +78,22 @@ public record class Returns<TResult> : Returns
     /// </summary>
     /// <param name="data">要返回的数据。</param>
     /// <param name="errors">错误信息数组。</param>
-    public Returns(TResult? data, IEnumerable<string>? errors) : base(errors) => Data = data;
+    public Returns(TResult? data, IEnumerable<string>? errors, string? code = default) : base(errors, code) => Data = data;
 
     /// <summary>
     /// 获取执行结果成功后的返回数据。
     /// </summary>
     public TResult? Data { get; } = default;
+
+    /// <summary>
+    /// 设置状态码。
+    /// </summary>
+    /// <param name="statusCode">状态码。</param>
+    public new Returns<TResult> SetCode(string? code)
+    {
+        Code = code;
+        return this;
+    }
 
     /// <summary>
     /// 表示操作结果是成功的，并设置返回的数据。

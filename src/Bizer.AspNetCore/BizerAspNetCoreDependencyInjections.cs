@@ -29,6 +29,8 @@ public static class BizerAspNetCoreDependencyInjections
         {
             options.Conventions.Add(new DynamicHttpApiConvention(apiOptions, new RemotingConverter()));
             options.Filters.Add(new ProducesAttribute("application/json"));
+            options.Filters.Add(new ProducesResponseTypeAttribute(typeof(Returns), 200));
+            options.Filters.Add(new ProducesResponseTypeAttribute(typeof(Returns<>), 200));
         })
         .ConfigureApplicationPartManager(applicationPart =>
         {

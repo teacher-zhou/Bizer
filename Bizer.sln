@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8203BD78-087A-4999-A006-4D7F2F1CC49B}"
 	ProjectSection(SolutionItems) = preProject
 		common.props = common.props
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{36920AB0-7BBF-420E-BE8F-8E1E99AC16E4}"
@@ -25,6 +26,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizer.Client", "src\Bizer.Client\Bizer.Client.csproj", "{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Client", "sample\Sample.Client\Sample.Client.csproj", "{F04B58B7-0F94-421F-B85B-B7F0038572D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizer.Services.Test", "test\Bizer.Services.Test\Bizer.Services.Test.csproj", "{26EB9017-B324-458C-9ED8-97D0DAF83D11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizer.AspNetCore.Test", "test\Bizer.AspNetCore.Test\Bizer.AspNetCore.Test.csproj", "{D4BEC1DE-5B59-4E24-A7CB-FC69F0CBAF0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +61,14 @@ Global
 		{F04B58B7-0F94-421F-B85B-B7F0038572D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F04B58B7-0F94-421F-B85B-B7F0038572D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F04B58B7-0F94-421F-B85B-B7F0038572D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26EB9017-B324-458C-9ED8-97D0DAF83D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26EB9017-B324-458C-9ED8-97D0DAF83D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26EB9017-B324-458C-9ED8-97D0DAF83D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26EB9017-B324-458C-9ED8-97D0DAF83D11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4BEC1DE-5B59-4E24-A7CB-FC69F0CBAF0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4BEC1DE-5B59-4E24-A7CB-FC69F0CBAF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4BEC1DE-5B59-4E24-A7CB-FC69F0CBAF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4BEC1DE-5B59-4E24-A7CB-FC69F0CBAF0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +80,8 @@ Global
 		{D280B47D-A729-45B0-9364-73280314BE68} = {19BDE7E5-138D-4975-AC1F-94DC9FD92014}
 		{57FBD5E7-CDC6-472A-A432-3FD2F9F4522F} = {36920AB0-7BBF-420E-BE8F-8E1E99AC16E4}
 		{F04B58B7-0F94-421F-B85B-B7F0038572D6} = {19BDE7E5-138D-4975-AC1F-94DC9FD92014}
+		{26EB9017-B324-458C-9ED8-97D0DAF83D11} = {465170C5-FA92-4B83-A3F4-4B970B8E29D5}
+		{D4BEC1DE-5B59-4E24-A7CB-FC69F0CBAF0A} = {465170C5-FA92-4B83-A3F4-4B970B8E29D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0F12E82-F4B7-48EB-9DE7-4F2F7040E14A}

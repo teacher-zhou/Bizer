@@ -1,5 +1,5 @@
 # Bizer
-让业务飞速起来的前后端自动化分离框架
+让 Services 层秒变 API
 
 ## Bizer.AspNetCore
 将业务自动变为 API 
