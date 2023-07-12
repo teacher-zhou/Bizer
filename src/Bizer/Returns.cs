@@ -4,7 +4,7 @@
 /// 表示输出返回结果。
 /// </summary>
 [Serializable]
-public record class Returns
+public class Returns
 {
     /// <summary>
     /// 初始化 <see cref="Returns"/> 类的新实例。
@@ -71,7 +71,7 @@ public record class Returns
 /// </summary>
 /// <typeparam name="TResult">返回值的类型。</typeparam>
 [Serializable]
-public record class Returns<TResult> : Returns
+public class Returns<TResult> : Returns
 {
     /// <summary>
     /// 初始化 <see cref="Returns{TResult}"/> 类的新实例。
