@@ -41,36 +41,44 @@ public class RemotingConverter : IRemotingConverter
         return httpMethodAttribute!.Method;
     }
 
-    public Dictionary<string, (HttpParameterType type, string parameterName, object? parameterValue)> GetParameters(MethodInfo method)
+    public Dictionary<string, IEnumerable<HttpParameterInfo>> GetParameters(MethodInfo method)
     {
         method.TryGetCustomAttribute<HttpMethodAttribute>(out var httpMethodAttribute);
 
-        var dic = new Dictionary<string, (HttpParameterType type, string parameterName, object? parameterValue)>();
+        var dic = new Dictionary<string, IEnumerable<HttpParameterInfo>>();
 
         string key = GetMethodCacheKey(method);
+
+        var parameterInfoList = new List<HttpParameterInfo>();
 
         var parameters = method.GetParameters();
 
         foreach ( var param in parameters )
         {
-            HttpParameterType type;
-            string name = method.Name;
+            var parameterInfo = new HttpParameterInfo
+            {
+                Name = param.Name,
+                ValueType = param.ParameterType
+            };
+
             if ( param.TryGetCustomAttribute<HttpParameterAttribute>(out var parameterAttribute) )
             {
-                type = parameterAttribute!.Type;
-                name = parameterAttribute!.Name!;
+                parameterInfo.Type = parameterAttribute!.Type;
+                parameterInfo.Name = parameterAttribute?.Name ?? param.Name ?? throw new ArgumentNullException("parameter name is null");
             }
             else
             {
-                type = httpMethodAttribute?.Method.Method switch
+                parameterInfo.Type = httpMethodAttribute?.Method.Method switch
                 {
                     "POST" => HttpParameterType.FromBody,
                     _ => HttpParameterType.FromQuery,
                 };
             }
 
-            dic[key] = new(type, name, default);
+            parameterInfoList.Add(parameterInfo);
         }
+
+        dic[key] = parameterInfoList;
 
         return dic;
     }

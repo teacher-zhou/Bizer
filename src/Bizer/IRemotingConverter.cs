@@ -38,5 +38,14 @@ public interface IRemotingConverter
     /// </summary>
     /// <param name="method">方法对象。</param>
     /// <returns></returns>
-    Dictionary<string, (HttpParameterType type, string parameterName, object? parameterValue)> GetParameters(MethodInfo method);
+    Dictionary<string, IEnumerable<HttpParameterInfo>> GetParameters(MethodInfo method);
+}
+
+public class HttpParameterInfo
+{
+    public HttpParameterType Type { get; set; } = HttpParameterType.FromQuery;
+    public string Name { get; set; }
+    public object? Value { get; set; }
+
+    public Type ValueType { get; set; }
 }

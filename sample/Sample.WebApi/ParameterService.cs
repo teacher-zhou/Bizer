@@ -7,37 +7,37 @@ namespace Sample.WebApi
     {
         public Task DeleteAsync([Path(null)] string id)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task Get(string name)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task GetByName(string name, string password)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task GetByNameValue(string name, string password, [Path(null)] string value)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task PostAsForm([Form(null)] string name, [Form(null)] string value)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<int> PostAsync(PostModel model)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(1);
         }
 
         public Task<string> UpdateAsync([Path(null)] int value, PostModel model)
         {
-            throw new NotImplementedException();
+            return Task.FromResult("success");
         }
     }
 }

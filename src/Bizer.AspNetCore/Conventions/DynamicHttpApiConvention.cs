@@ -110,6 +110,11 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
             var parameters = _converter.GetParameters(method);
 
+            if ( !parameters.TryGetValue(RemotingConverter.GetMethodCacheKey(method), out var parameterList) )
+            {
+                continue;
+            }
+
             foreach ( var parameter in action.Parameters )
             {
                 if ( parameter.BindingInfo != null )
@@ -117,15 +122,10 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
                     continue;
                 }
 
-                var methodParameter = method.GetParameters().SingleOrDefault(m => m.Name == parameter.Name);
+                var parameterInfo = parameterList.Single(m => m.Name == parameter.Name);
 
-                if (!parameters.TryGetValue(RemotingConverter.GetMethodCacheKey(method), out var output))
-                {
-                    continue;
-                }
-
-                var parameterName = output.parameterName;
-                parameter.BindingInfo = output.type switch
+                var parameterName = parameterInfo.Name;
+                parameter.BindingInfo = parameterInfo.Type switch
                 {
                     HttpParameterType.FromBody => BindingInfo.GetBindingInfo(new[] { new FromBodyAttribute() }),
                     HttpParameterType.FromForm => BindingInfo.GetBindingInfo(new[] { new FromFormAttribute() { Name = parameterName } }),
