@@ -5,8 +5,7 @@
 		<TargetFrameworks>net6.0;net7.0;</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<VersionPrefix>0.1</VersionPrefix>
-		<VersionSuffix>alpha</VersionSuffix>
+		<Version>0.1</Version>
 	</PropertyGroup>
 	<PropertyGroup>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
