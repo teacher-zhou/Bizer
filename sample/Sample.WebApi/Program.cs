@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBizerOpenApi(config =>
 {
-    config.Add(typeof(INomalService).Assembly);
+    config.Add(typeof(ITestService).Assembly);
 });
 var app = builder.Build();
 

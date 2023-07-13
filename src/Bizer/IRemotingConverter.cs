@@ -41,11 +41,40 @@ public interface IRemotingConverter
     Dictionary<string, IEnumerable<HttpParameterInfo>> GetParameters(MethodInfo method);
 }
 
+/// <summary>
+/// HTTP 参数信息。
+/// </summary>
 public class HttpParameterInfo
 {
+    /// <summary>
+    /// 参数类型。
+    /// </summary>
     public HttpParameterType Type { get; set; } = HttpParameterType.FromQuery;
-    public string Name { get; set; }
+    /// <summary>
+    /// 方法的参数名称。
+    /// </summary>
+    public string? Name { get; set; }
+    /// <summary>
+    /// 参数的别名。
+    /// </summary>
+    public string? Alias { get; set; }
+    /// <summary>
+    /// 参数值。
+    /// </summary>
     public object? Value { get; set; }
+    /// <summary>
+    /// 参数值的数据类型。
+    /// </summary>
+    public Type? ValueType { get; set; }
 
-    public Type ValueType { get; set; }
+    /// <summary>
+    /// 参数在方法里的位置。
+    /// </summary>
+    public int Position { get; set; }
+
+    /// <summary>
+    /// 获取参数在 HTTP 请求时的名称。
+    /// </summary>
+    /// <returns></returns>
+    public string? GetParameterNameInHttpRequest() => Alias ?? Name;
 }

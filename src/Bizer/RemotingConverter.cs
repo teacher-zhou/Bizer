@@ -58,13 +58,14 @@ public class RemotingConverter : IRemotingConverter
             var parameterInfo = new HttpParameterInfo
             {
                 Name = param.Name,
+                Position = param.Position,
                 ValueType = param.ParameterType
             };
 
             if ( param.TryGetCustomAttribute<HttpParameterAttribute>(out var parameterAttribute) )
             {
                 parameterInfo.Type = parameterAttribute!.Type;
-                parameterInfo.Name = parameterAttribute?.Name ?? param.Name ?? throw new ArgumentNullException("parameter name is null");
+                parameterInfo.Alias = parameterAttribute?.Name;
             }
             else
             {

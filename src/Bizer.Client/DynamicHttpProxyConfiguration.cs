@@ -14,10 +14,6 @@ public class DynamicHttpProxyConfiguration:AutoDiscoveryOptions
     /// </summary>
     public DynamicHttpProxyConfiguration()
     {
-        if (ResponseHandler is null)
-        {
-            throw new ArgumentNullException(nameof(ResponseHandler));
-        }
     }
 
     /// <summary>
@@ -40,13 +36,4 @@ public class DynamicHttpProxyConfiguration:AutoDiscoveryOptions
     /// </summary>
     public Func<HttpClientHandler>? PrimaryHandler { get; set; }
 
-    public Func<HttpResponseMessage, Task<object?>> ResponseHandler { get; set; } = DefaultResponseHandler;
-
-
-    static async Task<object?> DefaultResponseHandler(HttpResponseMessage response)
-    {
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-        return content;
-    }
 }

@@ -29,19 +29,22 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
 
     public void InterceptAsynchronous(IInvocation invocation)
     {
-       var result= DynamicHttpClientProxy.SendAsync(CreateRequestMessage(invocation));
-        invocation.ReturnValue = result.GetAwaiter().GetResult();
+        //var result= DynamicHttpClientProxy.SendAsync(CreateRequestMessage(invocation));
+        // invocation.ReturnValue = result.GetAwaiter().GetResult();
+
+        throw new NotSupportedException("要求方法必须有返回值，不能是 void 或 Task");
     }
 
     public void InterceptAsynchronous<TResult>(IInvocation invocation)
     {
-        throw new NotImplementedException();
+        var result= DynamicHttpClientProxy.SendAsync<TResult>(CreateRequestMessage(invocation));
+        invocation.ReturnValue = result;
     }
 
     public void InterceptSynchronous(IInvocation invocation)
     {
-        var result = DynamicHttpClientProxy.SendAsync(CreateRequestMessage(invocation));
-        invocation.ReturnValue = result.Result;
+        //var result = DynamicHttpClientProxy.SendAsync(CreateRequestMessage(invocation));
+        //invocation.ReturnValue = result.Result;
     }
 
 
@@ -72,9 +75,9 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
         var parameterInfoList = parameters[key];
 
         foreach ( var param in parameterInfoList )
-        {
-            var name = param.Name;
-            var value = param.Value?.ToString() ?? string.Empty;
+        {            
+            var name = param.GetParameterNameInHttpRequest();
+            var value = param.Value?.ToString() ?? invocation.GetArgumentValue(param.Position)?.ToString();
 
             switch ( param.Type )
             {
@@ -134,7 +137,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
 
 
         request.RequestUri = new(uriString, UriKind.Relative);
-        Logger?.LogDebug($"请求的 uri 资源路径：{request.RequestUri}");
+        Logger?.LogDebug($"请求的 uri 资源路径：{uriString}");
         return request;
     }
 

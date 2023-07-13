@@ -26,39 +26,25 @@ internal class DynamicHttpClientProxy<TService>
 
     public DynamicHttpProxyOptions Options => ServiceProvider.GetRequiredService<IOptions<DynamicHttpProxyOptions>>().Value;
 
-    protected DynamicHttpProxyConfiguration Configuration
+    public virtual async Task<TResult?> SendAsync<TResult>(HttpRequestMessage request)
     {
-        get
-        {
-            var serviceType = typeof(TService);
-            var configuration = Options.HttpProxies[serviceType];
-            return configuration;
-        }
-    }
+        var serviceType = typeof(TService);
+        var configuration = Options.HttpProxies[serviceType];
+        using var client = HttpClientFactory.CreateClient(configuration.Name);
 
-    protected virtual HttpClient CreateClient() => HttpClientFactory.CreateClient(Configuration.Name);
-
-    public virtual async Task<object?> SendAsync(HttpRequestMessage request)
-    {
-        using var client = CreateClient();
         var response = await client.SendAsync(request);
-        return HandleHttpResponseMessageAsync(response);
-    }
+        response.EnsureSuccessStatusCode();
+        Logger.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
 
-    /// <summary>
-    /// 以异步的方式处理 <see cref="HttpResponseMessage"/> 并解析为 <see cref="Returns"/> 对象。
-    /// </summary>
-    /// <param name="response">HTTP 请求的响应消息。</param>
-    /// <exception cref="ArgumentNullException"><paramref name="response"/> 是 null。</exception>
-    protected Task<object?> HandleHttpResponseMessageAsync(HttpResponseMessage response)
-    {
-        if (response is null)
+        var content = await response.Content.ReadAsStringAsync();
+
+        if ( string.IsNullOrEmpty(content) )
         {
-            throw new ArgumentNullException(nameof(response));
+            throw new HttpRequestException("要求远程服务必须有返回类型");
         }
 
-        Logger.LogDebug($"Http Status Code:{response.StatusCode}");
-        return Configuration.ResponseHandler(response);
+        var returns = JsonSerializer.Deserialize<TResult>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        return returns;
     }
 
 

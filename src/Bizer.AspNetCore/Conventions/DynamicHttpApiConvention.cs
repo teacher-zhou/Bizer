@@ -115,23 +115,24 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
                 continue;
             }
 
-            foreach ( var parameter in action.Parameters )
+            foreach ( var actionParameter in action.Parameters )
             {
-                if ( parameter.BindingInfo != null )
+                if ( actionParameter.BindingInfo != null )
                 {
                     continue;
                 }
 
-                var parameterInfo = parameterList.Single(m => m.Name == parameter.Name);
+                var parameterInfo = parameterList.Single(m => m.Name == actionParameter.Name);
 
-                var parameterName = parameterInfo.Name;
-                parameter.BindingInfo = parameterInfo.Type switch
+                var parameterName = parameterInfo.GetParameterNameInHttpRequest();
+
+                actionParameter.BindingInfo = parameterInfo.Type switch
                 {
                     HttpParameterType.FromBody => BindingInfo.GetBindingInfo(new[] { new FromBodyAttribute() }),
                     HttpParameterType.FromForm => BindingInfo.GetBindingInfo(new[] { new FromFormAttribute() { Name = parameterName } }),
                     HttpParameterType.FromHeader => BindingInfo.GetBindingInfo(new[] { new FromHeaderAttribute() { Name = parameterName } }),
-                    HttpParameterType.FromPath => BindingInfo.GetBindingInfo(new[] { new FromRouteAttribute() { Name = parameterName } }),
-                    _ => BindingInfo.GetBindingInfo(new[] { new FromQueryAttribute() { Name = parameterName } }),
+                    HttpParameterType.FromQuery => BindingInfo.GetBindingInfo(new[] { new FromQueryAttribute() { Name = parameterName } }),
+                    _ => BindingInfo.GetBindingInfo(new[] { new FromRouteAttribute() { Name = parameterName } }),
                 };
             }
         }
@@ -212,7 +213,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
         var methodName = action.ActionName;
 
-        var actionReflectedMethod = _interfaceAsControllerType.GetMethods().SingleOrDefault(t => t.Name == action.ActionMethod.Name) ?? throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
+        var actionReflectedMethod = _interfaceAsControllerType.GetMethods().SingleOrDefault(t => t.Name == action.ActionMethod.Name && t.GetParameters().Count()==action.Parameters.Count) ?? throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
         var methodKey = RemotingConverter.GetMethodCacheKey(actionReflectedMethod);
 
         var actionMethod = allmethods.SingleOrDefault(m => RemotingConverter.GetMethodCacheKey(m) == methodKey);
