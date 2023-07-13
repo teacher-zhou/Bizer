@@ -9,7 +9,6 @@
 		<Authors>playermaker</Authors>
 		<Copyright>playermaker © 2023 personal</Copyright>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageReadmeFile>README.md</PackageReadmeFile>		
 	</PropertyGroup>
 	<PropertyGroup>
