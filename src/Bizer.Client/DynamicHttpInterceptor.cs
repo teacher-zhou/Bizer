@@ -29,10 +29,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
 
     public void InterceptAsynchronous(IInvocation invocation)
     {
-        //var result= DynamicHttpClientProxy.SendAsync(CreateRequestMessage(invocation));
-        // invocation.ReturnValue = result.GetAwaiter().GetResult();
-
-        throw new NotSupportedException("要求方法必须有返回值，不能是 void 或 Task");
+        throw new NotSupportedException($"要求方法 {invocation.Method.Name} 必须具有返回类型，不能是 void 或 Task");
     }
 
     public void InterceptAsynchronous<TResult>(IInvocation invocation)
@@ -43,8 +40,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
 
     public void InterceptSynchronous(IInvocation invocation)
     {
-        //var result = DynamicHttpClientProxy.SendAsync(CreateRequestMessage(invocation));
-        //invocation.ReturnValue = result.Result;
+        throw new NotSupportedException($"不支持同步方法，请改用异步方法");
     }
 
 

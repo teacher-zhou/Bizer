@@ -40,6 +40,14 @@ var logger = app.Services.GetRequiredService<ILogger<Program>>();
 (await app.InvokeMethod<ITestService, Returns<string>>(nameof(ITestService.GetHasData))).Assert(logger);
 #endregion
 
+#region Post
+var testService = app.Services.GetRequiredService<ITestService>();
+var data = await testService.PostAsync("asd");
+Console.WriteLine(data);
+
+await testService.PostNothing();
+#endregion
+
 public static class AssertExtensions
 {
     public static Task<TResult> InvokeMethod<TService, TResult>(this IHost app, string methodName, params object?[] parameters)

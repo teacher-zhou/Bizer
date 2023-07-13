@@ -18,5 +18,11 @@ namespace Sample.Services
 
         [Get("data")]
         Task<Returns<string>> GetHasData();
+
+        [Post]
+        Task<string> PostAsync(string data);
+
+        [Post("no-return")]
+        Task PostNothing();
     }
 }

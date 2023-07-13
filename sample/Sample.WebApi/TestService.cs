@@ -29,5 +29,15 @@ namespace Sample.WebApi
         {
             return Returns<string>.Success("返回值").ToResultTask();
         }
+
+        public Task<string> PostAsync(string data)
+        {
+            return "一般返回值".ToResultTask();
+        }
+
+        public Task PostNothing()
+        {
+            return Task.CompletedTask;
+        }
     }
 }
