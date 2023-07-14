@@ -35,9 +35,18 @@ namespace Sample.WebApi
             return "一般返回值".ToResultTask();
         }
 
-        public Task PostNothing()
+        public Task PostNothingAsync()
         {
             return Task.CompletedTask;
+        }
+
+        public Returns<string> PutData(string name)
+        {
+            return Returns<string>.Success(name);
+        }
+
+        public void PutNothing(int? id)
+        {
         }
     }
 }

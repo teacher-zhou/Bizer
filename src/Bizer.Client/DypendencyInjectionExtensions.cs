@@ -86,8 +86,6 @@ public static class DypendencyInjectionExtensions
             httpClientBuilder.AddHttpMessageHandler(handler);
         }
 
-        builder.Services.AddTransient(typeof(DynamicHttpClientProxy<>).MakeGenericType(type));
-
         var interceptorType = typeof(DynamicHttpInterceptor<>).MakeGenericType(type);
         builder.Services.AddTransient(interceptorType);
 

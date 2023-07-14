@@ -1,4 +1,6 @@
-﻿namespace Bizer;
+﻿using System.Reflection;
+
+namespace Bizer;
 
 /// <summary>
 /// Bizer 框架的构造器。
@@ -53,4 +55,25 @@ public class BizerBuilder
     /// 添加默认的 HTTP 远程解析器。
     /// </summary>
     public BizerBuilder AddHttpRemotingResolver() => AddHttpRemotingResolver<DefaultHttpRemotingResolver>();
+
+    /// <summary>
+    /// 添加自动注入功能。
+    /// 只有添加了特性 <see cref="InjectServiceAttribute"/> 的接口，会自动将实现类作为进行注册。
+    /// </summary>
+    /// <returns></returns>
+    public BizerBuilder AddServiceInjection()
+    {
+        var allClassTypes = AutoDiscovery.GetDiscoveredAssemblies().SelectMany(m => m.ExportedTypes).Where(m => m.IsClass && !m.IsAbstract)
+           .Where(classType => classType.GetInterfaces().Any(interfaceType => interfaceType.IsDefined(typeof(InjectServiceAttribute))));
+
+        foreach ( var implementType in allClassTypes )
+        {
+            var serviceAttributeInterface = implementType.GetInterfaces().Where(interfaceType => interfaceType.IsDefined(typeof(InjectServiceAttribute))).Last();
+
+            var serviceAttribute = serviceAttributeInterface.GetCustomAttribute<InjectServiceAttribute>();
+
+            Services.Add(new(serviceAttributeInterface, implementType, serviceAttribute!.Lifetime));
+        }
+        return this;
+    }
 }

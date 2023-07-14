@@ -5,11 +5,12 @@
 		<TargetFrameworks>net6.0;net7.0;</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.1</Version>
+		<Version>0.2</Version>
 		<Authors>playermaker</Authors>
 		<Copyright>playermaker © 2023 personal</Copyright>
 		<PackageIcon>icon.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>		
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Description>业务开发的福音，自动化前后端框架，服务秒变 API</Description>
 	</PropertyGroup>
 	<PropertyGroup>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>

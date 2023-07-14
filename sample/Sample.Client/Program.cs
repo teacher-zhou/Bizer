@@ -23,34 +23,39 @@ var app = builder.Build();
 app.Start();
 
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
+var testService = app.Services.GetRequiredService<ITestService>();
 
 #region GET 请求
 //无参数
-(await app.InvokeMethod<ITestService, Returns>(nameof(ITestService.GetAsync))).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetAsync))).Assert(logger);
 
 //path 中的参数
-(await app.InvokeMethod<ITestService, Returns>(nameof(ITestService.GetFromPathAsync),1000)).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromPathAsync),1000)).Assert(logger);
 
 //query 中的参数
-(await app.InvokeMethod<ITestService, Returns>(nameof(ITestService.GetFromQueryAsync), "张三")).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromQueryAsync), "张三")).Assert(logger);
 //header 中的参数
-(await app.InvokeMethod<ITestService, Returns>(nameof(ITestService.GetFromHeaderAsync), "Token")).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromHeaderAsync), "Token")).Assert(logger);
 
 //无参数有返回值
-(await app.InvokeMethod<ITestService, Returns<string>>(nameof(ITestService.GetHasData))).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns<string>>(nameof(ITestService.GetHasData))).Assert(logger);
 #endregion
 
 #region Post
-var testService = app.Services.GetRequiredService<ITestService>();
-var data = await testService.PostAsync("asd");
-Console.WriteLine(data);
 
-await testService.PostNothing();
+await app.InvokeMethodAsync<ITestService, string>(nameof(ITestService.PostAsync),"asdasdasd");
+await app.InvokeMethodAsync<ITestService>(nameof(ITestService.PostNothingAsync));
+#endregion
+
+#region Put
+
+app.InvokeMethod<ITestService, Returns<string>>(nameof(ITestService.PutData), "name").Assert(logger);
+app.InvokeMethod<ITestService>(nameof(ITestService.PutNothing), 123);
 #endregion
 
 public static class AssertExtensions
 {
-    public static Task<TResult> InvokeMethod<TService, TResult>(this IHost app, string methodName, params object?[] parameters)
+    public static Task<TResult> InvokeMethodAsync<TService, TResult>(this IHost app, string methodName, params object?[] parameters)
     {
         var serviceType = typeof(TService);
         var service = app.Services.GetRequiredService(serviceType);
@@ -59,6 +64,37 @@ public static class AssertExtensions
         logger.LogDebug("============ {0} ================", methodName);
         logger.LogDebug("方法的参数：{0}", string.Join(", ", parameters));
         return (Task<TResult>)serviceType.GetMethod(methodName)?.Invoke(service, parameters);
+    }
+
+    public static Task InvokeMethodAsync<TService>(this IHost app, string methodName, params object?[] parameters)
+    {
+        var serviceType = typeof(TService);
+        var service = app.Services.GetRequiredService(serviceType);
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
+
+        logger.LogDebug("============ {0} ================", methodName);
+        logger.LogDebug("方法的参数：{0}", string.Join(", ", parameters));
+        return (Task)serviceType.GetMethod(methodName)?.Invoke(service, parameters);
+    }
+    public static TResult InvokeMethod<TService, TResult>(this IHost app, string methodName, params object?[] parameters)
+    {
+        var serviceType = typeof(TService);
+        var service = app.Services.GetRequiredService(serviceType);
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
+
+        logger.LogDebug("============ {0} ================", methodName);
+        logger.LogDebug("方法的参数：{0}", string.Join(", ", parameters));
+        return (TResult)serviceType.GetMethod(methodName)?.Invoke(service, parameters);
+    }
+    public static void InvokeMethod<TService>(this IHost app, string methodName, params object?[] parameters)
+    {
+        var serviceType = typeof(TService);
+        var service = app.Services.GetRequiredService(serviceType);
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
+
+        logger.LogDebug("============ {0} ================", methodName);
+        logger.LogDebug("方法的参数：{0}", string.Join(", ", parameters));
+        serviceType.GetMethod(methodName)?.Invoke(service, parameters);
     }
 
     public static void Assert(this Returns returns, ILogger logger, bool throwIfNotSuccess = true)
