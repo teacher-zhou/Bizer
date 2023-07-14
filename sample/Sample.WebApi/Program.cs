@@ -2,9 +2,8 @@ using Sample.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddBizer()
-    .AddAutoDiscovery(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-    .AddBizerOpenApi();
+builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
+    .AddApiConvension();
 
 var app = builder.Build();
 

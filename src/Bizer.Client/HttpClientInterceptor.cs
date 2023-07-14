@@ -9,9 +9,9 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Bizer.Client;
-internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TService : class
+internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TService : class
 {
-    public DynamicHttpInterceptor(IServiceProvider serviceProvider)
+    public HttpClientInterceptor(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
     }
@@ -27,7 +27,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
     public IHttpClientFactory HttpClientFactory => ServiceProvider.GetRequiredService<IHttpClientFactory>();
 
 
-    public DynamicHttpProxyOptions Options => ServiceProvider.GetRequiredService<IOptions<DynamicHttpProxyOptions>>().Value;
+    public HttpClientOptions Options => ServiceProvider.GetRequiredService<IOptions<HttpClientOptions>>().Value;
 
     public void InterceptAsynchronous(IInvocation invocation)
     {
@@ -96,7 +96,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
     private HttpClient CreateClient()
     {
         var serviceType = typeof(TService);
-        var configuration = Options.HttpProxies[serviceType];
+        var configuration = Options.HttpConfigurations[serviceType];
         var client = HttpClientFactory.CreateClient(configuration.Name);
         return client;
     }

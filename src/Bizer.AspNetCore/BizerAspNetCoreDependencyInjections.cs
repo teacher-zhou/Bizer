@@ -10,12 +10,12 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class BizerAspNetCoreDependencyInjections
 {
     /// <summary>
-    /// 添加自动化 Open API 服务。
+    /// 添加秒变API的转换功能。
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="configure">一个用于配置的委托。</param>
     /// <returns></returns>
-    public static BizerBuilder AddBizerOpenApi(this BizerBuilder builder,Action<BizerApiOptions>? configure=default)
+    public static BizerBuilder AddApiConvension(this BizerBuilder builder, Action<BizerApiOptions>? configure = default)
     {
         BizerApiOptions apiOptions = new();
         configure?.Invoke(apiOptions);
@@ -29,8 +29,6 @@ public static class BizerAspNetCoreDependencyInjections
         {
             options.Conventions.Add(new DynamicHttpApiConvention(apiOptions, new DefaultHttpRemotingResolver()));
             options.Filters.Add(new ProducesAttribute("application/json"));
-            options.Filters.Add(new ProducesResponseTypeAttribute(typeof(Returns), 200));
-            options.Filters.Add(new ProducesResponseTypeAttribute(typeof(Returns<>), 200));
         })
         .ConfigureApplicationPartManager(applicationPart =>
         {
