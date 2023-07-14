@@ -23,7 +23,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
 
     public ILogger? Logger => LoggerFactory?.CreateLogger("DynamicHttpProxy");
 
-    protected IRemotingConverter Converter => ServiceProvider.GetRequiredService<IRemotingConverter>();
+    protected IHttpRemotingResolver Converter => ServiceProvider.GetRequiredService<IHttpRemotingResolver>();
 
     DynamicHttpClientProxy<TService> DynamicHttpClientProxy => (DynamicHttpClientProxy<TService>)ServiceProvider.GetRequiredService(typeof(DynamicHttpClientProxy<>).MakeGenericType(typeof(TService)));
 
@@ -67,7 +67,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
 
         var queryParameters = new List<string>();
         var parameters = Converter.GetParameters(invocation.Method);
-        var key = RemotingConverter.GetMethodCacheKey(invocation.Method);
+        var key = DefaultHttpRemotingResolver.GetMethodCacheKey(invocation.Method);
         var parameterInfoList = parameters[key];
 
         foreach ( var param in parameterInfoList )

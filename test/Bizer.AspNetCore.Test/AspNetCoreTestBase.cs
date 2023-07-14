@@ -19,10 +19,9 @@ public class AspNetCoreTestBase:TestBase,IDisposable
     {
         var builder = new WebHostBuilder().UseTestServer().ConfigureServices(services =>
         {
-            services.AddBizerOpenApi(configure =>
-            {
-                configure.Add(typeof(ITestingService).Assembly);
-            });
+            services.AddBizer()
+                    .AddAutoDiscovery(options=>options.Assemblies.Add(typeof(ITestingService).Assembly))
+                    .AddBizerOpenApi();
             ConfigureServices(services);
         });
 

@@ -10,10 +10,10 @@ var builder = Host.CreateDefaultBuilder(args);
 builder.ConfigureServices(services =>
 {
     services.AddLogging(builder=>builder.AddDebug());
-    services.AddBizerClient(configure =>
+    services.AddBizer().AddAutoDiscovery(options=>options.Assemblies.Add(typeof(ITestService).Assembly))
+    .AddBizerClient(configure =>
     {
         configure.BaseAddress = new("http://localhost:5192");
-        configure.Add(typeof(ITestService).Assembly);
     });
 }).ConfigureLogging(log =>
 {
@@ -64,7 +64,7 @@ public static class AssertExtensions
     public static void Assert(this Returns returns, ILogger logger, bool throwIfNotSuccess = true)
     {
         logger.LogDebug($"【Returns】{nameof(Returns.Code)}：{returns.Code}");
-        logger.LogDebug($"【Returns】{nameof(Returns.Errors)}：{string.Join("；", returns.Errors)}");
+        logger.LogDebug($"【Returns】{nameof(Returns.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns】{nameof(Returns.Succeed)}：{returns.Succeed}");
 
         if ( !returns.Succeed && throwIfNotSuccess )
@@ -77,7 +77,7 @@ public static class AssertExtensions
     {
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Data)}：{returns.Data}");
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Code)}：{returns.Code}");
-        logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Errors)}：{string.Join("；", returns.Errors)}");
+        logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Succeed)}：{returns.Succeed}");
 
         if ( !returns.Succeed && throwIfNotSuccess )

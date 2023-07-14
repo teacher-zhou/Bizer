@@ -12,36 +12,36 @@ public static class BizerAspNetCoreDependencyInjections
     /// <summary>
     /// 添加自动化 Open API 服务。
     /// </summary>
-    /// <param name="services"></param>
+    /// <param name="builder"></param>
     /// <param name="configure">一个用于配置的委托。</param>
     /// <returns></returns>
-    public static IServiceCollection AddBizerOpenApi(this IServiceCollection services,Action<BizerApiOptions>? configure=default)
+    public static BizerBuilder AddBizerOpenApi(this BizerBuilder builder,Action<BizerApiOptions>? configure=default)
     {
         BizerApiOptions apiOptions = new();
         configure?.Invoke(apiOptions);
 
-        services.AddSingleton(apiOptions);
+        builder.Services.AddSingleton(apiOptions);
 
-        services.AddSwaggerDocument(apiOptions.ConfigureSwaggerDocument);
-        services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerDocument(apiOptions.ConfigureSwaggerDocument);
+        builder.Services.AddEndpointsApiExplorer();
 
-        services.AddControllers(options =>
+        builder.Services.AddControllers(options =>
         {
-            options.Conventions.Add(new DynamicHttpApiConvention(apiOptions, new RemotingConverter()));
+            options.Conventions.Add(new DynamicHttpApiConvention(apiOptions, new DefaultHttpRemotingResolver()));
             options.Filters.Add(new ProducesAttribute("application/json"));
             options.Filters.Add(new ProducesResponseTypeAttribute(typeof(Returns), 200));
             options.Filters.Add(new ProducesResponseTypeAttribute(typeof(Returns<>), 200));
         })
         .ConfigureApplicationPartManager(applicationPart =>
         {
-            foreach ( var assembly in apiOptions.GetMatchesAssemblies() )
+            foreach ( var assembly in builder.AutoDiscovery.GetDiscoveredAssemblies() )
             {
                 applicationPart.ApplicationParts.Add(new AssemblyPart(assembly));
             }
             applicationPart.FeatureProviders.Add(new DynamicHttpApiControllerFeatureProvider());
         });
 
-        return services;
+        return builder;
     }
 
     /// <summary>

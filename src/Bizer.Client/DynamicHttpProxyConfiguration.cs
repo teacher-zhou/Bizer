@@ -2,7 +2,7 @@
 /// <summary>
 /// 表示动态 HTTP 代理的配置。
 /// </summary>
-public class DynamicHttpProxyConfiguration:AutoDiscoveryOptions
+public class DynamicHttpProxyConfiguration
 {
     /// <summary>
     /// 默认名称。
