@@ -2,10 +2,9 @@ using Sample.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddBizerOpenApi(config =>
-{
-    config.Add(typeof(ITestService).Assembly);
-});
+builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
+    .AddApiConvension();
+
 var app = builder.Build();
 
 app.UseRouting();

@@ -12,10 +12,10 @@ namespace Bizer.AspNetCore.Conventions;
 internal class DynamicHttpApiConvention : IApplicationModelConvention
 {
     private readonly BizerApiOptions _apiOptions;
-    private readonly IRemotingConverter _converter;
+    private readonly IHttpRemotingResolver _converter;
     private Type? _interfaceAsControllerType;
 
-    public DynamicHttpApiConvention(BizerApiOptions apiOptions,IRemotingConverter converter)
+    public DynamicHttpApiConvention(BizerApiOptions apiOptions,IHttpRemotingResolver converter)
     {
         _apiOptions = apiOptions;
         _converter = converter;
@@ -110,7 +110,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
             var parameters = _converter.GetParameters(method);
 
-            if ( !parameters.TryGetValue(RemotingConverter.GetMethodCacheKey(method), out var parameterList) )
+            if ( !parameters.TryGetValue(DefaultHttpRemotingResolver.GetMethodCacheKey(method), out var parameterList) )
             {
                 continue;
             }
@@ -214,9 +214,9 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
         var methodName = action.ActionName;
 
         var actionReflectedMethod = _interfaceAsControllerType.GetMethods().SingleOrDefault(t => t.Name == action.ActionMethod.Name && t.GetParameters().Count()==action.Parameters.Count) ?? throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
-        var methodKey = RemotingConverter.GetMethodCacheKey(actionReflectedMethod);
+        var methodKey = DefaultHttpRemotingResolver.GetMethodCacheKey(actionReflectedMethod);
 
-        var actionMethod = allmethods.SingleOrDefault(m => RemotingConverter.GetMethodCacheKey(m) == methodKey);
+        var actionMethod = allmethods.SingleOrDefault(m => DefaultHttpRemotingResolver.GetMethodCacheKey(m) == methodKey);
         return actionMethod;
     }
 

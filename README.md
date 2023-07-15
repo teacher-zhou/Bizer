@@ -1,5 +1,6 @@
 # Bizer
 ![logo](asset/icon.png)
+
 业务开发人员再也不用担心前后端对接的事情，一个接口，前后端全自动对接。
 
 ## :warning: 定义服务接口和 HTTP 路由规则
@@ -37,11 +38,9 @@ public class AccountApplicationService : IAccountService
 ```
 配置服务，自动发现并秒变 API
 ```cs
-builder.Services.AddBizerOpenApi(configure => {
-	configure.Add(typeof(IAccountService).Assembly);//需要秒变 API 的程序集
-	//or
-	configure.Add("MyNamespace.MyService.*");	//自动搜索程序集，支持通配符
-});
+builder.Services
+	.AddBizer(options => options.Assemblies.Add(typeof(IAccountService).Assembly))
+	.AddApiConvension();
 ```
 配置中间件，内置 `Swagger`
 ```cs
@@ -56,11 +55,9 @@ app.UseBizerOpenApi();
 ```
 注册客户端服务
 ```cs
-builder.Services.AddBizerClient(configure => {
-	configure.Add(typeof(IAccountService).Assembly);//已知程序集
-	//or
-	configure.Add("MyNamespace.MyService.*");	//自动搜索程序集，支持通配符
-});
+builder.Services
+	.AddBizer(options => options.Assemblies.Add(typeof(IAccountService).Assembly))
+	.AddHttpClientConvension("http://localhost:port");
 ```
 调用方法即可自动发送 HTTP 请求
 ```cs
@@ -79,13 +76,12 @@ if(!result.Succeed)
 
 var data = result.Data; //获取数据
 ```
+
+**可以使用同样的方式访问各大 OPEN API 平台，例如微信公众平台、支付宝商户平台等等**
+
 ## :computer: 支持环境
 * .NET 6
 * .NET 7
-
-## :no_entry: 使用限制
-* 方法必须要有返回类型，推荐使用 `Returns` 或 `Returns<TResult>` 类型
-* 不支持同步方法
 
 ## :page_with_curl: 许可证
 [Apache License 2.0](https://apache.org/licenses/LICENSE-2.0)

@@ -23,6 +23,12 @@ namespace Sample.Services
         Task<string> PostAsync(string data);
 
         [Post("no-return")]
-        Task PostNothing();
+        Task PostNothingAsync();
+
+        [Put("{name}")]
+        Returns<string> PutData([Path]string name);
+
+        [Put("no-return")]
+        void PutNothing(int? id);
     }
 }

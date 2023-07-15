@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -8,41 +9,97 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Bizer.Client;
-internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TService : class
+internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TService : class
 {
-    public DynamicHttpInterceptor(IServiceProvider serviceProvider)
+    public HttpClientInterceptor(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
     }
 
     public IServiceProvider ServiceProvider { get; }
 
-    public IHttpClientFactory HttpClientFactory { get; }
-
     protected ILoggerFactory? LoggerFactory => ServiceProvider.GetService<ILoggerFactory>();
 
     public ILogger? Logger => LoggerFactory?.CreateLogger("DynamicHttpProxy");
 
-    protected IRemotingConverter Converter => ServiceProvider.GetRequiredService<IRemotingConverter>();
+    protected IHttpRemotingResolver Converter => ServiceProvider.GetRequiredService<IHttpRemotingResolver>();
 
-    DynamicHttpClientProxy<TService> DynamicHttpClientProxy => (DynamicHttpClientProxy<TService>)ServiceProvider.GetRequiredService(typeof(DynamicHttpClientProxy<>).MakeGenericType(typeof(TService)));
+    public IHttpClientFactory HttpClientFactory => ServiceProvider.GetRequiredService<IHttpClientFactory>();
+
+
+    public HttpClientOptions Options => ServiceProvider.GetRequiredService<IOptions<HttpClientOptions>>().Value;
 
     public void InterceptAsynchronous(IInvocation invocation)
     {
-        throw new NotSupportedException($"要求方法 {invocation.Method.Name} 必须具有返回类型，不能是 void 或 Task");
+        invocation.ReturnValue = SendAsync(CreateRequestMessage(invocation));
     }
 
     public void InterceptAsynchronous<TResult>(IInvocation invocation)
     {
-        var result= DynamicHttpClientProxy.SendAsync<TResult>(CreateRequestMessage(invocation));
-        invocation.ReturnValue = result;
+        invocation.ReturnValue = SendAsync<TResult>(CreateRequestMessage(invocation));
     }
 
     public void InterceptSynchronous(IInvocation invocation)
     {
-        throw new NotSupportedException($"不支持同步方法，请改用异步方法");
+        using HttpClient client = CreateClient();
+        var request = CreateRequestMessage(invocation);
+        var response = client.Send(request);
+
+        invocation.ReturnValue = HandleResponse(response, res =>
+        {
+            var content = res.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+            if ( string.IsNullOrEmpty(content) )
+            {
+                return default;
+            }
+
+            return JsonSerializer.Deserialize(content, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        });
+    }
+    async Task<TResult?> SendAsync<TResult>(HttpRequestMessage request)
+    {
+        using HttpClient client = CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        return HandleResponse(response, res =>
+        {
+            var content = res.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+            if ( string.IsNullOrEmpty(content) )
+            {
+                return default;
+            }
+
+            return JsonSerializer.Deserialize<TResult>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        });
+    }
+    async Task SendAsync(HttpRequestMessage request)
+    {
+        using HttpClient client = CreateClient();
+        var response = await client.SendAsync(request);
+        await HandleResponse(response, _ => Task.CompletedTask);
     }
 
+    TResult? HandleResponse<TResult>(HttpResponseMessage response,Func<HttpResponseMessage,TResult>? handler=default)
+    {
+        response.EnsureSuccessStatusCode();
+        Logger?.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
+        if ( handler is not null )
+        {
+            return handler.Invoke(response);
+        }
+        return default;
+    }
+
+    private HttpClient CreateClient()
+    {
+        var serviceType = typeof(TService);
+        var configuration = Options.HttpConfigurations[serviceType];
+        var client = HttpClientFactory.CreateClient(configuration.Name);
+        return client;
+    }
 
     HttpRequestMessage CreateRequestMessage(IInvocation invocation)
     {
@@ -67,7 +124,7 @@ internal class DynamicHttpInterceptor<TService> : IAsyncInterceptor where TServi
 
         var queryParameters = new List<string>();
         var parameters = Converter.GetParameters(invocation.Method);
-        var key = RemotingConverter.GetMethodCacheKey(invocation.Method);
+        var key = DefaultHttpRemotingResolver.GetMethodCacheKey(invocation.Method);
         var parameterInfoList = parameters[key];
 
         foreach ( var param in parameterInfoList )

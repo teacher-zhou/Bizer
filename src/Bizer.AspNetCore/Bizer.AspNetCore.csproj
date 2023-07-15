@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../common.props" />
   <PropertyGroup>
+	  <Description>让业务服务层秒变 WEB API</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NSwag.AspNetCore" Version="13.19.0" />

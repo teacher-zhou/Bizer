@@ -1,33 +1,33 @@
 ﻿namespace Bizer.Client;
 /// <summary>
-/// 表示动态 HTTP 代理的配置。
+/// 表示 HTTP 客户端的配置。
 /// </summary>
-public class DynamicHttpProxyConfiguration:AutoDiscoveryOptions
+public class HttpClientConfiguration
 {
     /// <summary>
-    /// 默认名称。
+    /// HTTP 客户端配置的默认名称。
     /// </summary>
     public readonly static string Default = nameof(Default);
 
     /// <summary>
-    /// 初始化 <see cref="DynamicHttpProxyConfiguration"/> 类的新实例。
+    /// 初始化 <see cref="HttpClientConfiguration"/> 类的新实例。
     /// </summary>
-    public DynamicHttpProxyConfiguration()
+    public HttpClientConfiguration()
     {
     }
 
     /// <summary>
-    /// 获取或设置 HTTP 代理的名称。
+    /// 获取或设置 HTTP 配置的名称。
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// 获取或设置 HTTP 代理的访问地址。
+    /// 获取或设置发送请求时使用的 Internet 资源的统一资源标识符(URI)的基址。
     /// </summary>
-    public string BaseAddress { get; set; }
+    public Uri? BaseAddress { get; set; }
 
     /// <summary>
-    /// 用于定义每一次 HTTP 请求的一个委托处理集合。
+    /// 获取每一次 HTTP 请求的一个委托处理集合。
     /// </summary>
     public IList<Func<IServiceProvider, DelegatingHandler>> DelegatingHandlers { get; } = new List<Func<IServiceProvider, DelegatingHandler>>();
 

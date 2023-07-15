@@ -1,11 +1,10 @@
-﻿using System.Net.Http;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Bizer;
 /// <summary>
-/// 提供对远程服务转换的功能。
+/// 提供对 HTTP 远程访问的解析器。
 /// </summary>
-public interface IRemotingConverter
+public interface IHttpRemotingResolver
 {
     /// <summary>
     /// 能否被 api 发现。
