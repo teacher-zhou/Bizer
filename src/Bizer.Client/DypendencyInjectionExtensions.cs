@@ -24,7 +24,7 @@ public static class DypendencyInjectionExtensions
     /// 添加 HTTP 客户端的转换。
     /// </summary>
     /// <param name="builder"></param>
-    /// <param name="configure">动态 HTTP 代理的配置。</param>
+    /// <param name="configure">一个用于配置 HTTP 客户端的委托。</param>
     public static BizerBuilder AddHttpClientConvension(this BizerBuilder builder, Action<HttpClientConfiguration> configure)
     {
         var options = new HttpClientConfiguration();
@@ -36,7 +36,7 @@ public static class DypendencyInjectionExtensions
 
         foreach ( var type in serviceTypes )
         {
-            builder.AddBizerClient(type, configure);
+            builder.AddHttpClientConvension(type, configure);
         }
 
         return builder;
@@ -48,24 +48,24 @@ public static class DypendencyInjectionExtensions
             && type.IsDefined(typeof(ApiRouteAttribute));
     }
     /// <summary>
-    /// 添加指定类型的动态 HTTP 代理。
+    /// 为指定的而类型添加 HTTP 客户端的转换。
     /// </summary>
     /// <param name="builder"></param>
-    /// <param name="contractServiceType">契约服务类型。</param>
-    /// <param name="configure">动态 HTTP 代理的配置。</param>
+    /// <param name="serviceType">标记了 <see cref="ApiRouteAttribute"/> 特性的接口类型。</param>
+    /// <param name="configure">一个用于配置 HTTP 客户端的委托。</param>
     /// <returns></returns>
-    static BizerBuilder AddBizerClient(this BizerBuilder builder, Type contractServiceType, Action<HttpClientConfiguration> configure)
+    static BizerBuilder AddHttpClientConvension(this BizerBuilder builder, Type serviceType, Action<HttpClientConfiguration> configure)
     {
-        Type interceptorType = AddCommonConfiguration(builder, contractServiceType, configure);
+        Type interceptorType = AddCommonConfiguration(builder, serviceType, configure);
 
-        builder.Services.AddTransient(contractServiceType, provider =>
+        builder.Services.AddTransient(serviceType, provider =>
         {
-            return Generator.CreateInterfaceProxyWithoutTarget(contractServiceType, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
+            return Generator.CreateInterfaceProxyWithoutTarget(serviceType, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
         });
         return builder;
     }
 
-    private static Type AddCommonConfiguration(BizerBuilder builder, Type type, Action<HttpClientConfiguration> configure)
+    static Type AddCommonConfiguration(BizerBuilder builder, Type type, Action<HttpClientConfiguration> configure)
     {
         builder.AddHttpRemotingResolver();
 
