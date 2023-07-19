@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="../../common.props" />
+  <PropertyGroup>
+	  <Description>基础 EntityFrameworkCore 的仓储实现</Description>
+  </PropertyGroup>
+	<ItemGroup Condition="$(TargetFramework) == 'net6.0'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="$(TargetFramework) == 'net7.0'">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Bizer.Stores\Bizer.Stores.csproj" />
+	  <ProjectReference Include="..\Bizer\Bizer.csproj" />
+	</ItemGroup>
+</Project>

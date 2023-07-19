@@ -29,14 +29,9 @@ public class BizerBuilder
     /// <param name="configure">一个配置自动发现的委托。</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"><paramref name="configure"/> 是 <c>null</c>。</exception>
-    internal BizerBuilder AddAutoDiscovery(Action<AutoDiscoveryOptions> configure)
+    internal BizerBuilder AddAutoDiscovery(Action<AutoDiscoveryOptions>? configure=default)
     {
-        if ( configure is null )
-        {
-            throw new ArgumentNullException(nameof(configure));
-        }
-
-        configure(AutoDiscovery);
+        configure?.Invoke(AutoDiscovery);
         Services.AddSingleton(AutoDiscovery);
         return this;
     }

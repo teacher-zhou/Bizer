@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Bizer.Services.Test;
+namespace Bizer.Test;
 public abstract class TestBase
 {
     private readonly ServiceProvider _builder;
