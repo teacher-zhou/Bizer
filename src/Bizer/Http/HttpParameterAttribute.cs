@@ -61,8 +61,12 @@ public class QueryAttribute : HttpParameterAttribute
     /// <summary>
     /// 初始化 <see cref="QueryAttribute"/> 类的新实例。
     /// </summary>
+    public QueryAttribute() : this(default) { }
+    /// <summary>
+    /// 初始化 <see cref="QueryAttribute"/> 类的新实例。
+    /// </summary>
     /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public QueryAttribute(string? name = default) : base(HttpParameterType.FromQuery, name)
+    public QueryAttribute(string? name) : base(HttpParameterType.FromQuery, name)
     {
 
     }
@@ -76,8 +80,12 @@ public class HeaderAttribute : HttpParameterAttribute
     /// <summary>
     /// 初始化 <see cref="HeaderAttribute"/> 类的新实例。
     /// </summary>
+    public HeaderAttribute() : this(default) { }
+    /// <summary>
+    /// 初始化 <see cref="HeaderAttribute"/> 类的新实例。
+    /// </summary>
     /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public HeaderAttribute(string? name = default) : base(HttpParameterType.FromHeader, name)
+    public HeaderAttribute(string? name) : base(HttpParameterType.FromHeader, name)
     {
 
     }
@@ -91,8 +99,12 @@ public class FormAttribute : HttpParameterAttribute
     /// <summary>
     /// 初始化 <see cref="FormAttribute"/> 类的新实例。
     /// </summary>
+    public FormAttribute() : this(default) { }
+    /// <summary>
+    /// 初始化 <see cref="FormAttribute"/> 类的新实例。
+    /// </summary>
     /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public FormAttribute(string? name = default) : base(HttpParameterType.FromForm, name)
+    public FormAttribute(string? name) : base(HttpParameterType.FromForm, name)
     {
 
     }
@@ -105,8 +117,12 @@ public class BodyAttribute : HttpParameterAttribute
     /// <summary>
     /// 初始化 <see cref="BodyAttribute"/> 类的新实例。
     /// </summary>
+    public BodyAttribute() : this(default) { }
+    /// <summary>
+    /// 初始化 <see cref="BodyAttribute"/> 类的新实例。
+    /// </summary>
     /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public BodyAttribute(string? name = default) : base(HttpParameterType.FromBody, name)
+    public BodyAttribute(string? name) : base(HttpParameterType.FromBody, name)
     {
 
     }
@@ -119,9 +135,11 @@ public class PathAttribute : HttpParameterAttribute
     /// <summary>
     /// 初始化 <see cref="PathAttribute"/> 类的新实例。
     /// </summary>
-    /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public PathAttribute(string? name = default) : base(HttpParameterType.FromPath, name)
-    {
+    public PathAttribute() : this(default) { }
 
-    }
+    /// <summary>
+    /// 初始化 <see cref="PathAttribute"/> 类的新实例。
+    /// </summary>
+    /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
+    public PathAttribute(string? name) : base(HttpParameterType.FromPath, name) { }
 }

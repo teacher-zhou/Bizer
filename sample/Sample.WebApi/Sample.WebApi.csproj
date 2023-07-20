@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.7" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\Bizer.AspNetCore\Bizer.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Bizer.Services\Bizer.Services.csproj" />
     <ProjectReference Include="..\Sample.Services\Sample.Services.csproj" />
   </ItemGroup>
 

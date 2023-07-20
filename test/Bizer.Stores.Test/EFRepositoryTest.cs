@@ -29,8 +29,11 @@ public class EFRepositoryTest:TestBase
     public void Test_Add()
     {
         var entity= _repository.Add(new() { Id = 1, Name = "admin" });
-        _unitOfWork.Commit();
+        var rows= _unitOfWork.Commit();
+        Assert.Equal(1, rows);
 
-        Assert.Equal(1, entity.Id);
+        var query = _repository.Query.SingleOrDefault(m => m.Id == entity.Id);
+        Assert.NotNull(query);
+        Assert.Equal(query.Id, entity.Id);
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Bizer;
+﻿namespace Bizer;
 
 /// <summary>
 /// 当前接口作为注入的服务，并且实现该接口的类（非抽象类或泛型类）会作为该服务的实现。
