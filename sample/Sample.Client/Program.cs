@@ -11,10 +11,11 @@ var builder = Host.CreateDefaultBuilder(args);
 builder.ConfigureServices(services =>
 {
     services.AddLogging(builder=>builder.AddDebug());
-    services.AddBizer(options=>options.Assemblies.Add(typeof(ITestService).Assembly))
+    services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
     .AddHttpClientConvension(configure =>
     {
-        configure.DelegatingHandlers.Add(_ => new MyHttpClientHandler());
+        configure.BaseAddress = new("http://localhost:5192");
+        //configure.DelegatingHandlers.Add(_ => new MyHttpClientHandler());
     });
 }).ConfigureLogging(log =>
 {

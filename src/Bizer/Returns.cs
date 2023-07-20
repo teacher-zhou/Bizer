@@ -45,11 +45,11 @@ public class Returns
         return this;
     }
     /// <summary>
-    /// 追加结果返回的消息数组。
+    /// 设置结果返回的消息数组。
     /// </summary>
     /// <param name="messages">要追加的消息数组。</param>
     /// <exception cref="ArgumentNullException"><paramref name="messages"/> 是 <c>null</c>。</exception>
-    public Returns AppendMessages(params string[] messages)
+    public Returns SetMessages(params string[] messages)
     {
         if ( messages is null )
         {
@@ -127,22 +127,6 @@ public class Returns<TResult>:Returns
     public new Returns<TResult> SetSuccess()
     {
         Succeed = true;
-        return this;
-    }
-
-    /// <summary>
-    /// 追加结果返回的消息数组。
-    /// </summary>
-    /// <param name="messages">要追加的消息数组。</param>
-    /// <exception cref="ArgumentNullException"><paramref name="messages"/> 是 <c>null</c>。</exception>
-    public new Returns<TResult> AppendMessages(params string[] messages)
-    {
-        if ( messages is null )
-        {
-            throw new ArgumentNullException(nameof(messages));
-        }
-
-        _messageCollection.AddRange(messages);
         return this;
     }
 
