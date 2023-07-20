@@ -5,12 +5,12 @@
 		<TargetFrameworks>net6.0;net7.0;</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.2</Version>
+		<Version>0.3</Version>
 		<Authors>playermaker</Authors>
-		<Copyright>playermaker © 2023 personal</Copyright>
+		<Copyright>playermaker（最高指挥官） © 2023</Copyright>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Description>业务开发的福音，自动化前后端框架，服务秒变 API</Description>
+		<Description>全栈开发自动对接框架，一个人也能轻松完成前后端分离。</Description>
 	</PropertyGroup>
 	<PropertyGroup>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>

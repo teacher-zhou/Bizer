@@ -140,9 +140,10 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
     void AddSelector(ActionModel action)
     {
+        var route = GenerateRoute(action);
         var selector = new SelectorModel
         {
-            AttributeRouteModel = new AttributeRouteModel(GenerateRoute(action))
+            AttributeRouteModel = new AttributeRouteModel(route)
         };
         selector.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { GetHttpMethod(action) }));
 
@@ -152,7 +153,9 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     {
         foreach ( var selector in action.Selectors )
         {
-            selector.AttributeRouteModel ??= new AttributeRouteModel(GenerateRoute(action));
+            var route = GenerateRoute(action);
+
+            selector.AttributeRouteModel ??= new AttributeRouteModel(route);
 
             if ( !selector.ActionConstraints.Any() )
             {
@@ -177,7 +180,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
         return new(routeTemplate)
         {
-            Name = routeAttribute?.Name ??  action.ActionName,
+            Name = routeAttribute?.Name ??$"{action.Controller.ControllerName}_{action.ActionName}",
             Order = routeAttribute?.Order ?? 0
         };
     }
@@ -213,7 +216,8 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
         var methodName = action.ActionName;
 
-        var actionReflectedMethod = _interfaceAsControllerType.GetMethods().SingleOrDefault(t => t.Name == action.ActionMethod.Name && t.GetParameters().Count()==action.Parameters.Count) ?? throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
+        var actionReflectedMethod = allmethods.SingleOrDefault(t => t.Name == action.ActionMethod.Name && t.GetParameters().Count()==action.Parameters.Count) ?? throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
+
         var methodKey = DefaultHttpRemotingResolver.GetMethodCacheKey(actionReflectedMethod);
 
         var actionMethod = allmethods.SingleOrDefault(m => DefaultHttpRemotingResolver.GetMethodCacheKey(m) == methodKey);

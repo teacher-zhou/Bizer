@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services.Test;
+﻿namespace Bizer.Test;
 
 [ApiRoute("testing")]
 public interface ITestingService

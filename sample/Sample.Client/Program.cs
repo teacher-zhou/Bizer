@@ -4,14 +4,19 @@ using Bizer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sample.Client;
 using Sample.Services;
 
 var builder = Host.CreateDefaultBuilder(args);
 builder.ConfigureServices(services =>
 {
     services.AddLogging(builder=>builder.AddDebug());
-    services.AddBizer(options=>options.Assemblies.Add(typeof(ITestService).Assembly))
-    .AddHttpClientConvension("http://localhost:5192");
+    services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
+    .AddHttpClientConvension(configure =>
+    {
+        configure.BaseAddress = new("http://localhost:5192");
+        //configure.DelegatingHandlers.Add(_ => new MyHttpClientHandler());
+    });
 }).ConfigureLogging(log =>
 {
     log.AddDebug().AddConsole().AddFilter(level=>level== LogLevel.Debug);

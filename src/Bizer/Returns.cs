@@ -18,11 +18,6 @@ public class Returns
         Code = code;
     }
 
-    /// <summary>
-    /// 初始化一个新的实例。
-    /// </summary>
-    public static readonly Returns Initialize = new();
-
      List<string> _messageCollection = new();
 
     /// <summary>
@@ -33,12 +28,12 @@ public class Returns
     /// <summary>
     /// 获取一个布尔值，表示结果编码。
     /// </summary>
-    public string? Code { get; private set; }
+    public string? Code { get; protected set; }
 
     /// <summary>
     /// 获取一个布尔值，表示是否成功的结果。
     /// </summary>
-    public bool Succeed { get; private set; }
+    public bool Succeed { get; protected set; }
 
     /// <summary>
     /// 设置结果编码。
@@ -50,11 +45,11 @@ public class Returns
         return this;
     }
     /// <summary>
-    /// 追加结果返回的消息数组。
+    /// 设置结果返回的消息数组。
     /// </summary>
     /// <param name="messages">要追加的消息数组。</param>
     /// <exception cref="ArgumentNullException"><paramref name="messages"/> 是 <c>null</c>。</exception>
-    public Returns AppendMessages(params string[] messages)
+    public Returns SetMessages(params string[] messages)
     {
         if ( messages is null )
         {
@@ -62,6 +57,15 @@ public class Returns
         }
 
         _messageCollection.AddRange(messages);
+        return this;
+    }
+
+    /// <summary>
+    /// 设置操作是成功的。
+    /// </summary>
+    public Returns SetSuccess()
+    {
+        Succeed = true;
         return this;
     }
 
@@ -81,37 +85,16 @@ public class Returns
 /// </summary>
 /// <typeparam name="TResult">返回值的类型。</typeparam>
 [Serializable]
-public class Returns<TResult>
+public class Returns<TResult>:Returns
 {
-    /// <summary>
-    /// 初始化一个新的实例。
-    /// </summary>
-    public static readonly Returns<TResult> Initialize = new();
-
     private List<string> _messageCollection = new();
     /// <summary>
     /// 初始化 <see cref="Returns{TResult}"/> 类的新实例。
     /// </summary>
-    public Returns(bool succeed=default, IEnumerable<string>? messages = default, string? code = default,TResult? data=default)
+    public Returns(bool succeed = default, IEnumerable<string>? messages = default, string? code = default, TResult? data = default) : base(succeed, messages, code)
     {
-        _messageCollection.AddRange(messages ?? Array.Empty<string>());
-        Succeed = succeed;
-        Code = code;
         Data = data;
     }
-    /// <summary>
-    /// 获取返回的信息数组。
-    /// </summary>
-    public IEnumerable<string?> Messages => _messageCollection;
-    /// <summary>
-    /// 获取一个布尔值，表示结果编码。
-    /// </summary>
-    public string? Code { get; private set; }
-
-    /// <summary>
-    /// 获取一个布尔值，表示是否成功的结果。
-    /// </summary>
-    public bool Succeed { get; private set; }
 
     /// <summary>
     /// 获取执行结果成功后的返回数据。
@@ -122,7 +105,7 @@ public class Returns<TResult>
     /// 设置结果编码。
     /// </summary>
     /// <param name="code">结果编码。</param>
-    public Returns<TResult> SetCode(string? code)
+    public new Returns<TResult> SetCode(string? code)
     {
         Code = code;
         return this;
@@ -139,18 +122,11 @@ public class Returns<TResult>
     }
 
     /// <summary>
-    /// 追加结果返回的消息数组。
+    /// 设置操作是成功的。
     /// </summary>
-    /// <param name="messages">要追加的消息数组。</param>
-    /// <exception cref="ArgumentNullException"><paramref name="messages"/> 是 <c>null</c>。</exception>
-    public Returns<TResult> AppendMessages(params string[] messages)
+    public new Returns<TResult> SetSuccess()
     {
-        if ( messages is null )
-        {
-            throw new ArgumentNullException(nameof(messages));
-        }
-
-        _messageCollection.AddRange(messages);
+        Succeed = true;
         return this;
     }
 
@@ -162,5 +138,5 @@ public class Returns<TResult>
     /// 表示操作结果是失败的。
     /// </summary>
     /// <param name="errors">操作失败的错误信息数组。</param>
-    public static Returns<TResult> Failed(params string[] errors) => new(messages: errors);
+    public static new Returns<TResult> Failed(params string[] errors) => new(messages: errors);
 }

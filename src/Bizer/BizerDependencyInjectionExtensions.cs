@@ -13,10 +13,7 @@ public static class BizerDependencyInjectionExtensions
     {
         var builder = new BizerBuilder(services);
 
-        if ( configure is not null )
-        {
             builder.AddAutoDiscovery(configure);
-        }
         return builder;
     }
 

@@ -130,7 +130,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         foreach ( var param in parameterInfoList )
         {            
             var name = param.GetParameterNameInHttpRequest();
-            var value = param.Value?.ToString() ?? invocation.GetArgumentValue(param.Position)?.ToString();
+            var value = param.Value?.ToString() ?? invocation.GetArgumentValue(param.Position)?.ToString() ?? string.Empty;
 
             switch ( param.Type )
             {
@@ -142,6 +142,24 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     request.Headers.Add(name, value);
                     break;
                 case HttpParameterType.FromForm:
+                    var arguments = new Dictionary<string, string>();
+                    if ( param.ValueType != typeof(string) && param.ValueType.IsClass )
+                    {
+                        param.ValueType.GetProperties().ForEach(property =>
+                        {
+                            if ( property.CanRead )
+                            {
+                                name = property.Name;
+                                value = property.GetValue(value)?.ToString();
+                            }
+                        });
+
+                    }
+                    else
+                    {
+                        arguments.Add(name!, value);
+                    }
+                    request.Content = new FormUrlEncodedContent(arguments);
                     break;
                 case HttpParameterType.FromPath://路由替换
                     var match = Regex.Match(pathBuilder.ToString(), @"{\w+}");

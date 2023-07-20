@@ -1,4 +1,4 @@
-﻿using Bizer.Services.Test;
+﻿using Bizer.Test;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
