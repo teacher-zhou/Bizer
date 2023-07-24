@@ -16,9 +16,8 @@ public class CrudSericeTest:TestBase
     {
         services.AddBizer(options=>options.Assemblies.Add(typeof(IUserService).Assembly))
             .AddMapper()
-            .AddServiceInjection();
-
-        services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("db"));
+            .AddServiceInjection()
+            .AddDbContext(options => options.UseInMemoryDatabase("db"));
 
     }
 
