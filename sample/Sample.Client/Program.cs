@@ -32,7 +32,7 @@ var testService = app.Services.GetRequiredService<ITestService>();
 (await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetAsync))).Assert(logger);
 
 //path 中的参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromPathAsync),1000)).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromPathAsync), 1000)).Assert(logger);
 
 //query 中的参数
 (await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromQueryAsync), "张三")).Assert(logger);
@@ -45,7 +45,7 @@ var testService = app.Services.GetRequiredService<ITestService>();
 
 #region Post
 
-await app.InvokeMethodAsync<ITestService, string>(nameof(ITestService.PostAsync),"asdasdasd");
+//await app.InvokeMethodAsync<ITestService, string>(nameof(ITestService.PostAsync),"asdasdasd");
 await app.InvokeMethodAsync<ITestService>(nameof(ITestService.PostNothingAsync));
 #endregion
 

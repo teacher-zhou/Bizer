@@ -1,4 +1,6 @@
-﻿namespace Bizer.Client;
+﻿using System.Text.Json;
+
+namespace Bizer.Client;
 /// <summary>
 /// 表示 HTTP 客户端的配置。
 /// </summary>
@@ -36,4 +38,12 @@ public class HttpClientConfiguration
     /// </summary>
     public Func<HttpClientHandler>? PrimaryHandler { get; set; }
 
+    /// <summary>
+    /// 定义 HTTP 响应的处理结果的委托。
+    /// </summary>
+    public Func<HttpResponseMessage, Task<Stream>> ResponseHandler { get; set; } = response =>
+    {
+        response.EnsureSuccessStatusCode();
+        return response.Content.ReadAsStreamAsync();
+    };
 }

@@ -29,8 +29,15 @@ public class AccountApplicationService : IAccountService
 
 		return Returns<string>.Success(token);
 	}
+
+	[Authorize] //添加授权
+	public Task GetList()
+	{
+
+	}
 }
 ```
+**Controller 怎么用，Service 里就怎么用**
 
 ## :pushpin: 在 AspNetCore 项目中
 安装 `Bizer.AspNetCore` 包
