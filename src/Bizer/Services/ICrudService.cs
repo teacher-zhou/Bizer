@@ -1,6 +1,4 @@
-﻿using Bizer.Services.Models;
-
-namespace Bizer.Services;
+﻿namespace Bizer.Services;
 /// <summary>
 /// 提供 CRUD 的逻辑功能服务。
 /// </summary>
