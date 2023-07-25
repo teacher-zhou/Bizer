@@ -30,5 +30,7 @@ namespace Sample.Services
 
         [Put("no-return")]
         void PutNothing(int? id);
+        [Post("auth")]
+        Task Auth();
     }
 }

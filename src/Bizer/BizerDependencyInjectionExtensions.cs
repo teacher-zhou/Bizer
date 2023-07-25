@@ -1,4 +1,5 @@
 ﻿using Bizer;
+using Bizer.Security;
 
 namespace Microsoft.Extensions.DependencyInjection;
 public static class BizerDependencyInjectionExtensions
@@ -16,5 +17,10 @@ public static class BizerDependencyInjectionExtensions
             builder.AddAutoDiscovery(configure);
         return builder;
     }
-
+    /// <summary>
+    /// 添加当前线程作为主体的访问器。
+    /// </summary>
+    /// <param name="builder"></param>
+    public static BizerBuilder AddThreadCurrentPrincipalAccessor(this BizerBuilder builder)
+        => builder.AddCurrentPrincipalAccessor<ThreadCurrentPrincipalAccessor>();
 }

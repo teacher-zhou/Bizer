@@ -13,7 +13,7 @@ builder.Services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatab
 var app = builder.Build();
 
 app.UseRouting();
-
+app.UseAuthorization();
 app.UseBizerOpenApi();
 
 app.MapGet("/", (context) =>

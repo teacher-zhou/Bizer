@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Bizer.Security;
+using System.Reflection;
 
 namespace Bizer;
 
@@ -71,4 +72,17 @@ public class BizerBuilder
         }
         return this;
     }
+
+    /// <summary>
+    /// 添加主体访问器的服务。
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <typeparam name="TCurrentPrincipalAccessor">主体访问器类型。</typeparam>
+    public BizerBuilder AddCurrentPrincipalAccessor<TCurrentPrincipalAccessor>()
+        where TCurrentPrincipalAccessor : class, ICurrentPrincipalAccessor
+    {
+        Services.AddTransient<ICurrentPrincipalAccessor, TCurrentPrincipalAccessor>();
+        return this;
+    }
+
 }
