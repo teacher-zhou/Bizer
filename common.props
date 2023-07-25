@@ -10,7 +10,13 @@
 		<Copyright>playermaker（最高指挥官） © 2023</Copyright>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Description>全栈开发自动对接框架，一个人也能轻松完成前后端分离。</Description>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageTags>Business Automatic</PackageTags>
+		<PackageProjectUrl>https://github.com/AchievedOwner/Bizer</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/AchievedOwner/Bizer</RepositoryUrl>
+		<RepositoryType>GIT</RepositoryType>
+		<Title>半专业开发也能快速上手的前后端全栈、全自动框架</Title>		
 	</PropertyGroup>
 	<PropertyGroup>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -43,6 +49,10 @@
 		<None Include="..\..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>			
 		</None>
 	</ItemGroup>
 </Project>
