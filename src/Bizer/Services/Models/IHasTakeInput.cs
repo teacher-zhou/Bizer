@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services.Models;
+﻿namespace Bizer.Services;
 
 /// <summary>
 /// 定义查询总数限制的输入。

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Bizer.Security;
+using Microsoft.Extensions.Logging;
 
 namespace Bizer.Services;
 
@@ -35,5 +36,5 @@ public abstract class ServiceBase
     /// <summary>
     /// 获取当前主体。
     /// </summary>
-    protected IPrincipalAccessor? CurrentPricipal => ServiceProvider.GetService<IPrincipalAccessor>();
+    protected ICurrentPrincipalAccessor? CurrentPricipal => ServiceProvider.GetService<ICurrentPrincipalAccessor>();
 }

@@ -15,6 +15,7 @@ internal class HttpContextPrincipalAccessor : CurrentPrincipalAccessorBase
         _httpContextAccessor = httpContextAccessor;
     }
 
+    /// <inheritdoc/>
     protected override ClaimsPrincipal GetClaimsPrincipal()
     {
         return _httpContextAccessor.HttpContext!.User;
