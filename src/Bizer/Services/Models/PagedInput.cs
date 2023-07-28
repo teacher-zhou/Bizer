@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services.Models;
+﻿namespace Bizer.Services;
 
 /// <summary>
 /// 表示分页输入。

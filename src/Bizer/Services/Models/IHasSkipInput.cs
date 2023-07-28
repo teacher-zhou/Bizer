@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services.Models;
+﻿namespace Bizer.Services;
 
 /// <summary>
 /// 定义具备查询时的跳过输入。

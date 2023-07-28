@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../common.props" />
   <PropertyGroup>
-	  <Description>让后端的业务逻辑层服务可以秒变 Web API</Description>
+	  <Description>让服务端的业务逻辑层服务秒变 Web API</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NSwag.AspNetCore" Version="13.19.0" />

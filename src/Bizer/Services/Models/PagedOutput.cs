@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Bizer.Services.Models;
+namespace Bizer.Services;
 
 /// <summary>
 /// 表示分页的输出。

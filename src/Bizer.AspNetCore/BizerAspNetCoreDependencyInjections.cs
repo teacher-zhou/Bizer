@@ -43,6 +43,17 @@ public static class BizerAspNetCoreDependencyInjections
     }
 
     /// <summary>
+    /// 添加从 HttpContext 解析的主体访问器。
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
+    public static BizerBuilder AddHttpContextPricipalAccessor(this BizerBuilder builder)
+    {
+        builder.Services.AddHttpContextAccessor();
+        return builder.AddCurrentPrincipalAccessor<HttpContextPrincipalAccessor>();
+    }
+
+    /// <summary>
     /// 使用 Bizer OpenAPI 带 Swagger 的中间件。
     /// </summary>
     /// <param name="builder"></param>

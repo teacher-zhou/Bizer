@@ -1,6 +1,4 @@
-﻿using Bizer.Services.Models;
-
-namespace Bizer.Services;
+﻿namespace Bizer.Services;
 /// <summary>
 /// 提供 CRUD 的逻辑功能服务。
 /// </summary>
@@ -49,7 +47,7 @@ public interface ICrudService<in TKey, TCreateOrUpdate, TDisplay, TListFilter> :
 /// <typeparam name="TDetail">详情字段的模型类型。</typeparam>
 /// <typeparam name="TList">列表字段的类型。</typeparam>
 /// <typeparam name="TListFilter">列表过滤的模型类型。</typeparam>
-public interface ICrudService<in TKey, TCreateOrUpdate, TDetail, TList, TListFilter>:ICrudService<TKey, TCreateOrUpdate, TCreateOrUpdate, TDetail, TList, TListFilter>
+public interface ICrudService<in TKey, TCreateOrUpdate, TDetail, TList, TListFilter> : ICrudService<TKey, TCreateOrUpdate, TCreateOrUpdate, TDetail, TList, TListFilter>
     where TKey : IEquatable<TKey>
     where TCreateOrUpdate : class
     where TDetail : class
@@ -81,7 +79,7 @@ public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFi
     /// <param name="model">要创建的模型。</param>
     /// <returns>一个创建方法，返回 <see cref="Returns"/> 结果。</returns>
     [Post]
-    Task<Returns<TDetail?>> CreateAsync([Body]TCreate model);
+    Task<Returns<TDetail?>> CreateAsync([Body] TCreate model);
     /// <summary>
     /// 更新指定 id 的输入模型对象。
     /// </summary>
@@ -89,14 +87,14 @@ public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFi
     /// <param name="model">要更新的输入模型。</param>
     /// <returns>一个更新方法，返回 <see cref="Returns"/> 结果。</returns>
     [Put("{id}")]
-    Task<Returns<TDetail?>> UpdateAsync([Path]TKey id, [Body]TUpdate model);
+    Task<Returns<TDetail?>> UpdateAsync([Path] TKey id, [Body] TUpdate model);
     /// <summary>
     /// 删除指定的 id。
     /// </summary>
     /// <param name="id">要删除的 id。</param>
     /// <returns>一个删除方法，返回 <see cref="Returns"/> 结果。</returns>
     [Delete("{id}")]
-    Task<Returns<TDetail?>> DeleteAsync([Path]TKey id);
+    Task<Returns<TDetail?>> DeleteAsync([Path] TKey id);
     /// <summary>
     /// 获取指定 id 的结果。
     /// </summary>
@@ -111,5 +109,5 @@ public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFi
     /// <param name="filter">获取列表的过滤输入模型。</param>
     /// <returns>一个获取分页结果的方法，返回 <see cref="Returns{TList}"/> 结果。</returns>
     [Get]
-    Task<Returns<PagedOutput<TList>>> GetListAsync([Query]TListFilter? filter = default);
+    Task<Returns<PagedOutput<TList>>> GetListAsync([Query] TListFilter? filter = default);
 }

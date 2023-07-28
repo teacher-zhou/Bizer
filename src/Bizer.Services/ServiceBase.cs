@@ -2,22 +2,22 @@
 
 namespace Bizer.Services;
 
+
 /// <summary>
-/// 表示基本的业务服务的基类。
-/// <para>
-/// 这是一个空的基类，提供了一些基本的接口。
-/// </para>
+/// 提供操作 <see cref="TContext"/> 的服务基类。
 /// </summary>
-public abstract class ServiceBase
+/// <typeparam name="TContext">数据上下文类型。</typeparam>
+public abstract class ServiceBase<TContext> : ServiceBase,IDisposable
+    where TContext : DbContext
 {
-    protected ServiceBase(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
-
-    protected IServiceProvider ServiceProvider { get; }
-
     /// <summary>
-    /// 获取日志对象。
+    /// 初始化 <see cref="ServiceBase{TContext}"/> 类的新实例。
     /// </summary>
-    protected ILogger? Logger => ServiceProvider.GetService<ILoggerFactory>()?.CreateLogger(this.GetType().Name);
+    /// <param name="serviceProvider">服务提供器。</param>
+    protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
+
 
     /// <summary>
     /// 获取映射对象。
@@ -28,14 +28,6 @@ public abstract class ServiceBase
     /// 全局的 <see cref="IMapper"/> 对象的配置。
     /// </summary>
     protected TypeAdapterConfig GlobalTypeAdapterConfig => ServiceProvider.GetRequiredService<TypeAdapterConfig>();
-}
-
-public abstract class ServiceBase<TContext> : ServiceBase,IDisposable
-    where TContext : DbContext
-{
-    protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 
     /// <summary>
     /// 获取数据库上下文。
@@ -55,6 +47,10 @@ public abstract class ServiceBase<TContext> : ServiceBase,IDisposable
     #region Disaposable
 
     private bool _disposedValue;
+    /// <summary>
+    /// 释放资源。
+    /// </summary>
+    /// <param name="disposing"><c>true</c> 释放托管资源。</param>
     protected virtual void Dispose(bool disposing)
     {
         if ( !_disposedValue )
@@ -105,15 +101,31 @@ public abstract class ServiceBase<TContext> : ServiceBase,IDisposable
     #endregion
 }
 
+/// <summary>
+/// 提供指定 <see cref="TContext"/> 数据库上下文并操作 <see cref="TEntity"/> 实体类型的服务基类。
+/// </summary>
+/// <typeparam name="TContext">数据上下文类型。</typeparam>
+/// <typeparam name="TEntity">实体类型。</typeparam>
 public abstract class ServiceBase<TContext, TEntity> : ServiceBase<TContext>
     where TContext : DbContext
     where TEntity : class
 {
+
+    /// <summary>
+    /// 初始化 <see cref="ServiceBase{TContext, TEntity}"/> 类的新实例。
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器。</param>
     protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
     {
     }
 
+    /// <summary>
+    /// 获取数据集对象。
+    /// </summary>
     protected DbSet<TEntity> Set() => Context.Set<TEntity>();
 
-    protected IQueryable<TEntity> Query() => Set().AsNoTracking();
+    /// <summary>
+    /// 获取不追踪的可查询对象。
+    /// </summary>
+    protected virtual IQueryable<TEntity> Query() => Set().AsNoTracking();
 }

@@ -6,7 +6,7 @@
     {
     }
 
-    public class UserService : CrudServiceBase<TestDbContext, int, User>, IUserService
+    public class UserService : CrudServiceBase<BizerDbContext, int, User>, IUserService
     {
         public UserService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
