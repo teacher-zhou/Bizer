@@ -1,4 +1,5 @@
 ﻿using Bizer.Security;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
 namespace Bizer;
@@ -43,7 +44,7 @@ public class BizerBuilder
     /// <typeparam name="TConverter">转换器类型。</typeparam>
     public BizerBuilder AddHttpRemotingResolver<TConverter>() where TConverter : class, IHttpRemotingResolver
     {
-        Services.AddSingleton<IHttpRemotingResolver, TConverter>();
+        Services.TryAddSingleton<IHttpRemotingResolver, TConverter>();
         return this;
     }
 
@@ -81,8 +82,26 @@ public class BizerBuilder
     public BizerBuilder AddCurrentPrincipalAccessor<TCurrentPrincipalAccessor>()
         where TCurrentPrincipalAccessor : class, ICurrentPrincipalAccessor
     {
-        Services.AddTransient<ICurrentPrincipalAccessor, TCurrentPrincipalAccessor>();
+        Services.TryAddTransient<ICurrentPrincipalAccessor, TCurrentPrincipalAccessor>();
         return this;
     }
 
+    /// <summary>
+    /// 添加模块化的功能。实现 <see cref="AppModule"/> 以支持模块化。
+    /// </summary>
+    /// <param name="exclude">排除模块化的程序集数组。</param>
+    /// <returns></returns>
+    public BizerBuilder AddModular(params Assembly[]? exclude)
+    {
+        AutoDiscovery.GetDiscoveredAssemblies(exclude)
+            .SelectMany(m => m.ExportedTypes)
+            .Where(instanceType => instanceType.IsClass && !instanceType.IsAbstract && typeof(AppModule).IsAssignableFrom(instanceType))
+            .Select(type => Activator.CreateInstance(type) as AppModule)
+            .ForEach(module =>
+            {
+                module?.ConfigureServices(Services);
+                module?.ConfigureBizer(this);
+            });
+        return this;
+    }
 }

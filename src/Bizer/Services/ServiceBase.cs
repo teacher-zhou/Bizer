@@ -1,4 +1,6 @@
-﻿using Bizer.Security;
+﻿using Bizer.Localizations;
+using Bizer.Security;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace Bizer.Services;
@@ -37,4 +39,9 @@ public abstract class ServiceBase
     /// 获取当前主体。
     /// </summary>
     protected ICurrentPrincipalAccessor? CurrentPricipal => ServiceProvider.GetService<ICurrentPrincipalAccessor>();
+
+    /// <summary>
+    /// 获取本地化器。
+    /// </summary>
+    protected IStringLocalizer? Locale => (IStringLocalizer?)ServiceProvider.GetService(typeof(IStringLocalizer<>));
 }

@@ -18,4 +18,26 @@ public static class CollectionExtensions
             action(item);
         }
     }
+
+    public static void AddIf<T>(this List<T> source, Predicate<T> match)
+    {
+        var item = source.Find(match);
+        if ( item is not null )
+        {
+            source.Add(item);
+        }
+    }
+
+    public static void AddOrUpdateIf<T>(this List<T> source,Predicate<T> match, T newValue)
+    {
+        var index = source.FindIndex(match);
+        if ( index < 0 )
+        {
+            source.Add(newValue);
+        }
+        else
+        {
+            source[index] = newValue;
+        }
+    }
 }

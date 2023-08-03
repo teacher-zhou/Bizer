@@ -23,8 +23,9 @@ public sealed class AutoDiscoveryOptions
     /// <summary>
     /// 获取发现的程序集。
     /// </summary>
+    /// <param name="excludeAssemblies">从自动发现中需要排除的程序集数组。</param>
     /// <returns>自动发现的程序集集合。</returns>
-    public IEnumerable<Assembly> GetDiscoveredAssemblies()
+    public IEnumerable<Assembly> GetDiscoveredAssemblies(params Assembly[]? excludeAssemblies)
     {
         var assemblyFileList = new List<string>();
 
@@ -36,6 +37,6 @@ public sealed class AutoDiscoveryOptions
         var assemblyList = assemblyFileList.Select(Assembly.LoadFile).ToList();
 
         assemblyList.AddRange(Assemblies);
-        return assemblyList;
+        return assemblyList.Except(excludeAssemblies ?? Enumerable.Empty<Assembly>());
     }
 }
