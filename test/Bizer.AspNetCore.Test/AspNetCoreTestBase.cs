@@ -14,7 +14,7 @@ public class AspNetCoreTestBase:TestBase,IDisposable
         var builder = new WebHostBuilder().UseTestServer().ConfigureServices(services =>
         {
             services.AddBizer(options=>options.Assemblies.Add(typeof(ITestingService).Assembly))
-                    .AddApiConvension();
+                    .AddOpenApiConvension();
             ConfigureServices(services);
         });
 

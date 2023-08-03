@@ -1,18 +1,19 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Bizer.Test;
 public abstract class TestBase
 {
-    private readonly ServiceProvider _builder;
+    private readonly IServiceProvider _builder;
 
     public TestBase()
     {
-        var services = new ServiceCollection();
-        ConfigureServices(services);
-        _builder = services.BuildServiceProvider();
+        _builder = Host.CreateDefaultBuilder().ConfigureServices(ConfigureServices).Build().Services;
     }
 
     protected virtual void ConfigureServices(IServiceCollection services) { }
 
-    protected T GetService<T>() where T : notnull => _builder.GetRequiredService<T>();
+    protected IServiceProvider ServiceProvider => _builder;
+
+    protected T? GetService<T>() where T : class => _builder.GetService<T>();
 }

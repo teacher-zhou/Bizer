@@ -15,7 +15,7 @@ public static class BizerAspNetCoreDependencyInjections
     /// <param name="builder"></param>
     /// <param name="configure">一个用于配置的委托。</param>
     /// <returns></returns>
-    public static BizerBuilder AddApiConvension(this BizerBuilder builder, Action<BizerApiOptions>? configure = default)
+    public static BizerBuilder AddOpenApiConvension(this BizerBuilder builder, Action<BizerApiOptions>? configure = default)
     {
         BizerApiOptions apiOptions = new();
         configure?.Invoke(apiOptions);
@@ -72,5 +72,22 @@ public static class BizerAspNetCoreDependencyInjections
             endpoints.MapControllers();
         });
         return builder;
+    }
+
+    public static IApplicationBuilder UseBizer(this IApplicationBuilder app)
+    {
+        var options = app.ApplicationServices.GetRequiredService<AutoDiscoveryOptions>();
+        if(options is null )
+        {
+            throw new InvalidOperationException($"必须先使用 services.AddBizer() 方法");
+        }
+
+        options.GetDiscoveredAssemblies()
+            .SelectMany(m => m.ExportedTypes)
+            .Where(instanceType => instanceType.IsClass && !instanceType.IsAbstract && typeof(AspNetCoreAppModule).IsAssignableFrom(instanceType))
+            .Select(type => Activator.CreateInstance(type) as AspNetCoreAppModule)
+            .ForEach(module => module?.ConfigureApplications(app));
+
+        return app;
     }
 }

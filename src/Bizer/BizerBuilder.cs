@@ -85,23 +85,4 @@ public class BizerBuilder
         Services.TryAddTransient<ICurrentPrincipalAccessor, TCurrentPrincipalAccessor>();
         return this;
     }
-
-    /// <summary>
-    /// 添加模块化的功能。实现 <see cref="AppModule"/> 以支持模块化。
-    /// </summary>
-    /// <param name="exclude">排除模块化的程序集数组。</param>
-    /// <returns></returns>
-    public BizerBuilder AddModular(params Assembly[]? exclude)
-    {
-        AutoDiscovery.GetDiscoveredAssemblies(exclude)
-            .SelectMany(m => m.ExportedTypes)
-            .Where(instanceType => instanceType.IsClass && !instanceType.IsAbstract && typeof(AppModule).IsAssignableFrom(instanceType))
-            .Select(type => Activator.CreateInstance(type) as AppModule)
-            .ForEach(module =>
-            {
-                module?.ConfigureServices(Services);
-                module?.ConfigureBizer(this);
-            });
-        return this;
-    }
 }

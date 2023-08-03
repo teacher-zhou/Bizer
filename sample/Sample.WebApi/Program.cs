@@ -6,7 +6,7 @@ using Sample.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-    .AddApiConvension().AddMapper().AddServiceInjection();
+    .AddOpenApiConvension().AddMapper().AddServiceInjection();
 
 builder.Services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("db"));
 

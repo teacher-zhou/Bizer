@@ -1,7 +1,7 @@
 ﻿namespace Bizer;
 
 /// <summary>
-/// 继承以实现模块化配置。
+/// 继承以实现模块化的功能。这是一个抽象类。
 /// </summary>
 public abstract class AppModule
 {

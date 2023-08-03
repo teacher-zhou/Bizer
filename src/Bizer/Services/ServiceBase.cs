@@ -1,5 +1,4 @@
-﻿using Bizer.Localizations;
-using Bizer.Security;
+﻿using Bizer.Security;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
