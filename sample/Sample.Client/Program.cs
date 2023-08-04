@@ -101,7 +101,6 @@ public static class AssertExtensions
 
     public static void Assert(this Returns returns, ILogger logger, bool throwIfNotSuccess = true)
     {
-        logger.LogDebug($"【Returns】{nameof(Returns.Code)}：{returns.Code}");
         logger.LogDebug($"【Returns】{nameof(Returns.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns】{nameof(Returns.Succeed)}：{returns.Succeed}");
 
@@ -114,7 +113,6 @@ public static class AssertExtensions
     public static void Assert<TResult>(this Returns<TResult> returns, ILogger logger, bool throwIfNotSuccess = true)
     {
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Data)}：{returns.Data}");
-        logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Code)}：{returns.Code}");
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Succeed)}：{returns.Succeed}");
 

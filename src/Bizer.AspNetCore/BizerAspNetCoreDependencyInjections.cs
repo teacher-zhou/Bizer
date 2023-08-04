@@ -15,9 +15,9 @@ public static class BizerAspNetCoreDependencyInjections
     /// <param name="builder"></param>
     /// <param name="configure">一个用于配置的委托。</param>
     /// <returns></returns>
-    public static BizerBuilder AddOpenApiConvension(this BizerBuilder builder, Action<BizerApiOptions>? configure = default)
+    public static BizerBuilder AddOpenApiConvension(this BizerBuilder builder, Action<BizerOpenApiOptions>? configure = default)
     {
-        BizerApiOptions apiOptions = new();
+        BizerOpenApiOptions apiOptions = new();
         configure?.Invoke(apiOptions);
 
         builder.Services.AddSingleton(apiOptions);
@@ -62,9 +62,24 @@ public static class BizerAspNetCoreDependencyInjections
     {
         var env = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
 
+        if(! builder.ApplicationServices.TryGetService<BizerOpenApiOptions>(out var apiOptions) )
+        {
+            throw new InvalidOperationException($"需要先添加 '{nameof(AddOpenApiConvension)}' 的服务才可以使用 '{nameof(UseBizerOpenApi)}' 中间件");
+        }
+
         if ( env.IsDevelopment() )
         {
-            builder.UseSwaggerUi3().UseOpenApi();
+            builder
+                .UseSwaggerUi3(setting =>
+                {
+                    setting.DocExpansion = "list";
+                    setting.DocumentTitle = apiOptions.Title;
+                })
+                .UseOpenApi(setting =>
+                {
+                    setting.DocumentName = apiOptions.Version;
+                })
+                ;
         }
 
         builder.UseEndpoints(endpoints =>
@@ -72,22 +87,5 @@ public static class BizerAspNetCoreDependencyInjections
             endpoints.MapControllers();
         });
         return builder;
-    }
-
-    public static IApplicationBuilder UseBizer(this IApplicationBuilder app)
-    {
-        var options = app.ApplicationServices.GetRequiredService<AutoDiscoveryOptions>();
-        if(options is null )
-        {
-            throw new InvalidOperationException($"必须先使用 services.AddBizer() 方法");
-        }
-
-        options.GetDiscoveredAssemblies()
-            .SelectMany(m => m.ExportedTypes)
-            .Where(instanceType => instanceType.IsClass && !instanceType.IsAbstract && typeof(AspNetCoreAppModule).IsAssignableFrom(instanceType))
-            .Select(type => Activator.CreateInstance(type) as AspNetCoreAppModule)
-            .ForEach(module => module?.ConfigureApplications(app));
-
-        return app;
     }
 }

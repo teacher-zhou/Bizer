@@ -5,6 +5,10 @@ namespace Sample.Services
     [ApiRoute("api/test")]
     public interface ITestService
     {
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <returns></returns>
         [Get]
         Task<Returns> GetAsync();
 

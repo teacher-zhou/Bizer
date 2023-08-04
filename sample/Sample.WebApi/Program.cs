@@ -6,14 +6,15 @@ using Sample.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-    .AddOpenApiConvension().AddMapper().AddServiceInjection();
+    //.AddOpenApiConvension()
+    .AddMapper()
+    .AddServiceInjection();
 
 builder.Services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("db"));
 
 var app = builder.Build();
-
+app.UseDeveloperExceptionPage();
 app.UseRouting();
-app.UseAuthorization();
 app.UseBizerOpenApi();
 
 app.MapGet("/", (context) =>

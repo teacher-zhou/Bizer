@@ -11,11 +11,11 @@ namespace Bizer.AspNetCore.Conventions;
 /// </summary>
 internal class DynamicHttpApiConvention : IApplicationModelConvention
 {
-    private readonly BizerApiOptions _apiOptions;
+    private readonly BizerOpenApiOptions _apiOptions;
     private readonly IHttpRemotingResolver _converter;
     private Type? _interfaceAsControllerType;
 
-    public DynamicHttpApiConvention(BizerApiOptions apiOptions,IHttpRemotingResolver converter)
+    public DynamicHttpApiConvention(BizerOpenApiOptions apiOptions,IHttpRemotingResolver converter)
     {
         _apiOptions = apiOptions;
         _converter = converter;
