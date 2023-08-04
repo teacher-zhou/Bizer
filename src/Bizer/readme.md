@@ -1,20 +1,20 @@
 ## Bizer
-×÷Îª¶¨Òå¡¢¹æÔò¡¢À©Õ¹µÄºËĞÄÀà
+ä½œä¸ºå®šä¹‰ã€è§„åˆ™ã€æ‰©å±•çš„æ ¸å¿ƒç±»
 
-### Â·ÓÉ
-½Ó¿Ú¶¨Òå `ApiRouteAttribute`£¬ÊµÏÖ HTTP µÄÂ·ÓÉÇ°×º£¬Í¬ `Controller` ÀïµÄ `HttpRouteAttribute`
+### è·¯ç”±
+æ¥å£å®šä¹‰ `ApiRouteAttribute`ï¼Œå®ç° HTTP çš„è·¯ç”±å‰ç¼€ï¼ŒåŒ `Controller` é‡Œçš„ `HttpRouteAttribute`
 ```cs
-[ApiRoute("api/users")]	//Éú³É http://localhost/api/users
+[ApiRoute("api/users")]	//ç”Ÿæˆ http://localhost/api/users
 public interface IUserManager
 {
 }
 ```
-**²»Ö§³Ö mvc ÖĞµÄ `[controller]` ¹Ø¼ü×Ö**
-> Ã»ÓĞ¶¨Òå¸ÃÌØĞÔµÄ½Ó¿Ú²»»á×Ô¶¯Ê¶±ğ³É API ºÍ·¢ËÍ HTTP ÇëÇó¡£
+**ä¸æ”¯æŒ mvc ä¸­çš„ `[controller]` å…³é”®å­—**
+> æ²¡æœ‰å®šä¹‰è¯¥ç‰¹æ€§çš„æ¥å£ä¸ä¼šè‡ªåŠ¨è¯†åˆ«æˆ API å’Œå‘é€ HTTP è¯·æ±‚ã€‚
 
 
-### Http ·½·¨£¨HttpMethod)
-½Ó¿Ú·½·¨ÉÏ¶¨Òå£¬Í¬ MVC ·½Ê½Ê¹ÓÃ£ºÒÔÏÂÊÇ¶ÔÕÕ±í¸ñ
+### Http æ–¹æ³•ï¼ˆHttpMethod)
+æ¥å£æ–¹æ³•ä¸Šå®šä¹‰ï¼ŒåŒ MVC æ–¹å¼ä½¿ç”¨ï¼šä»¥ä¸‹æ˜¯å¯¹ç…§è¡¨æ ¼
 
 | Mvc | Bizer |
 |---|---|
@@ -26,7 +26,7 @@ public interface IUserManager
 |HttpOptions|Options|
 |HttpTrace|Trace|
 
-Ê¾Àı£º
+ç¤ºä¾‹ï¼š
 ```cs
 [ApiRoute("api/users")]
 public interface IUserService
@@ -35,17 +35,17 @@ public interface IUserService
 	Task CreateAsync()
 }
 ```
-### ²ÎÊı
-²ÎÊıÄ¬ÈÏÊÇ `query string`£¬¼´ `?arg1=value1&arg2=value2...`
-ÀàËÆÓÚ mvc µÄ `FromQueryAttribute`£¬Ó³Éä¹ØÏµÈçÏÂ£º
-|Mvc|Bizer|±¸×¢|
+### å‚æ•°
+å‚æ•°é»˜è®¤æ˜¯ `query string`ï¼Œå³ `?arg1=value1&arg2=value2...`
+ç±»ä¼¼äº mvc çš„ `FromQueryAttribute`ï¼Œæ˜ å°„å…³ç³»å¦‚ä¸‹ï¼š
+|Mvc|Bizer|å¤‡æ³¨|
 |---|---|---|
-|FromRoute|Path|Â·ÓÉÖĞ¿ÉÄ£°å²ÎÊı£¬Èç{id}|
+|FromRoute|Path|è·¯ç”±ä¸­å¯æ¨¡æ¿å‚æ•°ï¼Œå¦‚{id}|
 |FromQuery|Query|
-|FromHeader|Header|×Ô¶¯¼ÓÈëµ½ Header ÖĞ
-|FromForm|Form|»á×Ô¶¯Ê¹ÓÃ form/data ·½Ê½|
-|FromBody|Body|ÓÃ body Ìá½»£¬Ä¬ÈÏÊ¹ÓÃ application/json µÄ·½Ê½|
-Ê¾Àı£º
+|FromHeader|Header|è‡ªåŠ¨åŠ å…¥åˆ° Header ä¸­
+|FromForm|Form|ä¼šè‡ªåŠ¨ä½¿ç”¨ form/data æ–¹å¼|
+|FromBody|Body|ç”¨ body æäº¤ï¼Œé»˜è®¤ä½¿ç”¨ application/json çš„æ–¹å¼|
+ç¤ºä¾‹ï¼š
 ```cs
 [ApiRoute("api/users")]
 public interface IUserService
@@ -57,54 +57,57 @@ public interface IUserService
 	Task<User> GetAsync([Path]int id)
 }
 ```
-### ÅäÖÃ
-ÔÚ `Program.cs` ÖĞ×¢²á·şÎñºÍÅäÖÃ£º
+### é…ç½®
+åœ¨ `Program.cs` ä¸­æ³¨å†ŒæœåŠ¡å’Œé…ç½®ï¼š
 ```cs
 services.AddBizer(options=>{
-	//ÅäÖÃ×Ô¶¯³ÌĞò¼¯·¢ÏÖ£¬Ä¿µÄÊÇÎªÖ®ºóµÄÄ£¿éÊ¹ÓÃ
+	//é…ç½®è‡ªåŠ¨ç¨‹åºé›†å‘ç°ï¼Œç›®çš„æ˜¯ä¸ºä¹‹åçš„æ¨¡å—ä½¿ç”¨
 
-	options.Assemblies.Add(typeof(xxx).Assembly); //Ìí¼Ó×Ô¶¯·¢ÏÖµÄ³ÌĞò¼¯
+	options.Assemblies.Add(typeof(xxx).Assembly); //æ·»åŠ è‡ªåŠ¨å‘ç°çš„ç¨‹åºé›†
 
-	options.AssemblyNames.Add("MyAssembly.*.Service");//Ä£ºıËÑË÷Æ¥ÅäÃû³ÆµÄ³ÌĞò¼¯£¬Ö§³ÖÍ¨Åä·û
+	options.AssemblyNames.Add("MyAssembly.*.Service");//æ¨¡ç³Šæœç´¢åŒ¹é…åç§°çš„ç¨‹åºé›†ï¼Œæ”¯æŒé€šé…ç¬¦
 });
 ```
-### `Returns` ºÍ `Resunts<TResult>` ·µ»ØÖµÀàĞÍ
-¸ÃÀàĞÍ½«·µ»Ø `Code` `Messages` `Succeed` `Data` ËÄ¸ö»ù±¾ÊôĞÔ¡£
+### `Returns` å’Œ `Resunts<TResult>` è¿”å›å€¼ç±»å‹
+è¯¥ç±»å‹å°†è¿”å› `Code` `Messages` `Succeed` `Data` å››ä¸ªåŸºæœ¬å±æ€§ã€‚
 ```cs
-public Task<Returns> GetAsync() //ÎŞ·µ»ØÊı¾İ
+public Task<Returns> GetAsync() //æ— è¿”å›æ•°æ®
 {
 	if(xxxx)
 	{
-		return Returns.Failed("´íÎóĞÅÏ¢");
+		return Returns.Failed("é”™è¯¯ä¿¡æ¯");
 	}
 	return Returns.Success();
 }
 
-public Task<Returns<Data>> GetAsync() //ÓĞ·µ»ØÊı¾İ
+public Task<Returns<Data>> GetAsync() //æœ‰è¿”å›æ•°æ®
 {
 	if(xxxx)
 	{
-		return Returns<Data>.Failed("´íÎóĞÅÏ¢");
+		return Returns<Data>.Failed("é”™è¯¯ä¿¡æ¯");
 	}
-	return Returns<Data>.Success(data);//Ò»°ãÊÇ³É¹¦ºó²ÅÉèÖÃÊı¾İ·µ»Ø
+	return Returns<Data>.Success(data);//ä¸€èˆ¬æ˜¯æˆåŠŸåæ‰è®¾ç½®æ•°æ®è¿”å›
 }
+```
 
+## æ‰©å±•åŠŸèƒ½
 
-public Task<Returns> GetAsync() //¿ÉÒÔ·µ»Ø¶àÏûÏ¢
-{
-	var returns = new Returns();
-	if(xxxx)
-	{
-		returns.AppendMessages("....");
-	}
-	else if(xxx)
-	{
-		returns.AppendMessages("....");
-	}
-	else
-	{
-		returns.IsSuccess();
-	}
-	return returns;
-}
+- å¼€å¯æ¥å£ä½¿ç”¨ `InjectServiceAttribute` ä½œä¸ºæœåŠ¡è‡ªåŠ¨æ³¨å…¥
+
+```cs
+builder.AddBizer().AddServiceInjection();
+```
+
+```cs
+[InjectService] //é»˜è®¤ scoped
+public interface IUserService { }
+
+[InjectService(ServiceLifetime.Transient)] //æ”¹å˜ç”Ÿå‘½å‘¨æœŸ
+public interface IRoleService { }
+```
+
+- ä½¿ç”¨çº¿ç¨‹ç”¨æˆ·ä½œä¸º `ICurrentPrincipalAccessor` æœåŠ¡
+
+```cs
+builder.AddBizer().AddThreadCurrentPrincipalAccessor();
 ```

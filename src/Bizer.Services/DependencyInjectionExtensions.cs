@@ -8,7 +8,7 @@ public static class DependencyInjectionExtensions
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>
-    public static BizerBuilder AddMapper(this BizerBuilder builder,Action<TypeAdapterConfig>? configure=default)
+    public static BizerBuilder AddMapper(this BizerBuilder builder, Action<TypeAdapterConfig>? configure = default)
     {
         TypeAdapterConfig config = new();
         configure?.Invoke(config);

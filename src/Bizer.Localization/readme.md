@@ -31,3 +31,18 @@ public class MyClass
     }
 }
 ```
+
+默认的目录：
+
+```
+|-项目
+    |- localizations
+        |- zh-cn.json
+        |- en-us.json
+        |- xxx.json
+    |- xxx.csproj
+    |- wwwroot
+    ...
+```
+
+**变更的本地化资源包只需要将文件放到相应目录下重启程序即可**

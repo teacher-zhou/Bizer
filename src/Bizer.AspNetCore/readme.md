@@ -40,3 +40,10 @@ public class AccountApplicationService : IAccountApplicationService
 	}
 }
 ```
+## 扩展功能
+
+- 从 `HttpContext` 管道中创建 `ICurrentPrincipalAccessor` 服务
+
+```cs
+builder.AddBizer().AddHttpContextPricipalAccessor();
+```

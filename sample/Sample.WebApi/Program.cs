@@ -6,7 +6,7 @@ using Sample.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-    //.AddOpenApiConvension()
+    .AddOpenApiConvension()
     .AddMapper()
     .AddServiceInjection();
 
