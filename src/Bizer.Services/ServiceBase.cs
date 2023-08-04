@@ -7,7 +7,7 @@ namespace Bizer.Services;
 /// 提供操作 <see cref="TContext"/> 的服务基类。
 /// </summary>
 /// <typeparam name="TContext">数据上下文类型。</typeparam>
-public abstract class ServiceBase<TContext> : ServiceBase,IDisposable
+public abstract class ServiceBase<TContext> : ServiceBase, IDisposable
     where TContext : DbContext
 {
     /// <summary>
@@ -17,7 +17,6 @@ public abstract class ServiceBase<TContext> : ServiceBase,IDisposable
     protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
     {
     }
-
 
     /// <summary>
     /// 获取映射对象。
@@ -41,6 +40,18 @@ public abstract class ServiceBase<TContext> : ServiceBase,IDisposable
                 return factory!.CreateDbContext();
             }
             return ServiceProvider.GetRequiredService<TContext>();
+        }
+    }
+
+    /// <summary>
+    /// 获取取消操作的令牌。默认是操作超过1分钟将引发异常。
+    /// </summary>
+    protected virtual CancellationToken CancellationToken
+    {
+        get
+        {
+            var source = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+            return source.Token;
         }
     }
 
@@ -128,16 +139,4 @@ public abstract class ServiceBase<TContext, TEntity> : ServiceBase<TContext>
     /// 获取不追踪的可查询对象。
     /// </summary>
     protected virtual IQueryable<TEntity> Query() => Set().AsNoTracking();
-
-    /// <summary>
-    /// 获取取消操作的令牌。默认是操作超过1分钟将引发异常。
-    /// </summary>
-    protected virtual CancellationToken CancellationToken
-    {
-        get
-        {
-            var source = new CancellationTokenSource(TimeSpan.FromMinutes(1));
-            return source.Token;
-        }
-    }
 }
