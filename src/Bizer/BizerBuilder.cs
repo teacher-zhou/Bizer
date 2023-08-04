@@ -1,4 +1,5 @@
 ﻿using Bizer.Security;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
 namespace Bizer;
@@ -43,7 +44,7 @@ public class BizerBuilder
     /// <typeparam name="TConverter">转换器类型。</typeparam>
     public BizerBuilder AddHttpRemotingResolver<TConverter>() where TConverter : class, IHttpRemotingResolver
     {
-        Services.AddSingleton<IHttpRemotingResolver, TConverter>();
+        Services.TryAddSingleton<IHttpRemotingResolver, TConverter>();
         return this;
     }
 
@@ -81,8 +82,7 @@ public class BizerBuilder
     public BizerBuilder AddCurrentPrincipalAccessor<TCurrentPrincipalAccessor>()
         where TCurrentPrincipalAccessor : class, ICurrentPrincipalAccessor
     {
-        Services.AddTransient<ICurrentPrincipalAccessor, TCurrentPrincipalAccessor>();
+        Services.TryAddTransient<ICurrentPrincipalAccessor, TCurrentPrincipalAccessor>();
         return this;
     }
-
 }

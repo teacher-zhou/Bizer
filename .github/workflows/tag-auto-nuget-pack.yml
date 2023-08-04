@@ -1,0 +1,40 @@
+name: 自动发布到 nuget
+
+on:
+  push:
+    tags:
+      - "*"
+
+
+jobs:
+  pack-push-nuget-package:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'bizer'
+    steps:
+      - name: 迁出代码
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Environment
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+      - name: 编译
+        run: |
+          dotnet build ./src/Bizer/Bizer.csproj -c release
+          dotnet build ./src/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release
+          dotnet build ./src/Bizer.Client/Bizer.Client.csproj -c release
+          dotnet build ./src/Bizer.Services/Bizer.Services.csproj -c release
+          dotnet build ./src/Bizer.Localization/Bizer.Localization.csproj -c release
+      - name: 发布 nuget 包
+        run: |
+          dotnet pack ./src/Bizer/Bizer.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Bizer.Client/Bizer.Client.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Bizer.Services/Bizer.Services.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Bizer.Localization/Bizer.Localization.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+
+          dotnet nuget push './pack/*.nupkg' -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+
+    

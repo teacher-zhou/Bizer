@@ -2,6 +2,9 @@
 using Bizer.Services;
 
 namespace Sample.Services;
+/// <summary>
+/// 用户接口
+/// </summary>
 [InjectService]
 [ApiRoute("api/users")]
 public interface IUserService : ICrudService<int, User>

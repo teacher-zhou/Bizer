@@ -1,5 +1,6 @@
 ﻿using Bizer;
 using Bizer.Security;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
 public static class BizerDependencyInjectionExtensions
@@ -23,4 +24,5 @@ public static class BizerDependencyInjectionExtensions
     /// <param name="builder"></param>
     public static BizerBuilder AddThreadCurrentPrincipalAccessor(this BizerBuilder builder)
         => builder.AddCurrentPrincipalAccessor<ThreadCurrentPrincipalAccessor>();
+
 }
