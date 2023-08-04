@@ -128,4 +128,16 @@ public abstract class ServiceBase<TContext, TEntity> : ServiceBase<TContext>
     /// 获取不追踪的可查询对象。
     /// </summary>
     protected virtual IQueryable<TEntity> Query() => Set().AsNoTracking();
+
+    /// <summary>
+    /// 获取取消操作的令牌。默认是操作超过1分钟将引发异常。
+    /// </summary>
+    protected virtual CancellationToken CancellationToken
+    {
+        get
+        {
+            var source = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+            return source.Token;
+        }
+    }
 }

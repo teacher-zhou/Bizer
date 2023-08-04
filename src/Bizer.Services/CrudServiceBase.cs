@@ -259,13 +259,13 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
         query = ApplySorting(query);
         try
         {
-            var data = await query.Select(m => Mapper.Map<TList>(m)).ToListAsync();
+            var data = await query.Select(m => Mapper.Map<TList>(m)).ToListAsync(CancellationToken);
             var total = await query.CountAsync();
             return Returns<PagedOutput<TList>>.Success(new(data, total));
         }
         catch ( AggregateException ex )
         {
-            return Returns<PagedOutput<TList>>.Failed().LogError(Logger, ex);
+            return Returns<PagedOutput<TList>>.Failed("查询发生了错误，请查看日志").LogError(Logger, logMessage: ex.InnerExceptions.Select(m => m.Message).JoinAsString("；"), ex);
         }
     }
     #endregion
@@ -276,7 +276,12 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     /// </summary>
     /// <param name="model">列表过滤器的输入模型。</param>
     protected virtual IQueryable<TEntity> QueryFilter(TListFilter? filter) => Query();
-    protected virtual ValueTask<TEntity?> FindAsync(TKey id) => Context.FindAsync<TEntity>(id);
+    /// <summary>
+    /// 查询指定 id 的实体。
+    /// </summary>
+    /// <param name="id">要查询的 id 主键。</param>
+    /// <returns>查询到的实体或 <c>null</c>。</returns>
+    protected virtual ValueTask<TEntity?> FindAsync(TKey id) => Context.FindAsync<TEntity>(new[] { id },CancellationToken);
 
     /// <summary>
     /// 应用 Skip 数据查询筛选。
@@ -340,31 +345,19 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     /// <returns></returns>
     protected virtual async Task<Returns<TResult?>> SaveChangesAsync<TResult>(Func<TResult> afterSaveChangesSuccessully)
     {
+        var failedMessage = "数据在保存时遇到了错误，请查看日志";
         try
         {
-            var rows = await Context.SaveChangesAsync();
+            var rows = await Context.SaveChangesAsync(CancellationToken);
             if ( rows == 0 )
             {
-                return Returns<TResult?>.Failed("影响结果是0").LogError(Logger);
+                return Returns<TResult?>.Failed(failedMessage).LogError(Logger,$"调用 {nameof(DbContext.SaveChangesAsync)} 后的结果返回的是：{rows}");
             }
-            Logger?.LogInformation($"影响结果数量:{rows}");
-            return Returns<TResult?>.Success(afterSaveChangesSuccessully());
-        }
-        catch ( DbUpdateConcurrencyException ex )
-        {
-            return Returns<TResult?>.Failed("并发操作异常").LogError(Logger, ex);
-        }
-        catch ( DbUpdateException ex )
-        {
-            return Returns<TResult?>.Failed("数据库更新异常").LogError(Logger, ex);
-        }
-        catch ( InvalidOperationException ex )
-        {
-            return Returns<TResult?>.Failed("数据库操作异常").LogError(Logger, ex);
+            return Returns<TResult?>.Success(afterSaveChangesSuccessully()).LogInfo(Logger, $"调用 {nameof(DbContext.SaveChangesAsync)} 后的结果返回的是：{rows}");
         }
         catch ( Exception ex )
         {
-            return Returns<TResult?>.Failed("SaveChangesAsync Exception").LogError(Logger, ex);
+            return Returns<TResult?>.Failed(failedMessage).LogError(Logger, exception: ex);
         }
     }
 
