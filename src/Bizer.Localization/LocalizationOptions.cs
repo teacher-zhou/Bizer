@@ -3,7 +3,7 @@
 /// <summary>
 /// 本地化资源的配置。
 /// </summary>
-internal class LocalizationOptions
+public class LocalizationOptions
 {
     /// <summary>
     /// 初始化 <see cref="LocalizationOptions"/> 类的新实例。
@@ -11,19 +11,27 @@ internal class LocalizationOptions
     public LocalizationOptions()
     {
         ResourcePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "localizations");
+        LocaleFileName = Culture;
     }
 
     /// <summary>
     /// 获取或设置本地化资源存储的路径。
     /// </summary>
-    public string ResourcePath { get; set; }
+    /// <value>默认值是 localizations。</value>
+    public string ResourcePath { get; set; } = "localizations";
 
     /// <summary>
-    /// 获取或设置当前的本地化名称。例如 zh-cn, en-us。默认是 en-us。
+    /// 获取或设置合国际定义的本地化资源名称。
     /// </summary>
-    /// <value>要符合国际定义的本地化资源。</value>
+    /// <value>例如 zh-cn, en-us。默认是 en-us。</value>
     public string Culture { get; set; } = "en-us";
 
-    internal string LocalizeFilePath => string.Concat(Path.Combine(ResourcePath, Culture), ".json");
+    /// <summary>
+    /// 资源包文件名称。
+    /// </summary>
+    /// <value>默认值与 <see cref="Culture"/> 一致。</value>
+    public string LocaleFileName { get; set; }
+
+    internal string LocalizeFilePath => string.Concat(Path.Combine(ResourcePath, LocaleFileName), ".json");
 
 }
