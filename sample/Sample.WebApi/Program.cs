@@ -8,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
     .AddOpenApiConvension()
     .AddMapper()
-    .AddServiceInjection();
+    .AddServiceInjection()
+    .AddHttpContextPricipalAccessor()
+    ;
 
 builder.Services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("db"));
 
