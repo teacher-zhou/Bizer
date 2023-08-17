@@ -1,0 +1,11 @@
+
+    <Router AppAssembly="@ComponentOptions.Blazor.AppType.Assembly" AdditionalAssemblies="GetBlazorAssemblies()">
+        <Found Context="routeData">
+            @GetFoundView(routeData)
+        </Found>
+        <NotFound>
+            @GetNotFoundView()
+        </NotFound>
+    </Router>
+
+<ComponentProviders />

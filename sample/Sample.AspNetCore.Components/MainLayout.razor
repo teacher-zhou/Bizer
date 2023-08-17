@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase
+
+@*<NavBar NavItemsProvider="GetNavBarItems">
+
+</NavBar>
+
+<Container>
+    @Body
+</Container>
+
+@code {
+    IEnumerable<NavItem> GetNavBarItems()
+    {
+        return new List<NavItem>()
+        {
+            new(){ Title="首页", Link="/"},
+            new(){Title="组件",Items=new List<NavItem>
+            {
+                new(){ Title="通用组件",Link="/components",Icon="home"}
+            }
+            }
+        };
+    }
+}
+*@

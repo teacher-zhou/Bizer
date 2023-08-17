@@ -16,7 +16,7 @@
 		<PackageProjectUrl>https://github.com/AchievedOwner/Bizer</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/AchievedOwner/Bizer</RepositoryUrl>
 		<RepositoryType>GIT</RepositoryType>
-		<Title>半专业开发也能快速上手的前后端全栈、全自动框架</Title>		
+		<Title>打造基于业务的全栈的全自动开发框架</Title>		
 	</PropertyGroup>
 	<PropertyGroup>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
