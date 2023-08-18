@@ -1,6 +1,5 @@
 ﻿@page "/table"
-
-<Table DataSource="Users" StripedRow Bordered="true">
+<Table DataSource="Users" Hoverable>
     <HeaderTemplate>
         <tr>
             <th>Id</th>
@@ -20,7 +19,7 @@
 @code{
     class User
     {
-        public Guid Id => Guid.NewGuid();
+        public Guid Id { get; set; }
         public string Name{ get; set; }
     }
 
@@ -29,9 +28,9 @@
 
     protected override void OnInitialized()
     {
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 10; i++)
         {
-            Users.Add(new() { Name = "test-" + i });
+            Users.Add(new() { Id=Guid.NewGuid(), Name = "test-" + i });
         }
     }
 }

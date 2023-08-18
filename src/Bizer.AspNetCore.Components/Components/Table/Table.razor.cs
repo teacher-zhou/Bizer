@@ -1,8 +1,4 @@
-﻿using Bizer.Services;
-
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-
-namespace Bizer.AspNetCore.Components;
+﻿namespace Bizer.AspNetCore.Components;
 
 [CssClass("table")]
 public partial class Table<TItem>
@@ -10,7 +6,7 @@ public partial class Table<TItem>
     /// <summary>
     /// 鼠标悬停的行背景效果。
     /// </summary>
-    [Parameter][CssClass("table-hover")]public bool Hover { get; set; }
+    [Parameter][CssClass("table-hover")]public bool Hoverable { get; set; }
 
     /// <summary>
     /// 行间隔颜色。
@@ -28,10 +24,6 @@ public partial class Table<TItem>
     /// 压缩内边距。
     /// </summary>
     [Parameter][CssClass("table-sm")]public bool Small { get; set; }
-    /// <summary>
-    /// 固定高度。
-    /// </summary>
-    [Parameter] public string? Height { get; set; } = "80vh";
     /// <summary>
     /// 数据源。
     /// </summary>
@@ -70,26 +62,6 @@ public partial class Table<TItem>
     /// </summary>
     [Parameter] public string? FooterClass { get; set; }
 
-    /// <summary>
-    /// 行可以被选中。
-    /// </summary>
-    [Parameter]public bool RowSelection { get; set; }
-    /// <summary>
-    /// 行选中后的背景颜色。
-    /// </summary>
-    [Parameter] public Color? RowSelectedColor { get; set; }
-
-    /// <summary>
-    /// 当行被选中后触发的回调方法。
-    /// </summary>
-    [Parameter]public EventCallback<TItem> OnRowSelected { get; set; }
-
-    TItem? SelectedItem { get; set; }
-
-    string? RowSelectedClass { get; set; }
-
-
-    List<TItem> CollectionList => new(DataSource);
 
     protected override void OnInitialized()
     {
@@ -100,23 +72,11 @@ public partial class Table<TItem>
         }
     }
 
-    async Task SelectRow(TItem item)
-    {
-        if(item is null)
-        {
-            return;
-        }
+}
 
-        SelectedItem = item;
-        await OnRowSelected.InvokeAsync(SelectedItem);
-        RowSelectedClass = HtmlHelper.Instance.Class().Append("table-active").Append(RowSelectedColor?.GetCssClass("bg-")).ToString();
-        await this.Refresh();
-    }
 
-    RenderFragment BuildRow(TItem item)
-        => builder => builder.Element("tr", RowSelectedClass)
-                            .Class("cursor-pointer", RowSelection)
-                            .Callback<MouseEventArgs>("onclick", this, e => SelectRow(item), RowSelection)
-                            .Content(RowTemplate, item)
-                            .Close();
+public class RowSelectedEventArgs<TItem> : EventArgs
+{
+    public TItem? Item { get; init; }
+    public int Index { get; init; }
 }

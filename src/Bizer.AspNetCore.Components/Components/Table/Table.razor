@@ -14,13 +14,15 @@
             @HeaderTemplate
         </thead>
         }
-        <tbody class="@BodyClass" style="height:@(Height);overflow-y:auto;display:block">
-            @foreach (var item in CollectionList)
+        <tbody class="@BodyClass">
+            @for (var i = 0; i < DataSource.Count(); i++)
             {
-                @*<Microsoft.AspNetCore.Components.Web.Virtualization.Virtualize Items="CollectionList">*@
-                    @BuildRow(item);
-            @*    </Microsoft.AspNetCore.Components.Web.Virtualization.Virtualize>*@
-                }
+                var key = i;
+                var item = DataSource.ElementAt(i);
+                <tr @key="key">
+                    @RowTemplate?.Invoke(item)
+                </tr>
+            }
         </tbody>
 
 
