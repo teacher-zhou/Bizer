@@ -39,6 +39,10 @@ public class MenuItem
     /// </summary>
     public bool Divider { get; set; }
     /// <summary>
+    /// 禁用状态。
+    /// </summary>
+    public bool Disabled { get; set; }
+    /// <summary>
     /// 子菜单集合。
     /// </summary>
     public IEnumerable<MenuItem> Items { get; set; } = Enumerable.Empty<MenuItem>();

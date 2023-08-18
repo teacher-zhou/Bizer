@@ -3,12 +3,12 @@
 @code {
     [Parameter][EditorRequired] public MenuItem Item { get; set; }
 }
+<li class="nav-item dropdown">
+    <a class="nav-link @(Item.Disabled?"disabled":"") dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <MenuTitle Item="Item"/>
+    </a>
+    <ul class="dropdown-menu">
 
-<BarDropdown>
-    <BarDropdownToggle>
-        <MenuTitle Item="Item" />
-    </BarDropdownToggle>
-    <BarDropdownMenu>
         @foreach (var subItem in Item.Items)
         {
             @if (subItem.Items.Any())
@@ -17,10 +17,17 @@
             }
             else
             {
-                <DropdownItem href="@subItem.Link">
-                    <MenuTitle Item="subItem" />
-                </DropdownItem>
+                <li>
+                    @if (subItem.Divider)
+                    {
+                        <hr class="dropdown-divider">
+                    }else{
+                    <a class="dropdown-item @(subItem.Disabled?"disabled":"")" href="@subItem.Link">
+                        <MenuTitle Item="subItem" />
+                    </a>
+                    }
+                </li>
             }
         }
-    </BarDropdownMenu>
-</BarDropdown>
+    </ul>
+</li>

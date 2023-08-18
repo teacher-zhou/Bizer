@@ -1,0 +1,25 @@
+﻿@namespace Bizer.AspNetCore.Components
+@inherits MenuComponentBase
+
+<nav @attributes="GetAttributes()">
+    <div class="container-fluid">
+        @if (BrandVisibile)
+        {
+            <a class="navbar-brand" href="@Options.AppBaseAddress">
+                @if (!string.IsNullOrEmpty(Options.AppLogoUrl))
+                {
+                    <img src="@Options.AppLogoUrl" alt="@Options.AppName" />
+                }
+                @Options.AppName
+            </a>
+        }
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#NavbarMenu" aria-controls="NavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="NavbarMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <Menu Items="NavbarMenus" />
+            </ul>
+        </div>
+    </div>
+</nav>

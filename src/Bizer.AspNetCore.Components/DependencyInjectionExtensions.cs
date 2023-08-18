@@ -1,6 +1,9 @@
 ﻿using Bizer;
 using Bizer.AspNetCore.Components;
 
+using ComponentBuilder.Interceptors;
+using ComponentBuilder.Resolvers;
+
 namespace Microsoft.Extensions.DependencyInjection;
 public static class DependencyInjectionExtensions
 {
@@ -13,10 +16,7 @@ public static class DependencyInjectionExtensions
         configure?.Invoke(options);
         builder.Services.AddSingleton(options);
 
-        builder.Services.AddBlazorise(config =>
-        {
-            config.AutoCloseParent = true;
-        }).AddBootstrap5Components().AddBootstrap5Providers().AddFontAwesomeIcons();
+        builder.Services.AddComponentBuilder(conf=>conf.AddDefaultConfigurations().AddFluentClassResolver().AddConsoleDiagnostic());
 
 
 

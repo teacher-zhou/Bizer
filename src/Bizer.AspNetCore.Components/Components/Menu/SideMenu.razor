@@ -1,40 +1,49 @@
 ﻿@namespace Bizer.AspNetCore.Components
 @inherits MenuComponentBase
-<Bar Breakpoint="Breakpoint.Desktop"
-     CollapseMode="BarCollapseMode.Small"
-     Background="Options.MenuBackground"
-     ThemeContrast="ThemeContrast"
-     NavigationBreakpoint="Breakpoint.Tablet"
-     Mode="BarMode.VerticalInline">
-    <Container Fluid>
-        @if (BrandVisibile)
+<ul class="@Class" style="height:100vh;overflow-y:hidden">
+    @foreach (var item in SideMenus)
+    {
+        if (item.Items.Any())
         {
-            <BarBrand>
-                <BarItem>
-                    @if (!string.IsNullOrEmpty(Options.AppLogoUrl))
-                    {
-                        <img src="@Options.AppLogoUrl" alt="@Options.AppName" />
-                    }
-                    @Options.AppName
-                </BarItem>
-            </BarBrand>
+            <Collapse>
+                <TriggerContent>
+                    <NavItem>
+                        <NavAnchor Link="javascript:;" AdditionalClass="text-reset">
+                            <MenuTitle Item="item" />
+                        </NavAnchor>
+                    </NavItem>
+                </TriggerContent>
+                <ChildContent>
+                    <ul class="nav flex-column ms-4">
+                        @foreach (var sub in item.Items)
+                        {
+                            <NavItem>
+                                <NavAnchor Link="@sub.Link" AdditionalClass="text-reset">
+                                    <MenuTitle Item="sub" />
+                                </NavAnchor>
+                            </NavItem>
+                        }
+                    </ul>
+                </ChildContent>
+            </Collapse>
         }
-        <BarMenu>
-            @if (InfoMenus.Any())
-            {
-                <BarStart>
-                    <Menu Items="InfoMenus" />
-            </BarStart>
-            }
-            @if (SideMenus.Any())
-            {
-                <BarEnd>
-                    <Menu Items="SideMenus" />
-            </BarEnd>
-            }
-        </BarMenu>
-    </Container>
-</Bar>
+        else
+        {
+            <NavItem>
+                <NavAnchor Link="@item.Link" AdditionalClass="text-reset">
+                    <MenuTitle Item="item" />
+                </NavAnchor>
+            </NavItem>
+        }
+
+    }
+</ul>
 
 @code {
+    string? Class => HtmlHelper.Instance.Class()
+                                .Append("nav")
+                                .Append("flex-column")
+                                .Append(Options.Theme.MenuColor.GetCssClass("bg-"))
+                                .Append("text-light", Options.Theme.MenuColor.IsDark())
+                                .ToString();
 }

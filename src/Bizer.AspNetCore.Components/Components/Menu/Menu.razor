@@ -7,14 +7,17 @@
     }
     else
     {
-        <BarItem>
-            <BarLink To="@item.Link">
+        <li class="nav-item">
+            <NavLink class="@(GetClass(item))" href="@item.Link">
                 <MenuTitle Item="item"/>
-            </BarLink>
-        </BarItem>
+            </NavLink>
+        </li>
     }
 }
 
 @code {
     [Parameter][EditorRequired] public IEnumerable<MenuItem> Items{ get; set; }
+
+
+    string? GetClass(MenuItem item) => HtmlHelper.Instance.Class().Append("nav-link").Append("disabled", item.Disabled).ToString();
 }

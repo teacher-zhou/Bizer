@@ -1,1 +1,6 @@
 ﻿@import './bootstrap.min.css';
+@import './bootstrap-icons.min.css';
+
+html,body{
+    overflow:hidden;
+}
