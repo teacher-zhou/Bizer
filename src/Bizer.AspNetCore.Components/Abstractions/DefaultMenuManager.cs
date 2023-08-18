@@ -3,6 +3,6 @@
 /// <summary>
 /// 默认的菜单管理器。
 /// </summary>
-internal class DefaultMenuManager:IMenuManager
+internal class DefaultMenuManager : MenuManagerBase
 {
 }

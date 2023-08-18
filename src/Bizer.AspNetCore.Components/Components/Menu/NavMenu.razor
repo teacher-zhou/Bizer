@@ -1,6 +1,6 @@
 ﻿@namespace Bizer.AspNetCore.Components
 @inherits MenuComponentBase
-<Bar Breakpoint="Breakpoint.Desktop" ThemeContrast="Theme" Background="Options.MenuBackground">
+<Bar Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast" Background="Options.MenuBackground" Mode="BarMode.Horizontal">
     <Container Fluid>
         @if (BrandVisibile)
         {
@@ -10,16 +10,22 @@
                     <img src="@Options.AppLogoUrl" alt="@Options.AppName" />
                 }
                 @Options.AppName
-        </BarBrand>
+            </BarBrand>
         }
         <BarToggler />
         <BarMenu>
-            <BarStart>
-                <Menu Items="MenuItems" />
-            </BarStart>
-            <BarEnd>
-                <Menu Items="InfoItems" />
-            </BarEnd>
+            @if (NavbarMenus.Any())
+            {
+                <BarStart>
+                    <Menu Items="NavbarMenus" />
+                </BarStart>
+            }
+            @if (InfoMenus.Any())
+            {
+                <BarEnd>
+                    <Menu Items="InfoMenus" />
+                </BarEnd>
+            }
         </BarMenu>
     </Container>
 </Bar>

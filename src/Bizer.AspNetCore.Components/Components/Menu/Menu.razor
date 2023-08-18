@@ -3,12 +3,14 @@
 {
     if (item.Items.Any())
     {
-        <MenuDropdownItem Items="item.Items" />
+        <MenuDropdownItem Item="item" />
     }
     else
     {
         <BarItem>
-            <MenuLinkItem Item="item" />
+            <BarLink To="@item.Link">
+                <MenuTitle Item="item"/>
+            </BarLink>
         </BarItem>
     }
 }

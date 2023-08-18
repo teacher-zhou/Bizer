@@ -3,7 +3,7 @@
 <Bar Breakpoint="Breakpoint.Desktop"
      CollapseMode="BarCollapseMode.Small"
      Background="Options.MenuBackground"
-     ThemeContrast="Theme"
+     ThemeContrast="ThemeContrast"
      NavigationBreakpoint="Breakpoint.Tablet"
      Mode="BarMode.VerticalInline">
     <Container Fluid>
@@ -20,12 +20,18 @@
             </BarBrand>
         }
         <BarMenu>
-            <BarStart>
-                <Menu Items="InfoItems" />
+            @if (InfoMenus.Any())
+            {
+                <BarStart>
+                    <Menu Items="InfoMenus" />
             </BarStart>
-            <BarEnd>
-                <Menu Items="MenuItems" />
+            }
+            @if (SideMenus.Any())
+            {
+                <BarEnd>
+                    <Menu Items="SideMenus" />
             </BarEnd>
+            }
         </BarMenu>
     </Container>
 </Bar>

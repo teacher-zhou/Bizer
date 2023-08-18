@@ -1,0 +1,9 @@
+﻿@namespace Bizer.AspNetCore.Components
+@if (Item.Icon is not null)
+{
+    <BarIcon IconName="@Item.Icon" />
+}
+@Item.Title
+@code{
+    [Parameter][EditorRequired]public MenuItem Item{ get; set; }
+}

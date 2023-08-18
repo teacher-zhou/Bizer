@@ -1,5 +1,6 @@
 ﻿using Bizer.AspNetCore.Components.Abstractions;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Bizer.AspNetCore.Components;
@@ -15,7 +16,7 @@ public class BizerComponentBuilder
 
     public BizerComponentBuilder AddMenuManager<TMenuManager>() where TMenuManager : class, IMenuManager
     {
-        Builder.Services.TryAddSingleton<IMenuManager, TMenuManager>();
+        Builder.Services.AddSingleton<IMenuManager, TMenuManager>();
         return this;
     }
 

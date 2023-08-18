@@ -1,29 +1,26 @@
 ﻿@namespace Bizer.AspNetCore.Components
 
 @code {
-    [Parameter][EditorRequired] public IEnumerable<MenuItem> Items { get; set; }
+    [Parameter][EditorRequired] public MenuItem Item { get; set; }
 }
 
-@foreach (var item in Items)
-{
-    <BarDropdown>
-        <BarDropdownToggle>
-            <MenuLinkItem Item="item" />
-        </BarDropdownToggle>
-        <BarDropdownMenu>
-            @foreach (var subItem in item.Items)
+<BarDropdown>
+    <BarDropdownToggle>
+        <MenuTitle Item="Item" />
+    </BarDropdownToggle>
+    <BarDropdownMenu>
+        @foreach (var subItem in Item.Items)
+        {
+            @if (subItem.Items.Any())
             {
-                @if (subItem.Items.Any())
-                {
-                    <MenuDropdownItem Items="subItem.Items" />
-                }
-                else
-                {
-                    <DropdownItem>
-                        <MenuLinkItem Item="@subItem" />
-                    </DropdownItem>
-                }
+                <MenuDropdownItem Item="subItem" />
             }
-        </BarDropdownMenu>
-    </BarDropdown>
-}
+            else
+            {
+                <DropdownItem href="@subItem.Link">
+                    <MenuTitle Item="subItem" />
+                </DropdownItem>
+            }
+        }
+    </BarDropdownMenu>
+</BarDropdown>

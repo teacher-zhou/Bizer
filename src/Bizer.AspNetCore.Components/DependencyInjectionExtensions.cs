@@ -13,7 +13,10 @@ public static class DependencyInjectionExtensions
         configure?.Invoke(options);
         builder.Services.AddSingleton(options);
 
-        builder.Services.AddBlazorise().AddBootstrap5Components().AddBootstrap5Providers().AddFontAwesomeIcons();
+        builder.Services.AddBlazorise(config =>
+        {
+            config.AutoCloseParent = true;
+        }).AddBootstrap5Components().AddBootstrap5Providers().AddFontAwesomeIcons();
 
 
 
