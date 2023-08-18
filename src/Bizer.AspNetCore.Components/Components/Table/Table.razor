@@ -1,0 +1,34 @@
+﻿@namespace Bizer.AspNetCore.Components
+@inherits BizerComponentBase
+@typeparam TItem
+
+<div class="table-responsive">
+<table @attributes="@GetAttributes()">
+    @if (!string.IsNullOrEmpty(Caption))
+    {
+        <caption>@Caption</caption>
+    }
+    @if (HeaderTemplate is not null)
+    {
+        <thead class="@HeaderClass">
+            @HeaderTemplate
+        </thead>
+        }
+        <tbody class="@BodyClass" style="height:@(Height);overflow-y:auto;display:block">
+            @foreach (var item in CollectionList)
+            {
+                @*<Microsoft.AspNetCore.Components.Web.Virtualization.Virtualize Items="CollectionList">*@
+                    @BuildRow(item);
+            @*    </Microsoft.AspNetCore.Components.Web.Virtualization.Virtualize>*@
+                }
+        </tbody>
+
+
+    @if(FooterTemplate is not null)
+    {
+        <tfoot class="@FooterClass">
+            @FooterTemplate
+        </tfoot>
+    }
+    </table>
+</div>

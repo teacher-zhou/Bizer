@@ -4,7 +4,6 @@ namespace Bizer.AspNetCore.Components;
 
 public abstract class MenuComponentBase : BizerComponentBase
 {
-    [Inject]protected BizerComponentOptions Options { get; set; }
     [Inject] IMenuManager MenuManager { get; set; }
 
     /// <summary>

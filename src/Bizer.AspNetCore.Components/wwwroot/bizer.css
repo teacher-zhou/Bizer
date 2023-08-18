@@ -4,3 +4,7 @@
 html,body{
     overflow:hidden;
 }
+
+.cursor-pointer{
+    cursor:pointer;
+}

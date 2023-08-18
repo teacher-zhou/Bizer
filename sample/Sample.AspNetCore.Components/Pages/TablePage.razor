@@ -1,0 +1,37 @@
+﻿@page "/table"
+
+<Table DataSource="Users" StripedRow Bordered="true">
+    <HeaderTemplate>
+        <tr>
+            <th>Id</th>
+            <th>名字</th>
+        </tr>
+    </HeaderTemplate>
+    <RowTemplate>
+        <td>
+            @context.Id
+        </td>
+        <td>
+            @context.Name
+            </td>
+    </RowTemplate>
+</Table>
+
+@code{
+    class User
+    {
+        public Guid Id => Guid.NewGuid();
+        public string Name{ get; set; }
+    }
+
+
+    List<User> Users = new();
+
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            Users.Add(new() { Name = "test-" + i });
+        }
+    }
+}

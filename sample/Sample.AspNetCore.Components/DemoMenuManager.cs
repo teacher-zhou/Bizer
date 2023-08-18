@@ -11,11 +11,11 @@ namespace Sample.AspNetCore.Components
             var list = new List<MenuItem>()
             {
                 new("Home","/"),
-                new("Test")
+                new("组件")
                 {
                     Items= new MenuItem[]
                     {
-                        new("Sub")
+                        new("Table","table")
                     }
                 }
             };
