@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.Localization.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.AspNetCore.Components", "src\Bizer.AspNetCore.Components\Bizer.AspNetCore.Components.csproj", "{7070AD55-9F16-47E2-815D-4EB227BD6CBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.AspNetCore.Components", "sample\Sample.AspNetCore.Components\Sample.AspNetCore.Components.csproj", "{E0F783D5-90E9-4334-960A-0415CAE25B29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.AspNetCore.Components", "sample\Sample.AspNetCore.Components\Sample.AspNetCore.Components.csproj", "{E0F783D5-90E9-4334-960A-0415CAE25B29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

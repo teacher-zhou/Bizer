@@ -1,7 +1,7 @@
 ﻿@namespace Bizer.AspNetCore.Components
 
 @code {
-    [Parameter] public IEnumerable<MenuItem> Items { get; set; }
+    [Parameter][EditorRequired] public IEnumerable<MenuItem> Items { get; set; }
 }
 
 @foreach (var item in Items)

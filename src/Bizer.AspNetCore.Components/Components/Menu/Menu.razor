@@ -1,31 +1,18 @@
 ﻿@namespace Bizer.AspNetCore.Components
-<Bar Breakpoint="Breakpoint.Desktop" ThemeContrast="Theme" Background="Background.Primary">
-    <BarBrand>
-        
-        <Link href="@Options.AppBaseAddress" TextColor="TextColor.Light">
-            @if (!string.IsNullOrEmpty(Options.AppLogoUrl))
-            {
-                <img src="@Options.AppLogoUrl" alt="@Options.AppName" />
-            }
-            @Options.AppName
-        </Link>
-    </BarBrand>
-    <BarToggler />
-    <BarMenu>
-        <BarStart>
-            @foreach (var item in MenuItems)
-            {
-                if (item.Items.Any())
-                {
-                    <MenuDropdownItem Items="item.Items" />
-                }
-                else
-                {
-                    <BarItem>
-                        <MenuLinkItem Item="item" />
-                    </BarItem>
-                }
-            }
-        </BarStart>
-    </BarMenu>
-</Bar>
+@foreach (var item in Items)
+{
+    if (item.Items.Any())
+    {
+        <MenuDropdownItem Items="item.Items" />
+    }
+    else
+    {
+        <BarItem>
+            <MenuLinkItem Item="item" />
+        </BarItem>
+    }
+}
+
+@code {
+    [Parameter][EditorRequired] public IEnumerable<MenuItem> Items{ get; set; }
+}

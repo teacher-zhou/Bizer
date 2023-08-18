@@ -1,19 +1,20 @@
-﻿
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 <Layout>
     <LayoutHeader>
-         <Menu />
+        <NavMenu  BrandVisibile/>
     </LayoutHeader>
     <Layout Sider>
         <LayoutSider>
             <LayoutSiderContent>
-                Sider
+                <SideMenu />
             </LayoutSiderContent>
         </LayoutSider>
         <Layout>
             <LayoutContent>
-                @Body
+                <Container Fluid>
+                    @Body
+                </Container>
             </LayoutContent>
         </Layout>
     </Layout>

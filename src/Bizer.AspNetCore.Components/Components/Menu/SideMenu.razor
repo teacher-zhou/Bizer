@@ -1,0 +1,34 @@
+﻿@namespace Bizer.AspNetCore.Components
+@inherits MenuComponentBase
+<Bar Breakpoint="Breakpoint.Desktop"
+     CollapseMode="BarCollapseMode.Small"
+     Background="Options.MenuBackground"
+     ThemeContrast="Theme"
+     NavigationBreakpoint="Breakpoint.Tablet"
+     Mode="BarMode.VerticalInline">
+    <Container Fluid>
+        @if (BrandVisibile)
+        {
+            <BarBrand>
+                <BarItem>
+                    @if (!string.IsNullOrEmpty(Options.AppLogoUrl))
+                    {
+                        <img src="@Options.AppLogoUrl" alt="@Options.AppName" />
+                    }
+                    @Options.AppName
+                </BarItem>
+            </BarBrand>
+        }
+        <BarMenu>
+            <BarStart>
+                <Menu Items="InfoItems" />
+            </BarStart>
+            <BarEnd>
+                <Menu Items="MenuItems" />
+            </BarEnd>
+        </BarMenu>
+    </Container>
+</Bar>
+
+@code {
+}

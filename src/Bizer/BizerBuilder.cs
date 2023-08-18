@@ -16,6 +16,11 @@ public class BizerBuilder
     internal BizerBuilder(IServiceCollection services) => Services = services;
 
     /// <summary>
+    /// 初始化 <see cref="BizerBuilder"/> 类的新实例。
+    /// </summary>
+    protected BizerBuilder() { }
+
+    /// <summary>
     /// 获取服务集合。
     /// </summary>
     public IServiceCollection Services { get; }

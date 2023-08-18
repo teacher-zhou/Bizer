@@ -21,10 +21,9 @@ public class BizerComponentOptions
     /// </summary>
     public string? AppBaseAddress { get; set; } = "/";
 
-    /// <summary>
-    /// 深色主题。
-    /// </summary>
-    public bool Dark { get; set; }
+    public Background MenuBackground { get; set; } = Background.Dark;
+
+    public Theme ThemeConfiguration { get; set; } = new();
 
     public BlazorConfiguration Blazor { get; set; } = new();
 

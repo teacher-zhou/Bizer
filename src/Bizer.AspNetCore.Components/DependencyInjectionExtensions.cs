@@ -7,7 +7,7 @@ public static class DependencyInjectionExtensions
     /// <summary>
     /// 添加组件的相关服务和配置。
     /// </summary>
-    public static BizerBuilder AddComponents(this BizerBuilder builder, Action<BizerComponentOptions>? configure = default)
+    public static BizerComponentBuilder AddComponents(this BizerBuilder builder, Action<BizerComponentOptions>? configure = default)
     {
         var options = new BizerComponentOptions();
         configure?.Invoke(options);
@@ -15,6 +15,12 @@ public static class DependencyInjectionExtensions
 
         builder.Services.AddBlazorise().AddBootstrap5Components().AddBootstrap5Providers().AddFontAwesomeIcons();
 
-        return builder;
+
+
+        var componentBuilder = new BizerComponentBuilder(builder);
+
+        componentBuilder.AddDefaultMenuManager();
+
+        return componentBuilder;
     }
 }
