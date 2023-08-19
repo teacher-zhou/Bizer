@@ -1,0 +1,28 @@
+﻿@namespace Bizer.AspNetCore.Components
+@inherits BizerChildConentComponentBase
+
+<div @attributes="@GetAttributes()" tabindex="-1" aria-hidden="true">
+    <div class="@GetDialogClass()">
+        <div class="modal-content">
+            @if (HeaderTemplate is not null)
+            {
+                <div class="modal-header">
+                    <div class="modal-title">@HeaderTemplate</div>
+                    @if (Closable)
+                    {
+                        <Button class="btn-close" BsDismiss="Components.Dismiss.Modal"/>
+                    }
+                </div>
+            }
+            <div class="modal-body">
+                @ChildContent
+            </div>
+            @if (FooterTemplate is not null)
+            {
+                <div class="modal-footer">
+                    @FooterTemplate
+                </div>
+            }
+        </div>
+    </div>
+</div>

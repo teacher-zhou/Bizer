@@ -1,0 +1,17 @@
+﻿@page "/modal"
+
+<Button Color="Color.Primary" BsToggle="Toggle.Modal" BsTarget="#modal">对话框</Button>
+
+
+<Modal id="modal" Closable Static>
+    <HeaderTemplate>
+        <h2>标题</h2>
+    </HeaderTemplate>
+    <ChildContent>
+        这里什么都有
+    </ChildContent>
+    <FooterTemplate>
+        <Button Color="Color.Primary">保存</Button>
+        <Button Color="Color.Info" BsDismiss="Dismiss.Modal">关闭</Button>
+    </FooterTemplate>
+</Modal>

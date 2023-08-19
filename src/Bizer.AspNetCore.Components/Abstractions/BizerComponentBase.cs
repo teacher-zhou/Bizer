@@ -1,7 +1,6 @@
-﻿using ComponentBuilder.Definitions;
+﻿using Microsoft.JSInterop;
 using ComponentBuilder.JSInterop;
-
-using Microsoft.JSInterop;
+using ComponentBuilder.Definitions;
 
 namespace Bizer.AspNetCore.Components;
 
@@ -16,10 +15,36 @@ public abstract class BizerComponentBase : BlazorComponentBase, IHasAdditionalSt
     [Parameter] public string? AdditionalStyle { get; set; }
     /// <inheritdoc/>
     [Parameter] public string? AdditionalClass { get; set; }
+    /// <summary>
+    /// BS 脚本触发的目标。
+    /// </summary>
+    [Parameter][HtmlData("bs-target")] public string? BsTarget { get; set; }
+    /// <summary>
+    /// BS 触发的脚本值。
+    /// </summary>
+    [Parameter][HtmlData("bs-toggle")] public Toggle? BsToggle { get; set; }
+    /// <summary>
+    /// 释放模式。
+    /// </summary>
+    [Parameter][HtmlData("bs-dismiss")]public Dismiss? BsDismiss { get; set; }
+    /// <summary>
+    /// aria-labelledby
+    /// </summary>
+    [Parameter][HtmlAria("labelledby")] public string? AriaLabelledBy { get; set; }
+    /// <summary>
+    /// aria-label
+    /// </summary>
+    [Parameter][HtmlAria("label")] public string? AriaLabel { get; set; }
+    /// <summary>
+    /// aria-hidden
+    /// </summary>
+    [Parameter][HtmlAria("hidden")]public bool AriaHidde { get; set; }
 
     protected bool EnableImportJS { get; set; }
 
     protected IJSModule? BizerJsModule { get; private set; }
+
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

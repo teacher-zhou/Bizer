@@ -16,7 +16,8 @@ namespace Sample.AspNetCore.Components
                     Items= new MenuItem[]
                     {
                         new("Table","table"),
-                        new("DataGrid","datagrid")
+                        new("DataGrid","datagrid"),
+                        new("Modal","modal")
                     }
                 }
             };
