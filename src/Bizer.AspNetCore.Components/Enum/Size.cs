@@ -9,3 +9,12 @@ public enum ButtonSize
     [CssClass("sm")] Small,
     [CssClass("lg")] Large
 }
+
+/// <summary>
+/// 通用尺寸。
+/// </summary>
+public enum Size
+{
+    [CssClass("sm")] Small,
+    [CssClass("lg")] Large
+}

@@ -1,0 +1,55 @@
+﻿@namespace Bizer.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@inherits BizerComponentBase
+@typeparam TItem
+
+
+<CascadingValue Value="this" Name="DataGrid">
+    @Columns
+
+    <div class="table-responsive">
+        <table @attributes="@GetAttributes()">
+            <thead>
+                <tr>
+                    @foreach (var column in GetColumns())
+                    {
+                        <th @attributes="@column.GetAttributes()">@column.GetHeaderContent()</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (Loading)
+                {
+                    <tr>
+                        <td colspan="@(GetColumns().Count())" class="text-center text-muted">
+                            <small> <Spinner Size="Size.Small"/> 数据加载中...</small>
+                        </td>
+                    </tr>
+                }
+                @for (int i = 0; i < DataSource.Count(); i++)
+                {
+                    var index = i;
+                    var item = DataSource.ElementAt(i);
+
+                    <tr @key="i">
+                        @foreach (var column in GetColumns())
+                        {
+                            <td @attributes="@column.GetAttributes()">@column.GetCellContent(index,item)</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+    <div class="mt-3 row">
+        <nav aria-label="Pagination" class="col-8">
+            @BuildPagination()
+        </nav>
+        <div class="col-4 align-items-center">
+            共 @Total 条 | 当前 @PageIndex / 每页 @PageSize 条
+        </div>
+    </div>
+</CascadingValue>
+

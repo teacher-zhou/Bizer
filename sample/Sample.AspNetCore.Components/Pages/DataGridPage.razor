@@ -1,0 +1,40 @@
+﻿@page "/datagrid"
+@using Bizer.Services
+<DataGrid TItem="User" DataSourceHandler="HandleDataSource">
+    <Columns>
+    <DataGridPropertyColumn Property="f=>f.Id"/>
+        <DataGridPropertyColumn Property="f=>f.Name"/>
+            <DataGridTemplateColumn Header="编辑" Width="60px">
+                <a>
+                <Icon Name="@("pencil")"/>
+                @context.Id
+            </a>
+            </DataGridTemplateColumn>
+        </Columns>
+</DataGrid>
+
+@code{
+    class User
+    {
+        public Guid Id { get; set; }
+        public string Name{ get; set; }
+    }
+
+
+    List<User> Users = new();
+
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            Users.Add(new() { Id=Guid.NewGuid(), Name = "test-" + i });
+        }
+    }
+
+    async Task<PagedOutput<User>> HandleDataSource(PagedInput input)
+    {
+        await Task.Delay(2000); 
+        var users= Users.Skip((input.Page-1) * input.Size).Take(input.Size).ToList();
+        return new PagedOutput<User>(users, Users.Count);
+    }
+}
