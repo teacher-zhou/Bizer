@@ -4,9 +4,9 @@
     [Parameter][EditorRequired] public MenuItem Item { get; set; }
 }
 <li class="nav-item dropdown">
-    <a class="nav-link @(Item.Disabled?"disabled":"") dropdown-toggle" href="javascript:;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <NavLink class="@($"nav-link {(Item.Disabled?"disabled":"")} dropdown-toggle")" href="javascript:;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <MenuTitle Item="Item" />
-    </a>
+    </NavLink>
     <ul class="dropdown-menu">
 
         @foreach (var subItem in Item.Items)
@@ -24,9 +24,9 @@
                     }
                     else
                     {
-                        <a class="dropdown-item @(subItem.Disabled?"disabled":"")" href="@subItem.Link">
+                        <NavLink Match="NavLinkMatch.All" class="@($"dropdown-item {(subItem.Disabled?"disabled":"")}")" href="@subItem.Link">
                             <MenuTitle Item="subItem" />
-                        </a>
+                        </NavLink>
                     }
                 </li>
             }

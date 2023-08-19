@@ -10,7 +10,6 @@ namespace Sample.AspNetCore.Components
         {
             var list = new List<MenuItem>()
             {
-                new("Home","/"),
                 new("组件")
                 {
                     Items= new MenuItem[]
@@ -30,7 +29,7 @@ namespace Sample.AspNetCore.Components
 
             var list = new List<MenuItem>()
             {
-                new("面板","/dashborad"),
+                new("Home","/"),
                 new("用户管理")
                 {
                     Items= new MenuItem[]

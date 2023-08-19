@@ -8,3 +8,6 @@ html,body{
 .cursor-pointer{
     cursor:pointer;
 }
+#sidemenu>li .nav-link.active{
+    border-radius:unset;
+}

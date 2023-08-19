@@ -1,25 +1,25 @@
 ﻿@namespace Bizer.AspNetCore.Components
 @inherits MenuComponentBase
-<ul class="@Class" style="height:100vh;overflow-y:hidden">
+<ul class="@Class" style="height:100vh;overflow-y:hidden" id="sidemenu">
     @foreach (var item in SideMenus)
     {
         if (item.Items.Any())
         {
             <NavItem>
-                <NavAnchor Link="javascript:;" AdditionalClass="text-reset" @onclick="@(e=>RefCollapse.Toggle())">
+                <NavLink class="nav-link text-reset" href="javascript:;" @onclick="@(e=>RefCollapse.Toggle())">
                     <MenuTitle Item="item" />
                     &nbsp;
                         <Icon Name="@(RefCollapse.Expaned?"chevron-down":"chevron-up")" />
-                </NavAnchor>
+                </NavLink>
             </NavItem>
             <Collapse @ref="RefCollapse">
                 <ul class="nav flex-column ms-4">
                     @foreach (var sub in item.Items)
                     {
                         <NavItem>
-                            <NavAnchor Link="@sub.Link" AdditionalClass="text-reset">
+                            <NavLink class="nav-link text-reset" href="@sub.Link">
                                 <MenuTitle Item="sub" />
-                            </NavAnchor>
+                            </NavLink>
                         </NavItem>
                     }
                 </ul>
@@ -28,9 +28,9 @@
         else
         {
             <NavItem>
-                <NavAnchor Link="@item.Link" AdditionalClass="text-reset">
+                <NavLink Match="NavLinkMatch.All" class="nav-link text-reset" href="@item.Link">
                     <MenuTitle Item="item" />
-                </NavAnchor>
+                </NavLink>
             </NavItem>
         }
 
@@ -40,7 +40,7 @@
 @code {
     Collapse? RefCollapse;
     string? Class => HtmlHelper.Instance.Class()
-                                .Append("nav")
+                                .Append("nav nav-pills")
                                 .Append("flex-column")
                                 .Append(Options.Theme.MenuColor.GetCssClass("bg-"))
                                 .Append("text-light", Options.Theme.MenuColor.IsDark())
