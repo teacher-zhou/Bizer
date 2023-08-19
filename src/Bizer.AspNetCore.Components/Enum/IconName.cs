@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bizer.AspNetCore.Components;
+﻿namespace Bizer.AspNetCore.Components;
 
 internal enum IconName
 {

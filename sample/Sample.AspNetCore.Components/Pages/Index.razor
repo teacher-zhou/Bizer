@@ -2,4 +2,13 @@
 
 <h1>Hello, world!</h1>
 
-<Button Color="Color.Primary">按钮</Button>
+<Button Color="Color.Primary" @onclick="@(e=>_RefCollapse.Toggle())">按钮</Button>
+
+@_RefCollapse?.Expaned
+<Collapse @ref="_RefCollapse">
+    qowdiqowidhoweihfwefo
+</Collapse>
+
+@code{
+    Collapse? _RefCollapse;
+}
