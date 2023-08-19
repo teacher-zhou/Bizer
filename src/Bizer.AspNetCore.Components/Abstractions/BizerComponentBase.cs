@@ -7,10 +7,14 @@ namespace Bizer.AspNetCore.Components;
 /// <summary>
 /// 表示组件库的基类。
 /// </summary>
+[ChildComponent(typeof(DropDown),Optional =true)]
 public abstract class BizerComponentBase : BlazorComponentBase, IHasAdditionalStyle, IHasAdditionalClass
 {
     [Inject] protected BizerComponentOptions Options { get; set; }
     [Inject] protected IJSRuntime JS { get; set; }
+
+    [CascadingParameter]public DropDown? CascadingDropDown { get; set; }
+
     /// <inheritdoc/>
     [Parameter] public string? AdditionalStyle { get; set; }
     /// <inheritdoc/>
@@ -44,7 +48,26 @@ public abstract class BizerComponentBase : BlazorComponentBase, IHasAdditionalSt
 
     protected IJSModule? BizerJsModule { get; private set; }
 
-    
+    /// <summary>
+    /// 阻止下拉框的 class 生成。
+    /// </summary>
+    protected bool PreventDropDownToggleClass { get;set; }
+
+    /// <summary>
+    /// 重写支持 <see cref="DropDown"/> 组件。
+    /// </summary>
+    protected virtual bool CanDropDown => !PreventDropDownToggleClass && CascadingDropDown is not null;
+
+    protected override void AfterSetParameters(ParameterView parameters)
+    {
+        base.AfterSetParameters(parameters);
+
+        if(CanDropDown)
+        {
+            BsToggle = Toggle.Dropdown;
+        }
+    }
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -57,27 +80,12 @@ public abstract class BizerComponentBase : BlazorComponentBase, IHasAdditionalSt
         }
     }
 
-
-    protected ValueTask InvokeVoidAsync(string identifier, params object?[] args)
+    protected override void BuildCssClass(ICssClassBuilder builder)
     {
-        Checker.NotNullOrWhiteSpace(identifier, nameof(identifier));
-
-        if (BizerJsModule is null)
+        if(CanDropDown)
         {
-            throw new InvalidOperationException($"请先设置 {nameof(EnableImportJS)} 为 true");
+            builder.Append("dropdown-toggle");
         }
-        return BizerJsModule.Module.InvokeVoidAsync(identifier, args);
-    }
-
-    protected ValueTask<TValue> InvokeAsync<TValue>(string identifier, params object?[] args)
-    {
-        Checker.NotNullOrWhiteSpace(identifier, nameof(identifier));
-
-        if (BizerJsModule is null)
-        {
-            throw new InvalidOperationException($"请先设置 {nameof(EnableImportJS)} 为 true");
-        }
-        return BizerJsModule.Module.InvokeAsync<TValue>(identifier, args);
     }
 }
 

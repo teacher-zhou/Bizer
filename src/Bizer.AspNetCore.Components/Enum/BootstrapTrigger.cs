@@ -9,4 +9,5 @@ public enum Toggle
     Modal,
     Tooltip,
     Popover,
+    Dropdown
 }

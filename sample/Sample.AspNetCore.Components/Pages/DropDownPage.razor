@@ -1,0 +1,56 @@
+﻿@page "/dropdown"
+
+<DropDown>
+	<ToggleContent>
+		<Button>下拉</Button>
+	</ToggleContent>
+	<MenuContent>
+		<DropDownItem>
+			菜单1
+		</DropDownItem>
+		<DropDownDivider/>
+		<DropDownItem>
+			hello
+		</DropDownItem>
+	</MenuContent>
+</DropDown>
+
+
+
+<ButtonGroup>
+    <DropDown>
+        <ToggleContent>
+            <Button Color="Color.Primary">操作</Button>
+            <Button Color="Color.Primary" DropDownInButtonGroup DropDownSplit />
+         </ToggleContent>
+         <MenuContent>
+             <DropDownItem>
+                 菜单1
+             </DropDownItem>
+             <DropDownDivider />
+             <DropDownItem>
+                 hello
+             </DropDownItem>
+         </MenuContent>
+     </DropDown>
+ </ButtonGroup>
+
+
+
+ <ButtonGroup>
+     <DropDown>
+         <ToggleContent>
+             <Button Color="Color.Primary">操作</Button>
+             <Button Color="Color.Primary" DropDownInButtonGroup >下拉</Button>
+         </ToggleContent>
+         <MenuContent>
+             <DropDownItem>
+                 菜单1
+             </DropDownItem>
+             <DropDownDivider />
+             <DropDownItem>
+                 hello
+             </DropDownItem>
+         </MenuContent>
+     </DropDown>
+ </ButtonGroup>
