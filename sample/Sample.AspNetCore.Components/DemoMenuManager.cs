@@ -32,6 +32,7 @@ namespace Sample.AspNetCore.Components
             var list = new List<MenuItem>()
             {
                 new("Home","/"),
+                new("Badge","/badge"),
                 new("用户管理")
                 {
                     Items= new MenuItem[]
