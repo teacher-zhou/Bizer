@@ -1,4 +1,4 @@
-<ThemeProvider Theme="ComponentOptions.ThemeConfiguration">
+
     <Router AppAssembly="@ComponentOptions.Blazor.AppType.Assembly" AdditionalAssemblies="GetBlazorAssemblies()">
         <Found Context="routeData">
             @GetFoundView(routeData)
@@ -7,5 +7,5 @@
             @GetNotFoundView()
         </NotFound>
     </Router>
-</ThemeProvider>
-<ComponentProviders />
+
+    <BizerComponentContainer/>

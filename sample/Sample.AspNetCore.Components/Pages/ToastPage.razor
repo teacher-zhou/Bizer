@@ -1,0 +1,34 @@
+﻿@page "/toast"
+
+
+@inject IToastService ToastService
+
+<Button Color="Color.Primary" @onclick="@(e=>ToastService.ShowInfo("Info"))">
+    Info
+</Button>
+
+<Button Color="Color.Warning" @onclick="@(e=>ToastService.ShowWarning("Warning"))">
+    Warning
+</Button>
+
+<Button Color="Color.Success" @onclick="@(e=>ToastService.ShowSuccess("Success"))">
+    Success
+</Button>
+
+<Button Color="Color.Danger" @onclick="@(e=>ToastService.ShowDanger("Danger"))">
+    Danger
+</Button>
+
+
+<Button Color="Color.Dark" @onclick="@(e=>ToastService.Show(new(){
+ BodyTemplate=Control,
+ HeaderTemplate=GetToastHeader()
+}))">
+    <Icon Name="@("home")"/> Custom
+</Button>
+
+@code{
+    RenderFragment? GetToastHeader() =>@<Icon Name="@("info-circle")"/>;
+
+    RenderFragment? Control =>@<Button Color="Color.Primary">确认</Button>;
+}

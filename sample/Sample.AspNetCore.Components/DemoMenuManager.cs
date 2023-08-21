@@ -17,7 +17,8 @@ namespace Sample.AspNetCore.Components
                         new("Table","table"),
                         new("DataGrid","datagrid"),
                         new("Modal","modal"),
-                        new("DropDown","dropdown")
+                        new("DropDown","dropdown"),
+                        new("Toast","toast")
                     }
                 }
             };

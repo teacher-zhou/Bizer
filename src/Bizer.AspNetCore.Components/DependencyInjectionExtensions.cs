@@ -18,11 +18,13 @@ public static class DependencyInjectionExtensions
 
         builder.Services.AddComponentBuilder(conf=>conf.AddDefaultConfigurations().AddFluentClassResolver().AddConsoleDiagnostic());
 
-
+        builder.Services.AddScoped<IToastService, ToastService>();
 
         var componentBuilder = new BizerComponentBuilder(builder);
 
         componentBuilder.AddDefaultMenuManager();
+
+
 
         return componentBuilder;
     }
