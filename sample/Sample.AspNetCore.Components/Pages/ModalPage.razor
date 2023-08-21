@@ -15,3 +15,7 @@
         <Button Color="Color.Info" BsDismiss="Dismiss.Modal">关闭</Button>
     </FooterTemplate>
 </Modal>
+
+@inject IDialogService Dialog
+
+<Button @onclick="@(e=>Dialog.OpenMessage("显示点什么"))">随便点</Button>
