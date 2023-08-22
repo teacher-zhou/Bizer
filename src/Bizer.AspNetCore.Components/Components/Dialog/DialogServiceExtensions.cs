@@ -1,7 +1,5 @@
 ﻿using Bizer.AspNetCore.Components.Templates;
 
-using Microsoft.Extensions.Configuration;
-
 namespace Bizer.AspNetCore.Components;
 
 /// <summary>

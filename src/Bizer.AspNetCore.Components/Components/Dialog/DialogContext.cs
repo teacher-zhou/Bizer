@@ -8,7 +8,7 @@ public class DialogContext : ComponentBase
     /// <summary>
     /// 对话框所需要的参数。
     /// </summary>
-    [Parameter] public DialogParameters Parameters { get; set; }
+    [CascadingParameter]public DialogParameters Parameters { get; set; }
 
     /// <summary>
     /// 对话框的内容。
@@ -39,11 +39,5 @@ public class DialogContext : ComponentBase
 
             content.AddContent(1, ChildContent);
         });
-    }
-
-
-    internal void Register(Dialog dialog)
-    {
-        Modal.SetDialog(dialog);
     }
 }

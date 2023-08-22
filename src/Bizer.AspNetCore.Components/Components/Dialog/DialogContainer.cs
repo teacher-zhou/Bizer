@@ -33,18 +33,17 @@ public class DialogContainer:ComponentBase,IDisposable
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        //if (!Open || Parameters is null)
-        //{
-        //    return;
-        //}
-
         foreach (var item in DialogCollection)
         {
             builder.CreateCascadingComponent(this, 0, content =>
             {
                 content.CreateCascadingComponent(item.Value.parameters, 0, inner =>
                 {
-                    inner.Component<DialogModal>().Attribute(m => m.Configuration, item.Value.configuration).Key(item.Key).Close();
+                    inner.Component<DialogModal>()
+                    .Attribute(m=>m.Id,item.Key)
+                    .Attribute(m => m.Configuration, item.Value.configuration)
+                    .Key(item.Key)
+                    .Close();
                 });
 
             });

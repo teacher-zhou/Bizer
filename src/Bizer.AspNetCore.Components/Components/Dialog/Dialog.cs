@@ -7,7 +7,7 @@ public class Dialog : ComponentBase
     /// <summary>
     /// 上下文。
     /// </summary>
-    [CascadingParameter]DialogContext Context { get; set; }
+    [CascadingParameter]DialogModal Modal { get; set; }
     /// <summary>
     /// 对话框消息的任意内容。
     /// </summary>
@@ -23,24 +23,14 @@ public class Dialog : ComponentBase
 
     [Parameter]public bool Closable { get; set; }
 
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        builder.Div("modal-header", HeaderContent is not null)
-            .Content(content =>
-            {
-                content.Element("h1", "modal-title").Class("fs-5").Content(HeaderContent).Close();
 
-                content.Component<Button>(Closable).Class("btn-close").Close();
-            })
-            .Close();
-
-        builder.Div("modal-body").Content(ChildContent).Close();
-
-        builder.Div("modal-footer").Content(FooterContent).Close();
-    }
-
+    bool _hasInitialized;
     protected override void OnInitialized()
     {
-        Context?.Register(this);
+        if (!_hasInitialized)
+        {
+            Modal?.SetDialog(this);
+            _hasInitialized = true;
+        }
     }
 }

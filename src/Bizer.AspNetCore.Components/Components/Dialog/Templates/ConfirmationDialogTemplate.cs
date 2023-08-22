@@ -8,15 +8,14 @@ public class ConfirmationDialogTemplate : DialogTemplateBase
     /// <inheritdoc/>
     protected override RenderFragment? BuildFooter()
         => builder => builder.Component<Button>()
-                                .Attribute(m => m.Color, Color.Light)
+                                .Attribute(m => m.Color, Color.Secondary)
                                 .Attribute(m => m.Outline, true)
-                                .Callback<MouseEventArgs>("onclick", this, e => Context.Cancel())
                                 .Content("取消")
-                            .Close()
+                                .Callback<MouseEventArgs>("onclick", this, e => Context.Cancel())
                             .Component<Button>()
                                 .Attribute(m => m.Color, Color.Primary)
-                                .Callback<MouseEventArgs>("onclick", this, e => Context.Confirm(true))
                                 .Content("确定")
+                                .Callback<MouseEventArgs>("onclick", this, e => Context.Confirm(true))
                             .Close()
 
         ;

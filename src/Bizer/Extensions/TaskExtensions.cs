@@ -44,4 +44,13 @@ public static class TaskExtensions
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public static Task ToCancellationTask(this CancellationToken cancellationToken) => Task.FromCanceled(cancellationToken);
+
+    public static Task NullableInvoke(this Func<Task>? nullableTaskHandler)
+    {
+        if(nullableTaskHandler is null)
+        {
+            return Task.CompletedTask;
+        }
+        return nullableTaskHandler.Invoke();
+    }
 }

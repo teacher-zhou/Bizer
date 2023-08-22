@@ -1,21 +1,25 @@
 ﻿@page "/modal"
 
-<Button Color="Color.Primary" BsToggle="Toggle.Modal" BsTarget="#modal">对话框</Button>
-
-
-<Modal id="modal" Closable Static>
-    <HeaderTemplate>
-        <h2>标题</h2>
-    </HeaderTemplate>
-    <ChildContent>
-        这里什么都有
-    </ChildContent>
-    <FooterTemplate>
-        <Button Color="Color.Primary">保存</Button>
-        <Button Color="Color.Info" BsDismiss="Dismiss.Modal">关闭</Button>
-    </FooterTemplate>
-</Modal>
-
 @inject IDialogService Dialog
 
 <Button @onclick="@(e=>Dialog.OpenMessage("显示点什么"))">随便点</Button>
+
+
+
+<Button Color="Color.Primary" @onclick="Confirm">
+    删除
+</Button>
+
+
+
+@code{
+    async Task Confirm(MouseEventArgs e)
+    {
+        var reference = await Dialog.OpenConfirm("确定删除吗？");
+        var result = await reference.Result;
+        if (result.Cancelled)
+        {
+            await Dialog.OpenMessage("取消");
+        }
+    }
+}

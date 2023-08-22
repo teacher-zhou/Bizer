@@ -10,8 +10,8 @@ public class MessageDialogTemplate : DialogTemplateBase
     protected override RenderFragment? BuildFooter()
         => builder => builder.Component<Button>()
                                 .Attribute(m => m.Color, Color.Primary)
-                                .Callback<MouseEventArgs>("onclick", this, e => Context.Confirm(true))
                                 .Content("确定")
+                                .Callback<MouseEventArgs>("onclick", this, e => Context.Confirm(true))
                             .Close()
 
         ;
