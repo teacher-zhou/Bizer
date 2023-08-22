@@ -1,4 +1,6 @@
-﻿namespace Bizer.AspNetCore.Components;
+﻿using Bizer.AspNetCore.Components.Abstractions;
+
+namespace Bizer.AspNetCore.Components;
 
 /// <summary>
 /// 提供具备动态对话框功能的服务。
@@ -9,12 +11,12 @@ public interface IDialogService
     /// 显示指定对话框。
     /// </summary>
     /// <typeparam name="TDialogTemplate">对话框模板类型。</typeparam>
-    Task<IDialogReference> Open<TDialogTemplate>(DialogConfiguration? configuration=default, DialogParameters? parameters = default) where TDialogTemplate : IComponent;
+    Task<IDialogReference> Open<TDialogTemplate>(DialogConfiguration? configuration=default, DynamicParameters? parameters = default) where TDialogTemplate : IComponent;
 
     /// <summary>
     /// 当对话框打开时触发的事件。
     /// </summary>
-    event Action<Guid, DialogConfiguration, DialogParameters> OnOpening;
+    event Action<Guid, DialogConfiguration, DynamicParameters> OnOpening;
 
     /// <summary>
     /// 关闭指定 id 的对话框。

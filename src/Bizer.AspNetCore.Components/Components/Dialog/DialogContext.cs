@@ -1,14 +1,16 @@
-﻿namespace Bizer.AspNetCore.Components;
+﻿using Bizer.AspNetCore.Components.Abstractions;
+
+namespace Bizer.AspNetCore.Components;
 /// <summary>
 /// 表示可以对话框上下文。
 /// </summary>
 public class DialogContext : ComponentBase
 {
-    [CascadingParameter] DialogModal Modal { get; set; }
+    [CascadingParameter] DialogRenderer Modal { get; set; }
     /// <summary>
     /// 对话框所需要的参数。
     /// </summary>
-    [CascadingParameter]public DialogParameters Parameters { get; set; }
+    [CascadingParameter]public DynamicParameters Parameters { get; set; }
 
     /// <summary>
     /// 对话框的内容。
@@ -32,7 +34,7 @@ public class DialogContext : ComponentBase
     {
         builder.CreateCascadingComponent(this, 0, content =>
         {
-            var template = Parameters.GetDialogTemplate();
+            var template = Parameters.GetDynamicTemplate();
 
             content.OpenComponent(0, template);
             content.CloseComponent();

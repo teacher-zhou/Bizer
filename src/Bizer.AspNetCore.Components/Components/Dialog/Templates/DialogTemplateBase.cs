@@ -1,4 +1,6 @@
-﻿namespace Bizer.AspNetCore.Components.Templates;
+﻿using Bizer.AspNetCore.Components.Abstractions;
+
+namespace Bizer.AspNetCore.Components.Templates;
 
 /// <summary>
 /// 表示对话框模板的基类。

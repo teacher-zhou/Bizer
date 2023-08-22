@@ -1,4 +1,5 @@
-﻿using Bizer.AspNetCore.Components.Templates;
+﻿using Bizer.AspNetCore.Components.Abstractions;
+using Bizer.AspNetCore.Components.Templates;
 
 namespace Bizer.AspNetCore.Components;
 
@@ -19,9 +20,9 @@ public static class DialogServiceExtensions
                                                                RenderFragment? content,
                                                                RenderFragment? title,
                                                                DialogConfiguration? configuration,
-                                                               DialogParameters? parameters = default) where TDialogTemplate : IComponent
+                                                               DynamicParameters? parameters = default) where TDialogTemplate : IComponent
     {
-        parameters ??= new DialogParameters();
+        parameters ??= new DynamicParameters();
 
         parameters.SetTitle(title);
         parameters.SetContent(content);
@@ -40,7 +41,7 @@ public static class DialogServiceExtensions
                                                                string? content,
                                                                string? title,
                                                                DialogConfiguration? configuration=default,
-                                                               DialogParameters? parameters = default) where TDialogTemplate : IComponent
+                                                               DynamicParameters? parameters = default) where TDialogTemplate : IComponent
         => service.Open<TDialogTemplate>(builder => builder.AddContent(0, content), builder => builder.AddContent(0, title), configuration, parameters);
     /// <summary>
     /// 打开显示消息的对话框。

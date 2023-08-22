@@ -53,4 +53,12 @@ public static class TaskExtensions
         }
         return nullableTaskHandler.Invoke();
     }
+    public static Task NullableInvoke<T>(this Func<T,Task>? nullableTaskHandler,T arg)
+    {
+        if (nullableTaskHandler is null)
+        {
+            return Task.CompletedTask;
+        }
+        return nullableTaskHandler.Invoke(arg);
+    }
 }

@@ -7,7 +7,7 @@ public class Dialog : ComponentBase
     /// <summary>
     /// 上下文。
     /// </summary>
-    [CascadingParameter]DialogModal Modal { get; set; }
+    [CascadingParameter]DialogRenderer Modal { get; set; }
     /// <summary>
     /// 对话框消息的任意内容。
     /// </summary>

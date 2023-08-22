@@ -76,4 +76,18 @@ let modal = {
     }
 }
 
-export { collapse, modal };
+let toast = {
+    instance: null,
+    show: function (elementRef, options) {
+
+        let element = util.getElementByRef(elementRef);
+        this.instance = new bootstrap.Toast(element, options);
+
+        this.instance.show();
+    },
+    hide: function () {
+        this.instance.hide();
+    }
+}
+
+export { collapse, modal, toast };

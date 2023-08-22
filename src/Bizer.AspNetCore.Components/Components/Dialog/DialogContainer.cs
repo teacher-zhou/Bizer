@@ -1,4 +1,6 @@
 ﻿
+using Bizer.AspNetCore.Components.Abstractions;
+
 namespace Bizer.AspNetCore.Components;
 
 /// <summary>
@@ -9,7 +11,7 @@ public class DialogContainer:ComponentBase,IDisposable
     [Parameter]public RenderFragment? ChildContent { get; set; }
     [Inject]IDialogService DialogService { get; set; }
 
-    Dictionary<Guid,(DialogConfiguration? configuration, DialogParameters? parameters)> DialogCollection = new();
+    Dictionary<Guid,(DialogConfiguration? configuration, DynamicParameters? parameters)> DialogCollection = new();
 
     protected override void OnInitialized()
     {
@@ -23,7 +25,7 @@ public class DialogContainer:ComponentBase,IDisposable
         Close(id);
     }
 
-    private void DialogService_OnOpening(Guid id,DialogConfiguration? configuration, DialogParameters? parameters)
+    private void DialogService_OnOpening(Guid id,DialogConfiguration? configuration, DynamicParameters? parameters)
     {
         //Thread.Sleep(400);
         DialogCollection.Add(id, new(configuration,parameters));
@@ -39,7 +41,7 @@ public class DialogContainer:ComponentBase,IDisposable
             {
                 content.CreateCascadingComponent(item.Value.parameters, 0, inner =>
                 {
-                    inner.Component<DialogModal>()
+                    inner.Component<DialogRenderer>()
                     .Attribute(m=>m.Id,item.Key)
                     .Attribute(m => m.Configuration, item.Value.configuration)
                     .Key(item.Key)

@@ -1,13 +1,13 @@
 ﻿using System.Text.Json;
-
+using Bizer.AspNetCore.Components.Abstractions;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 namespace Bizer.AspNetCore.Components;
 [CssClass("modal")]
-internal class DialogModal : BizerChildConentComponentBase
+internal class DialogRenderer : BizerChildConentComponentBase
 {
-    public DialogModal()
+    public DialogRenderer()
     {
         CaptureReference = true;
     }
@@ -15,7 +15,7 @@ internal class DialogModal : BizerChildConentComponentBase
     [Inject] IDialogService DialogService { get; set; }
     [CascadingParameter] DialogContainer DialogContainer { get; set; }
     [Parameter]public DialogConfiguration Configuration { get; set; }
-    [Parameter]public DialogParameters Parameters { get; set; }
+    [Parameter]public DynamicParameters Parameters { get; set; }
     [Parameter] public Guid Id { get; set; }
     
 
@@ -102,8 +102,6 @@ internal class DialogModal : BizerChildConentComponentBase
             StateHasChanged();
         }
     }
-
-    internal void Reset() => _parameterSet = false;
 
     #region JS Callback
     [JSInvokable("OnOpeningAsync")]

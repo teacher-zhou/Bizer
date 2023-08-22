@@ -1,4 +1,6 @@
-﻿namespace Bizer.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components.RenderTree;
+
+namespace Bizer.AspNetCore.Components;
 
 public class ToastContainer : BlazorComponentBase
 {
@@ -16,9 +18,11 @@ public class ToastContainer : BlazorComponentBase
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        foreach (var item in Toasters)
+        builder.CreateCascadingComponent(this, 0, container =>
         {
-            builder.Div("taost-container")
+            foreach (var item in Toasters)
+            {
+                container.Div("taost-container")
                 .Class("position-fixed")
                 .Class("m-3")
                 .Class(item.Key.GetCssClass())
@@ -26,14 +30,17 @@ public class ToastContainer : BlazorComponentBase
                 {
                     foreach (var toastConfiguration in item.Value)
                     {
-                        content.Component<Toast>()
-                                .Attribute(m => m.Configuration, toastConfiguration)
-                                .Attribute(m => m.CloseHandler, _closeToastHandler)
-                                .Close();
+                        content.CreateCascadingComponent(toastConfiguration, 0, render =>
+                        {
+                            render.Component<ToastRenderer>()
+                                    .Attribute(m => m.ClosedHandler, _closeToastHandler)
+                                    .Close();
+                        }, isFixed: true);
                     }
                 })
                 .Close();
-        }
+            }
+        });
     }
     /// <inheritdoc/>
     protected override void OnInitialized()

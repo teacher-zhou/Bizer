@@ -19,14 +19,6 @@
     Danger
 </Button>
 
-
-<Button Color="Color.Dark" @onclick="@(e=>ToastService.Show(new(){
- BodyTemplate=Control,
- HeaderTemplate=GetToastHeader()
-}))">
-    <Icon Name="@("home")"/> Custom
-</Button>
-
 @code{
     RenderFragment? GetToastHeader() =>@<Icon Name="@("info-circle")"/>;
 

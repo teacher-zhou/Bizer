@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 
-namespace Bizer.AspNetCore.Components;
+namespace Bizer.AspNetCore.Components.Abstractions;
 
 /// <summary>
-/// 表示对话框的参数。
+/// 可以提供给组件的动态参数。
 /// </summary>
-public class DialogParameters : IEnumerable<KeyValuePair<string, object?>>
+public class DynamicParameters : IEnumerable<KeyValuePair<string, object?>>
 {
     readonly Dictionary<string, object?> _parametersStore = new();
 
@@ -25,15 +25,15 @@ public class DialogParameters : IEnumerable<KeyValuePair<string, object?>>
     /// </summary>
     /// <param name="name">参数的名称。</param>
     /// <param name="value">关联的值。</param>
-    /// <returns>关联名称和值的 <see cref="DialogParameters"/> 实例。</returns>
+    /// <returns>关联名称和值的 <see cref="DynamicParameters"/> 实例。</returns>
     /// <exception cref="ArgumentException"><paramref name="name"/> 是 null 或空白字符串。</exception>
-    public DialogParameters Set(string name,object? value)
+    public DynamicParameters Set(string name, object? value)
     {
-        if ( string.IsNullOrWhiteSpace(name) )
+        if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace.", nameof(name));
         }
-        if ( _parametersStore.ContainsKey(name) )
+        if (_parametersStore.ContainsKey(name))
         {
             _parametersStore[name] = value;
         }
@@ -52,12 +52,12 @@ public class DialogParameters : IEnumerable<KeyValuePair<string, object?>>
     /// <exception cref="ArgumentException"><paramref name="name"/> 是 null 或空白字符串。</exception>
     public object? Get(string name)
     {
-        if ( string.IsNullOrWhiteSpace(name) )
+        if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace.", nameof(name));
         }
 
-        if ( _parametersStore.TryGetValue(name, out var value) )
+        if (_parametersStore.TryGetValue(name, out var value))
         {
             return value;
         }

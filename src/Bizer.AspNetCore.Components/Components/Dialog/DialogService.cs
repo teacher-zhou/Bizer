@@ -1,4 +1,6 @@
-﻿namespace Bizer.AspNetCore.Components;
+﻿using Bizer.AspNetCore.Components.Abstractions;
+
+namespace Bizer.AspNetCore.Components;
 
 /// <summary>
 /// 对话框默认实现。
@@ -7,7 +9,7 @@ class DialogService : IDialogService
 {
 
     /// <inheritdoc/>
-    public event Action<Guid,DialogConfiguration, DialogParameters>? OnOpening;
+    public event Action<Guid,DialogConfiguration, DynamicParameters>? OnOpening;
 
     /// <inheritdoc/>
     public event Action<Guid, DialogResult>? OnClosing;
@@ -23,16 +25,16 @@ class DialogService : IDialogService
     }
 
     /// <inheritdoc/>
-    public Task<IDialogReference> Open<TDialogTemplate>(DialogConfiguration? configuration=default, DialogParameters? parameters = default) where TDialogTemplate : IComponent
+    public Task<IDialogReference> Open<TDialogTemplate>(DialogConfiguration? configuration=default, DynamicParameters? parameters = default) where TDialogTemplate : IComponent
     {
         configuration ??= new();
 
         parameters ??= new();
-        parameters.SetDialogTemplate<TDialogTemplate>();
+        parameters.SetDynamicTemplate<TDialogTemplate>();
         return Open(configuration, parameters);
     }
 
-    Task<IDialogReference> Open(DialogConfiguration configuration, DialogParameters parameters)
+    Task<IDialogReference> Open(DialogConfiguration configuration, DynamicParameters parameters)
     {
         if ( parameters is null )
         {

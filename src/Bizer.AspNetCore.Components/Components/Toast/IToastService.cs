@@ -1,4 +1,6 @@
-﻿namespace Bizer.AspNetCore.Components;
+﻿using Bizer.AspNetCore.Components.Abstractions;
+
+namespace Bizer.AspNetCore.Components;
 
 public interface IToastService:IDisposable
 {
@@ -6,7 +8,7 @@ public interface IToastService:IDisposable
     /// 显示指定消息提示。
     /// </summary>
     /// <param name="configuration">消息服务的配置。</param>
-    Task Show(ToastConfiguration configuration);
+    Task Show<TToastTemplate>(ToastConfiguration configuration,DynamicParameters? parameters=default) where TToastTemplate : IComponent;
     /// <summary>
     /// 当消息被关闭后时触发的事件。
     /// </summary>
@@ -26,12 +28,17 @@ internal class ToastService : IToastService
     /// <inheritdoc/>
     public void Dispose() => OnClosed?.Invoke();
 
-    public async Task Show(ToastConfiguration configuration)
+    public async Task Show<TToastTemplate>(ToastConfiguration configuration, DynamicParameters? parameters = default) where TToastTemplate : IComponent
     {
         if (configuration is null)
         {
             throw new ArgumentNullException(nameof(configuration));
         }
+
+        parameters ??= new();
+        parameters.SetDynamicTemplate<TToastTemplate>();
+
+        configuration.Parameters = parameters;
 
         if (OnShowing is not null)
         {
