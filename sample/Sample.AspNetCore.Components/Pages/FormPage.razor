@@ -1,0 +1,42 @@
+﻿@page "/form"
+
+<TextField @bind-Value="Text"/>
+<TextField @bind-Value="Text" ReadOnly />
+<TextField @bind-Value="Text" Disabled />
+<TextField @bind-Value="Text" AsText />
+
+@Text
+
+
+<br />
+
+<Select @bind-Value="SelectValue">
+    <SelectOption Value="1">One</SelectOption>
+    <SelectOption Value="2">Second</SelectOption>
+    <SelectOption Value="3">Third</SelectOption>
+</Select>
+@SelectValue
+<br />
+<CheckBox @bind-Value="Checked">
+    选择东西
+</CheckBox>
+@Checked
+
+<br />
+
+<RadioGroup @bind-Value="Radio">
+    <Radio Value="@("苹果")">苹果</Radio>
+    <Radio Value="@("香蕉")">香蕉</Radio>
+    <Radio Value="@("橘子")">橘子</Radio>
+</RadioGroup>
+@Radio
+
+@code{
+    string? Text{ get; set; }
+    int SelectValue { get; set; } = 2;
+
+    bool Checked{ get; set; }
+
+
+    string? Radio{ get; set; }
+}

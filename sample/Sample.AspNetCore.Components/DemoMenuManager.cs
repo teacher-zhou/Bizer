@@ -33,6 +33,7 @@ namespace Sample.AspNetCore.Components
             {
                 new("Home","/"),
                 new("Badge","/badge"),
+                new("Form","/form"),
                 new("用户管理")
                 {
                     Items= new MenuItem[]
