@@ -76,18 +76,41 @@ let modal = {
     }
 }
 
-let toast = {
-    instance: null,
-    show: function (elementRef, options) {
+// ------------------动画效果没搞定，暂时不用以下代码------------------
+//let toast = {
+//    instance: null,
+//    show: function (elementRef, options,dotnetReference) {
 
-        let element = util.getElementByRef(elementRef);
-        this.instance = new bootstrap.Toast(element, options);
+//        let element = util.getElementByRef(elementRef);
 
-        this.instance.show();
-    },
-    hide: function () {
-        this.instance.hide();
-    }
-}
+//        element.addEventListener('shown.bs.toast', e => {
+//            console.log('shown.bs.toast event is raised');
 
-export { collapse, modal, toast };
+//            setTimeout(() => {
+//                element.classList.remove('fade');
+//            }, 100);
+//        });
+//        element.addEventListener('hide.bs.toast', e => {
+//            console.log('hide.bs.toast event is raised');
+
+//            element.classList.add('fade');
+//        });
+//        element.addEventListener('hidden.bs.toast', e => {
+//            console.log('hidden.bs.toast event is raised');
+//            dotnetReference.invokeMethodAsync("OnHiddenAsync");
+
+//            element.classList.remove('fade', 'hide');
+//        });
+
+//        this.instance = new bootstrap.Toast(element, options);
+
+//        this.instance.show();
+
+//    },
+//    hide: function () {
+//        this.instance.hide();
+//    }
+//}
+//----------------------------------------------------
+
+export { collapse, modal };

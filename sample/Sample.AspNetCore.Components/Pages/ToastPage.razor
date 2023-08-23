@@ -3,19 +3,19 @@
 
 @inject IToastService ToastService
 
-<Button Color="Color.Primary" @onclick="@(e=>ToastService.ShowInfo("Info"))">
+<Button Color="Color.Primary" @onclick="@(e=>ToastService.ShowNotificationInfo("Info"))">
     Info
 </Button>
 
-<Button Color="Color.Warning" @onclick="@(e=>ToastService.ShowWarning("Warning"))">
+<Button Color="Color.Warning" @onclick="@(e=>ToastService.ShowNotificationWarning("Warning"))">
     Warning
 </Button>
 
-<Button Color="Color.Success" @onclick="@(e=>ToastService.ShowSuccess("Success"))">
+<Button Color="Color.Success" @onclick="@(e=>ToastService.ShowNotificationSuccess("Success"))">
     Success
 </Button>
 
-<Button Color="Color.Danger" @onclick="@(e=>ToastService.ShowDanger("Danger"))">
+<Button Color="Color.Danger" @onclick="@(e=>ToastService.ShowNotificationDanger("Danger"))">
     Danger
 </Button>
 

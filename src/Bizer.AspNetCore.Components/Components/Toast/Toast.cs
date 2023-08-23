@@ -1,9 +1,10 @@
 ﻿namespace Bizer.AspNetCore.Components;
 
-public class Toast : BizerChildConentComponentBase
+public class Toast : ComponentBase
 {
     [CascadingParameter]ToastRenderer Renderer { get; set; }
     [Parameter]public RenderFragment? HeaderContent { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
     [Parameter]public bool Closable { get; set; }
 

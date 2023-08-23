@@ -1,20 +1,15 @@
-﻿using Microsoft.AspNetCore.Components.RenderTree;
+﻿namespace Bizer.AspNetCore.Components;
 
-namespace Bizer.AspNetCore.Components;
-
-public class ToastContainer : BlazorComponentBase
+/// <summary>
+/// 提示的容器。
+/// </summary>
+internal class ToastContainer : BlazorComponentBase
 {
     [Inject]IToastService ToastService { get; set; }
 
     protected Dictionary<Placement, List<ToastConfiguration>> Toasters = new();
 
     Func<ToastConfiguration,Task>? _closeToastHandler;
-
-    protected override void BuildAttributes(IDictionary<string, object> attributes)
-    {
-        attributes["aria-live"] = "polite";
-        attributes["aria-atomic"] = "true";
-    }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -89,9 +84,13 @@ public class ToastContainer : BlazorComponentBase
 
         async Task OnTimeoutRemove()
         {
-            using PeriodicTimer timer = new(TimeSpan.FromMilliseconds(configuration.Delay ??= Timeout.Infinite));
-            await timer.WaitForNextTickAsync();
-            await RemoveItem(configuration);
+            var delay = configuration.Delay ??= Timeout.Infinite;
+
+            using PeriodicTimer timer = new(TimeSpan.FromMilliseconds(delay));
+            if (await timer.WaitForNextTickAsync())
+            {
+                await RemoveItem(configuration);
+            }
         }
     }
 
@@ -100,7 +99,7 @@ public class ToastContainer : BlazorComponentBase
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     /// <returns>A Task.</returns>
-    protected Task RemoveItem(ToastConfiguration configuration)
+    protected internal async Task RemoveItem(ToastConfiguration configuration)
     {
         var key = configuration.Placement;
         if (Toasters.ContainsKey(key))
@@ -112,7 +111,7 @@ public class ToastContainer : BlazorComponentBase
                 Toasters.Remove(key);
             }
         }
-        return this.Refresh();
+        await this.Refresh();
     }
 
     protected override void DisposeComponentResources()
