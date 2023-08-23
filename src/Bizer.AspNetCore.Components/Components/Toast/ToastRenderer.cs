@@ -42,10 +42,10 @@ internal class ToastRenderer:BizerComponentBase
     {
         builder.Append("show").Append("mt-2");
 
-        var filledColor = Configuration.Parameters.Get<bool>("ColorFilled");
-        if (filledColor)
+        var filledColor = Configuration.Parameters.Get<bool?>("ColorFilled");
+        if (filledColor.HasValue && filledColor.Value)
         {
-            builder.Append($"text-bg-{Configuration.Parameters.Get<Color?>("Color")}");
+            builder.Append($"text-bg-{Configuration.Parameters.Get<Color?>("Color")?.GetCssClass()}");
         }
     }
 

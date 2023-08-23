@@ -64,7 +64,16 @@ public class DynamicParameters : IEnumerable<KeyValuePair<string, object?>>
         return default;
     }
 
-    public T Get<T>(string name) => (T)Get(name);
+    public T? Get<T>(string name)
+    {
+       var value= Get(name);
+        if(value is not null)
+        {
+            return (T?)value;
+        }
+        return default;
+    }
+            
 
     /// <summary>
     /// 获取参数的迭代器。

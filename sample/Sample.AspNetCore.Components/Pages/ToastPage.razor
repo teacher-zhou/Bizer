@@ -4,23 +4,46 @@
 @inject IToastService ToastService
 
 <Button Color="Color.Primary" @onclick="@(e=>ToastService.ShowNotificationInfo("Info"))">
-    Info
+   Notification
 </Button>
 
 <Button Color="Color.Warning" @onclick="@(e=>ToastService.ShowNotificationWarning("Warning"))">
-    Warning
+    Notification
 </Button>
 
 <Button Color="Color.Success" @onclick="@(e=>ToastService.ShowNotificationSuccess("Success"))">
-    Success
+    Notification
 </Button>
 
-<Button Color="Color.Danger" @onclick="@(e=>ToastService.ShowNotificationDanger("Danger"))">
-    Danger
+<Button Color="Color.Danger" @onclick="@(e=>ToastService.ShowNotificationError("Danger"))">
+    Notification
 </Button>
 
-@code{
-    RenderFragment? GetToastHeader() =>@<Icon Name="@("info-circle")"/>;
+<br />
+<Button Color="Color.Primary" @onclick="@(e=>ToastService.ShowTipInfo("New tips"))">
+   Tip
+</Button>
+<Button Color="Color.Warning" @onclick="@(e=>ToastService.ShowTipWarning("New tips"))">
+    Tip
+</Button>
 
-    RenderFragment? Control =>@<Button Color="Color.Primary">确认</Button>;
-}
+<Button Color="Color.Success" @onclick="@(e=>ToastService.ShowTipSuccess("New tips"))">
+    Tip
+</Button>
+
+<Button Color="Color.Danger" @onclick="@(e=>ToastService.ShowTipError("New tips"))">
+    Tip
+</Button>
+<br />
+<Button Color="Color.Primary" @onclick="@(e=>ToastService.ShowOperationInfo("你有一条消息"))">
+    Operation
+</Button>
+<Button Color="Color.Warning" @onclick="@(e=>ToastService.ShowOperationWarning("警告操作"))">
+    Operation
+</Button>
+<Button Color="Color.Success" @onclick="@(e=>ToastService.ShowOperationSuccess("提交成功"))">
+    Operation
+</Button>
+<Button Color="Color.Danger" @onclick="@(e=>ToastService.ShowOperationError("操作失败"))">
+    Operation
+</Button>

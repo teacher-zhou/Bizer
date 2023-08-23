@@ -3,9 +3,10 @@
 /// <summary>
 /// 提示的容器。
 /// </summary>
-internal class ToastContainer : BlazorComponentBase
+public class ToastContainer : BlazorComponentBase
 {
     [Inject]IToastService ToastService { get; set; }
+    [Inject]NavigationManager NavigationManager { get; set; }
 
     protected Dictionary<Placement, List<ToastConfiguration>> Toasters = new();
 
@@ -41,8 +42,15 @@ internal class ToastContainer : BlazorComponentBase
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        NavigationManager.LocationChanged += NavigationManager_LocationChanged;
         ToastService!.OnShowing += ToastService_OnShowing;
         _closeToastHandler = RemoveItem;
+    }
+
+    private void NavigationManager_LocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        Toasters.Clear();
+        StateHasChanged();
     }
 
 

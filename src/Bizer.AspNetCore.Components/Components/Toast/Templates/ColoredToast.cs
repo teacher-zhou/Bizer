@@ -2,12 +2,11 @@
 
 namespace Bizer.AspNetCore.Components;
 
-internal class ColoredToast:ComponentBase
-{    /// <summary>
-     /// 用于操作的对话框上下文。
-     /// </summary>
-    [CascadingParameter] protected ToastContext Context { get; set; }
-
+/// <summary>
+/// 有背景颜色的提示。
+/// </summary>
+internal class ColoredToast:ToastTemplateBase
+{
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<Toast>()
