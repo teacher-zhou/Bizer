@@ -1,42 +1,98 @@
 ﻿@page "/form"
+@using System.ComponentModel.DataAnnotations;
+<Form Model="this">
+    <FormTextBox @bind-Value="Text" />
+    <FormTextBox @bind-Value="Text" ReadOnly />
+    <FormTextBox @bind-Value="Text" Disabled />
+    <FormTextBox @bind-Value="Text" AsText />
 
-<TextField @bind-Value="Text"/>
-<TextField @bind-Value="Text" ReadOnly />
-<TextField @bind-Value="Text" Disabled />
-<TextField @bind-Value="Text" AsText />
+    @Text
 
-@Text
+
+    <br />
+
+    <FormSelect @bind-Value="SelectValue">
+        <FormSelectOption Value="1">One</FormSelectOption>
+        <FormSelectOption Value="2">Second</FormSelectOption>
+        <FormSelectOption Value="3">Third</FormSelectOption>
+    </FormSelect>
+    @SelectValue
+    <br />
+    <FormCheckBox @bind-Value="Checked">
+        选择东西
+    </FormCheckBox>
+    @Checked
+
+    <br />
+
+    <FormRadioGroup @bind-Value="Radio">
+        <FormRadio Value="@("苹果")">苹果</FormRadio>
+        <FormRadio Value="@("香蕉")">香蕉</FormRadio>
+        <FormRadio Value="@("橘子")">橘子</FormRadio>
+    </FormRadioGroup>
+    @Radio
+</Form>
 
 
 <br />
 
-<Select @bind-Value="SelectValue">
-    <SelectOption Value="1">One</SelectOption>
-    <SelectOption Value="2">Second</SelectOption>
-    <SelectOption Value="3">Third</SelectOption>
-</Select>
-@SelectValue
-<br />
-<CheckBox @bind-Value="Checked">
-    选择东西
-</CheckBox>
-@Checked
+<Form Model="this">
+    <FormField For="()=>Text">
+        <FormTextBox @bind-Value="Text" />
+    </FormField>
+    <FormField For="()=>SelectValue">
+        <FormSelect @bind-Value="SelectValue">
+            <FormSelectOption Value="1">One</FormSelectOption>
+            <FormSelectOption Value="2">Second</FormSelectOption>
+            <FormSelectOption Value="3">Third</FormSelectOption>
+        </FormSelect>
+    </FormField>
+    <FormRow>
+        <Button Color="Color.Primary">提交</Button>
+    </FormRow>
+</Form>
 
-<br />
 
-<RadioGroup @bind-Value="Radio">
-    <Radio Value="@("苹果")">苹果</Radio>
-    <Radio Value="@("香蕉")">香蕉</Radio>
-    <Radio Value="@("橘子")">橘子</Radio>
-</RadioGroup>
-@Radio
+<Form Model="this" AutoInline>
+    <FormField For="()=>Text">
+        <FormTextBox @bind-Value="Text" />
+    </FormField>
+    <FormField For="()=>SelectValue">
+        <FormSelect @bind-Value="SelectValue">
+            <FormSelectOption Value="1">One</FormSelectOption>
+            <FormSelectOption Value="2">Second</FormSelectOption>
+            <FormSelectOption Value="3">Third</FormSelectOption>
+        </FormSelect>
+    </FormField>
+    <FormRow>
+        <Button Color="Color.Primary">提交</Button>
+    </FormRow>
+</Form>
 
-@code{
-    string? Text{ get; set; }
+<Form Model="this">
+    <FormField For="()=>Text" AutoInline>
+        <FormTextBox @bind-Value="Text" />
+    </FormField>
+    <FormField For="()=>SelectValue" AutoInline>
+        <FormSelect @bind-Value="SelectValue">
+            <FormSelectOption Value="1">One</FormSelectOption>
+            <FormSelectOption Value="2">Second</FormSelectOption>
+            <FormSelectOption Value="3">Third</FormSelectOption>
+        </FormSelect>
+    </FormField>
+    <FormRow>
+        <Button Color="Color.Primary">提交</Button>
+    </FormRow>
+</Form>
+@code {
+
+    [Required]
+    string? Text { get; set; }
+    [Display(Name = "数字")]
     int SelectValue { get; set; } = 2;
 
-    bool Checked{ get; set; }
+    bool Checked { get; set; }
 
 
-    string? Radio{ get; set; }
+    string? Radio { get; set; }
 }

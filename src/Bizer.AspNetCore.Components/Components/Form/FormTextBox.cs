@@ -10,7 +10,7 @@ namespace Bizer.AspNetCore.Components;
 /// <typeparam name="TValue">值的类型。</typeparam>
 [HtmlTag("input")]
 [CssClass("form-control")]
-public class TextField<TValue> : BizerInputBase<TValue>
+public class FormTextBox<TValue> : BizerInputBase<TValue>
 {
     /// <summary>
     /// 尺寸。

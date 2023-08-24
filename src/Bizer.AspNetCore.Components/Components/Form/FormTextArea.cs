@@ -3,7 +3,7 @@
 /// <summary>
 /// 多行文本框。
 /// </summary>
-public class TextArea:BizerInputBase<string?>
+public class FormTextArea:BizerInputBase<string?>
 {
     /// <summary>
     /// 文本框高度的行数。

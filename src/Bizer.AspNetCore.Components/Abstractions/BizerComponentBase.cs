@@ -43,6 +43,10 @@ public abstract class BizerComponentBase : BlazorComponentBase, IHasAdditionalSt
     /// aria-hidden
     /// </summary>
     [Parameter][HtmlAria("hidden")]public bool AriaHidde { get; set; }
+    /// <summary>
+    /// 链式 CSS 样式。
+    /// </summary>
+    [Parameter]public IFluentClassProvider? CssClass { get; set; }
 
     /// <summary>
     /// Bizer 的 js 模块，需要手动调用 <see cref="ImportBizerJsModuleAsync"/> 方法后才可以使用。

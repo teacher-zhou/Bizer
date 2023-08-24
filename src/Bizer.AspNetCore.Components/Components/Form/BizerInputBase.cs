@@ -1,29 +1,11 @@
-﻿using System.Linq.Expressions;
-
-using Microsoft.AspNetCore.Components.Forms;
-
-namespace Bizer.AspNetCore.Components;
+﻿namespace Bizer.AspNetCore.Components;
 
 /// <summary>
 /// 输入组件的基类。
 /// </summary>
 /// <typeparam name="TValue"></typeparam>
-[ChildComponent(typeof(Form), Optional = true)]
-public abstract class BizerInputBase<TValue> : BizerComponentBase, IHasInputValue<TValue>
-{
-    [CascadingParameter] public EditContext? CascadedEditContext { get;private set; }
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    [Parameter] public TValue? Value { get; set; }
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    [Parameter] public EventCallback<TValue?> ValueChanged { get; set; }
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    [Parameter] public Expression<Func<TValue?>>? ValueExpression { get; set; }
+public abstract class BizerInputBase<TValue> : FormValidationComponentBase<TValue>
+{   
     /// <summary>
     /// 只读状态。
     /// </summary>

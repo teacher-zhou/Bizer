@@ -25,7 +25,7 @@ public class Button : BizerChildConentComponentBase
     /// <summary>
     /// 尺寸大小。
     /// </summary>
-    [Parameter][CssClass] public ButtonSize? Size { get; set; }
+    [Parameter][CssClass("btn-")] public Size? Size { get; set; }
     /// <summary>
     /// 禁用状态。
     /// </summary>

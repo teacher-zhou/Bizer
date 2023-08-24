@@ -1,20 +1,24 @@
-﻿using System.Linq.Expressions;
-
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
 
 namespace Bizer.AspNetCore.Components;
 
 [ParentComponent(IsFixed = true)]
 [CascadingTypeParameter(nameof(TValue))]
-public class RadioGroup<TValue> : BizerComponentBase, IHasInputValue<TValue>,IHasChildContent
+public class FormRadioGroup<TValue> : FormValidationComponentBase<TValue>,IHasChildContent
 {
-    [CascadingParameter]public EditContext? CascadedEditContext { get; private set; }
-    [Parameter]public Expression<Func<TValue?>>? ValueExpression { get; set; }
-    [Parameter]public TValue? Value { get; set; }
-    [Parameter]public EventCallback<TValue?> ValueChanged { get; set; }
+    /// <summary>
+    /// 当单元按钮的值改变后的回调。
+    /// </summary>
     [Parameter] public EventCallback<string> OnRadioValueChanged { get; set; }
+
+    /// <summary>
+    /// 是否禁用。
+    /// </summary>
     [Parameter]public bool Disabled { get; set; }
 
+    /// <summary>
+    /// 单选按钮组件的内容。
+    /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     internal EventCallback<ChangeEventArgs>? ChangeEventCallback { get; set; }
@@ -51,9 +55,16 @@ public class RadioGroup<TValue> : BizerComponentBase, IHasInputValue<TValue>,IHa
     }
 }
 
-public class Radio<TValue>: FormCheckBase
+/// <summary>
+/// 单选按钮组件。必须在 <see cref="FormRadioGroup{TValue}"/> 里使用。
+/// </summary>
+/// <typeparam name="TValue">值的类型。</typeparam>
+public class FormRadio<TValue>: FormCheckBase
 {
-    [CascadingParameter]public RadioGroup<TValue> CascadingRadioGroup { get; set; }
+    [CascadingParameter]public FormRadioGroup<TValue> CascadingRadioGroup { get; set; }
+    /// <summary>
+    /// 单选按钮的值。
+    /// </summary>
     [Parameter]public TValue? Value { get; set; }
     /// <summary>
     /// 禁用状态。
@@ -67,7 +78,7 @@ public class Radio<TValue>: FormCheckBase
 
         if (Value?.GetType() != typeof(TValue))
         {
-            throw new InvalidOperationException($"参数 {nameof(this.Value)} 的数据类型必须与 {typeof(RadioGroup<>).FullName} 的数据类型相同");
+            throw new InvalidOperationException($"参数 {nameof(this.Value)} 的数据类型必须与 {typeof(FormRadioGroup<>).FullName} 的数据类型相同");
         }
 
         if (CascadingRadioGroup is not null)

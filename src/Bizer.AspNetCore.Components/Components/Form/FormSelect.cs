@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-using System.Linq.Expressions;
-
-namespace Bizer.AspNetCore.Components;
+﻿namespace Bizer.AspNetCore.Components;
 
 /// <summary>
 /// 下拉框。
@@ -10,7 +7,7 @@ namespace Bizer.AspNetCore.Components;
 [HtmlTag("select")]
 [CssClass("form-select")]
 [ParentComponent]
-public class Select<TValue> : BizerInputBase<TValue>,IHasChildContent
+public class FormSelect<TValue> : BizerInputBase<TValue>,IHasChildContent
 {
     /// 尺寸。
     /// </summary>
@@ -28,11 +25,19 @@ public class Select<TValue> : BizerInputBase<TValue>,IHasChildContent
     protected override string EventName => "onchange";
 }
 
+/// <summary>
+/// 下拉框选项。<see cref="FormSelect{TValue}"/> 组件中使用。
+/// </summary>
+/// <typeparam name="TValue"></typeparam>
 [HtmlTag("option")]
 [CascadingTypeParameter("Value")]
-public class SelectOption<TValue> : BizerChildConentComponentBase
+public class FormSelectOption<TValue> : BizerChildConentComponentBase
 {
-    [CascadingParameter]public Select<TValue?> CascadingSelect { get; set; }
+    [CascadingParameter]public FormSelect<TValue?> CascadingSelect { get; set; }
+
+    /// <summary>
+    /// 选项的值。
+    /// </summary>
     [Parameter][HtmlAttribute]public TValue? Value { get; set; }
 
     protected override void OnInitialized()

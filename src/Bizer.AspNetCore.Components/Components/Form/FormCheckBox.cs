@@ -9,7 +9,7 @@ namespace Bizer.AspNetCore.Components;
 /// </summary>
 [HtmlTag("input")]
 [CssClass("form-check-input")]
-public class CheckBox : FormCheckBase, IHasInputValue<bool>
+public class FormCheckBox : FormCheckBase, IHasInputValue<bool>
 {
     [CascadingParameter]public EditContext? CascadedEditContext { get; private set; }
     [Parameter]public Expression<Func<bool>>? ValueExpression { get; set; }

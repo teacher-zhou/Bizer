@@ -2,24 +2,31 @@
 using System.Text;
 
 namespace Bizer.AspNetCore.Components;
-public interface ISpacingBreakPoint:IFluentBreakPoint<ISpacingSize>, IFluentAndClass<ISpacingSize>
+public interface ISpacingBreakPoint:IFluentBreakPoint<ISpacingSize>
 {
 }
 
-public interface ISpacingSides: ISpacingBreakPoint
+public interface ISpacingSideWithBreakPoint : ISpacingSize, ISpacingBreakPoint
 {
-    ISpacingBreakPoint FromTop { get; }
-    ISpacingBreakPoint FromBottom { get; }
-    ISpacingBreakPoint FromStart { get; }
-    ISpacingBreakPoint FromEnd { get; }
-    ISpacingBreakPoint FromX { get; }
-    ISpacingBreakPoint FromY { get; }
+
 }
 
-public interface ISpacingSize:IFluentAndClass
+public interface ISpacingSides: ISpacingSideWithBreakPoint
 {
-    ISpacingSides IsAuto { get; }
-    ISpacingSides Is0 { get; }
+    ISpacingSideWithBreakPoint FromTop { get; }
+    ISpacingSideWithBreakPoint FromBottom { get; }
+    ISpacingSideWithBreakPoint FromStart { get; }
+    ISpacingSideWithBreakPoint FromEnd { get; }
+    ISpacingSideWithBreakPoint FromX { get; }
+    ISpacingSideWithBreakPoint FromY { get; }
+
+    ISpacingSideWithBreakPoint FromAll { get; }
+}
+
+public interface ISpacingSize:IFluentClassProvider
+{
+    ISpacingSides Auto { get; }
+    ISpacingSides None { get; }
     ISpacingSides Is1 { get; }
     ISpacingSides Is2 { get; }
     ISpacingSides Is3 { get; }
@@ -27,17 +34,17 @@ public interface ISpacingSize:IFluentAndClass
     ISpacingSides Is5 { get; }
 }
 
-public interface ISpacingFluentClass: ISpacingSize, ISpacingSides, ISpacingBreakPoint,IFluentAndClass
+public interface ISpacingFluentClass: ISpacingSize, ISpacingSides, ISpacingSideWithBreakPoint,IFluentClassProvider
 {
 
 }
 
-internal abstract class SpacingFluentClassProvider : FluentClassProvider<Space, SpaceDefinition>, ISpacingFluentClass
+internal abstract class SpacingFluentClassProvider : FluentClassProvider<SpacingType, SpaceDefinition>, ISpacingFluentClass
 {
-    private readonly Space _space;
+    private readonly SpacingType _space;
     private SpaceDefinition _spaceDefinition = new();
 
-    protected SpacingFluentClassProvider(Space space)
+    protected SpacingFluentClassProvider(SpacingType space)
     {
         _space = space;
     }
@@ -47,26 +54,27 @@ internal abstract class SpacingFluentClassProvider : FluentClassProvider<Space, 
     public ISpacingSize OnLG => WithSize(BreakPoint.LG);
     public ISpacingSize OnXL => WithSize(BreakPoint.XL);
     public ISpacingSize OnXXL => WithSize(BreakPoint.XXL);
-    public ISpacingSize And => WithSize(default);
-    public ISpacingBreakPoint FromTop => WithBreakPoint("t");
-    public ISpacingBreakPoint FromBottom => WithBreakPoint("b");
-    public ISpacingBreakPoint FromStart => WithBreakPoint("s");
-    public ISpacingBreakPoint FromEnd => WithBreakPoint("e");
-    public ISpacingBreakPoint FromX => WithBreakPoint("x");
-    public ISpacingBreakPoint FromY => WithBreakPoint("y");
-    public ISpacingSides IsAuto => WithSide(default);
-    public ISpacingSides Is0 => WithSide(0);
-    public ISpacingSides Is1 => WithSide(1);
-    public ISpacingSides Is2 => WithSide(2);
-    public ISpacingSides Is3 => WithSide(3);
-    public ISpacingSides Is4 => WithSide(4);
-    public ISpacingSides Is5 => WithSide(5);
-    
-    ISpacingSides WithSide(int? size)
+    public ISpacingSideWithBreakPoint FromTop => WithBreakPoint("t");
+    public ISpacingSideWithBreakPoint FromBottom => WithBreakPoint("b");
+    public ISpacingSideWithBreakPoint FromStart => WithBreakPoint("s");
+    public ISpacingSideWithBreakPoint FromEnd => WithBreakPoint("e");
+    public ISpacingSideWithBreakPoint FromX => WithBreakPoint("x");
+    public ISpacingSideWithBreakPoint FromY => WithBreakPoint("y");
+    public ISpacingSideWithBreakPoint FromAll => WithBreakPoint(default);
+    public ISpacingSides Auto => WithSide(default);
+    public ISpacingSides None => WithSide( Space.None);
+    public ISpacingSides Is1 => WithSide( Space.Is1);
+    public ISpacingSides Is2 => WithSide(Space.Is2);
+    public ISpacingSides Is3 => WithSide(Space.Is3);
+    public ISpacingSides Is4 => WithSide(Space.Is4);
+    public ISpacingSides Is5 => WithSide(Space.Is5);
+
+
+    ISpacingSides WithSide(Space? space)
     {
-        if ( size.HasValue )
+        if ( space.HasValue )
         {
-            _spaceDefinition.Size = size!.ToString()!;
+            _spaceDefinition.Size = space.GetCssClass();
         }
         else
         {
@@ -83,15 +91,15 @@ internal abstract class SpacingFluentClassProvider : FluentClassProvider<Space, 
         return this;
     }
 
-    ISpacingBreakPoint WithBreakPoint(string? side)
+    ISpacingSideWithBreakPoint WithBreakPoint(string? side)
     {
         _spaceDefinition.Side = side;
         return this;
     }
-    protected override string? Format(Space key)
+    protected override string? Format(SpacingType key)
         => Format(key, _spaceDefinition);
 
-    protected override string? Format(Space key, SpaceDefinition value)
+    protected override string? Format(SpacingType key, SpaceDefinition value)
     {
         var builder = new StringBuilder(key.GetDefaultValue()!.ToString());
         if(!string.IsNullOrWhiteSpace(value.Side) )
@@ -109,13 +117,13 @@ internal abstract class SpacingFluentClassProvider : FluentClassProvider<Space, 
 
 internal class MarginFluentClassProvider : SpacingFluentClassProvider, ISpacingFluentClass
 {
-    public MarginFluentClassProvider() : base(Space.Margin)
+    public MarginFluentClassProvider() : base(SpacingType.Margin)
     {
     }
 }
 internal class PaddingFluentClassProvider : SpacingFluentClassProvider, ISpacingFluentClass
 {
-    public PaddingFluentClassProvider() : base(Space.Padding)
+    public PaddingFluentClassProvider() : base(SpacingType.Padding)
     {
     }
 }
@@ -127,7 +135,7 @@ internal struct SpaceDefinition
     public BreakPoint? BreakPoint;
 }
 
-internal enum Space
+internal enum SpacingType
 {
     [DefaultValue("m")]Margin,
     [DefaultValue("p")]Padding
