@@ -281,7 +281,7 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     /// </summary>
     /// <param name="id">要查询的 id 主键。</param>
     /// <returns>查询到的实体或 <c>null</c>。</returns>
-    protected virtual ValueTask<TEntity?> FindAsync(TKey id) => Context.FindAsync<TEntity>(new[] { id },CancellationToken);
+    protected virtual ValueTask<TEntity?> FindAsync(TKey id) => Context.FindAsync<TEntity>(new object[] { id },CancellationToken);
 
     /// <summary>
     /// 应用 Skip 数据查询筛选。

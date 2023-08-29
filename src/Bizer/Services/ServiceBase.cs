@@ -1,4 +1,7 @@
 ﻿using Bizer.Security;
+
+using LazyCache;
+
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
@@ -43,4 +46,9 @@ public abstract class ServiceBase
     /// 获取本地化器。
     /// </summary>
     protected IStringLocalizer? Locale => (IStringLocalizer?)ServiceProvider.GetService(typeof(IStringLocalizer<>));
+
+    /// <summary>
+    /// 缓存服务。参见：https://github.com/alastairtree/LazyCache
+    /// </summary>
+    protected IAppCache? CachingProvider => ServiceProvider.GetService<IAppCache>();
 }

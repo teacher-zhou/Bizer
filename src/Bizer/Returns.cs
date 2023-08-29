@@ -30,6 +30,11 @@ public class Returns
     public bool Succeed { get; protected set; }
 
     /// <summary>
+    /// 获取自定义代码。
+    /// </summary>
+    public string? Code { get; internal set; }
+
+    /// <summary>
     /// 表示操作结果是成功的。
     /// </summary>
     public static Returns Success() => new(true);
@@ -45,7 +50,7 @@ public class Returns
 /// </summary>
 /// <typeparam name="TResult">返回值的类型。</typeparam>
 [Serializable]
-public class Returns<TResult>:Returns
+public class Returns<TResult> : Returns
 {
     /// <summary>
     /// 初始化 <see cref="Returns{TResult}"/> 类的新实例。
@@ -59,16 +64,6 @@ public class Returns<TResult>:Returns
     /// 获取执行结果成功后的返回数据。
     /// </summary>
     public TResult? Data { get; private set; } = default;
-
-    ///// <summary>
-    ///// 设置返回的数据。
-    ///// </summary>
-    ///// <param name="data">要返回的数据。</param>
-    //public Returns<TResult> SetData(TResult? data)
-    //{
-    //    Data = data;
-    //    return this;
-    //}
 
     /// <summary>
     /// 表示操作结果是成功的，并设置返回的数据。

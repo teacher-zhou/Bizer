@@ -38,7 +38,7 @@ namespace Sample.WebApi
         [ProducesResponseType(200, Type = typeof(Returns<string>))]
         public Task<Returns<string>> GetHasData()
         {
-            return Returns<string>.Success("返回值").ToResultTask();
+            return Returns<string>.Success("返回值").WithCode("20003").ToResultTask();
         }
 
         public Task<string> PostAsync(string data)
