@@ -148,4 +148,28 @@ public static class ReturnsExtensions
     /// <param name="exception">异常对象。</param>
     public static Returns<TResult> LogFatal<TResult>(this Returns<TResult> instance, ILogger? logger, string? logMessage = default, Exception? exception = default)
         => instance.LogAsReturns(logger, LogLevel.Critical, logMessage, exception);
+
+    /// <summary>
+    /// 使返回结果具备指定的自定义代码。
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="code">自定义代码。</param>
+    /// <returns></returns>
+    public static Returns WithCode(this Returns instance, string? code)
+    {
+        instance.Code = code;
+        return instance;
+    }
+
+    /// <summary>
+    /// 使返回结果具备指定的自定义代码。
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="code">自定义代码。</param>
+    /// <returns></returns>
+    public static Returns<TResult> WithCode<TResult>(this Returns<TResult> instance, string? code)
+    {
+        instance.Code = code;
+        return instance;
+    }
 }

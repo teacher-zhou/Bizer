@@ -12,6 +12,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
 	</ItemGroup>
 	<ItemGroup>
+	  <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0" />
 	  <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
 	  <PackageReference Include="Mapster.EFCore" Version="5.1.0" />
 	</ItemGroup>

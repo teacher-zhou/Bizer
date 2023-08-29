@@ -48,11 +48,11 @@ public class CrudSericeTest:TestBase
         var result = await _userService.CreateAsync(new() { Id = 11, Name = "admin" });
         Assert.True(result.Succeed);
 
-        var deleted = await _userService.DeleteAsync(1);
+        var deleted = await _userService.DeleteAsync(11);
         Assert.True(deleted.Succeed);
 
 
-        var user = await _userService.GetAsync(1);
+        var user = await _userService.GetAsync(11);
         Assert.NotNull(user);
         Assert.Null(user.Data);
     }
