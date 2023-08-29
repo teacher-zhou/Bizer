@@ -88,12 +88,14 @@ internal abstract class SpacingFluentClassProvider : FluentClassProvider<Spacing
     ISpacingSize WithSize(BreakPoint? breakPoint)
     {
         _spaceDefinition.BreakPoint = breakPoint;
+        AddRule(_spaceDefinition);
         return this;
     }
 
     ISpacingSideWithBreakPoint WithBreakPoint(string? side)
     {
         _spaceDefinition.Side = side;
+        AddRule(_spaceDefinition);
         return this;
     }
     protected override string? Format(SpacingType key)

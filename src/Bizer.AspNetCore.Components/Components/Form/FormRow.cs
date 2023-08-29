@@ -15,7 +15,7 @@ public class FormRow : BizerChildConentComponentBase
     [Parameter][CssClass("mb-")] public Space? Space { get; set; } = Components.Space.Is3;
 
     /// <summary>
-    /// 行内布局。
+    /// 自动行内行内布局。
     /// </summary>
-    [Parameter] public bool Inline { get; set; }
+    [Parameter][CssClass("col-auto")] public bool AutoInline { get; set; }
 }

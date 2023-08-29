@@ -10,6 +10,7 @@ namespace Bizer.AspNetCore.Components;
 [CssClass("row")]
 public class Form : BizerComponentBase
 {
+    private bool _hasSetEditContextExplicitly;
     /// <summary>
     /// 要验证的表单模型。
     /// </summary>
@@ -17,7 +18,16 @@ public class Form : BizerComponentBase
     /// <summary>
     /// 用于自定义验证的上下文。
     /// </summary>
-    [Parameter] public EditContext? EditContext { get; set; }
+    [Parameter]
+    public EditContext? EditContext
+    {
+        get => _fixedEditContext;
+        set
+        {
+            _fixedEditContext = value;
+            _hasSetEditContextExplicitly = value != null;
+        }
+    }
     /// <summary>
     /// 一个表达提交的回调。
     /// </summary>
@@ -70,24 +80,20 @@ public class Form : BizerComponentBase
     {
         base.OnParametersSet();
 
-        if (Model is null && EditContext is null)
+        if (_hasSetEditContextExplicitly && Model is not null)
         {
             throw new InvalidOperationException($"参数 {nameof(Model)} 和 {nameof(EditContext)} 必须选择一个提供，但不能都同时提供");
         }
 
-        if (Model is not null && EditContext is not null)
+        else if (!_hasSetEditContextExplicitly && Model is null)
         {
-            throw new InvalidOperationException($"参数 {nameof(Model)} 和 {nameof(EditContext)} 只能提供其中一个使用");
+            throw new InvalidOperationException($"参数 {nameof(Model)} 和 {nameof(EditContext)} 必须至少提供一个");
         }
 
 
-        if (Model is not null && EditContext is null)
+        if (Model != null && Model != _fixedEditContext?.Model)
         {
-            _fixedEditContext = new(Model);
-        }
-        else if (EditContext is not null && _fixedEditContext != EditContext)
-        {
-            _fixedEditContext = EditContext;
+            _fixedEditContext = new EditContext(Model!);
         }
 
         _fixedEditContext!.SetFieldCssClassProvider(new BootstrapFieldCssClassProvider());
