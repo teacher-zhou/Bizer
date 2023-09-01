@@ -11,12 +11,12 @@ var builder = Host.CreateDefaultBuilder(args);
 builder.ConfigureServices(services =>
 {
     services.AddLogging(builder=>builder.AddDebug());
-    services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-    .AddHttpClientConvension(configure =>
+    services.AddBizer(options =>
     {
-        configure.BaseAddress = new("http://localhost:5192");
-        //configure.DelegatingHandlers.Add(_ => new MyHttpClientHandler());
-    });
+        options.Assemblies.Add(typeof(ITestService).Assembly);
+        //options.AssembyNames.Add("Sample.*");
+    })
+    .AddHttpClientConvension("http://localhost:5192");
 }).ConfigureLogging(log =>
 {
     log.AddDebug().AddConsole().AddFilter(level=>level== LogLevel.Debug);

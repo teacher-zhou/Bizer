@@ -1,5 +1,4 @@
 ﻿using Mapster;
-using LazyCache;
 namespace Bizer.Services;
 public static class DependencyInjectionExtensions
 {
@@ -121,6 +120,7 @@ public static class DependencyInjectionExtensions
     {
         var options = new DbContextConfigureOptions();
         configure?.Invoke(options);
+
         builder.Services.AddSingleton(options);
         return builder;
     }

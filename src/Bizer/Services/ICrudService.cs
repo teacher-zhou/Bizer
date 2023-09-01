@@ -65,7 +65,7 @@ public interface ICrudService<in TKey, TCreateOrUpdate, TDetail, TList, TListFil
 /// <typeparam name="TDetail">详情字段的模型类型。</typeparam>
 /// <typeparam name="TList">列表字段的类型。</typeparam>
 /// <typeparam name="TListFilter">列表过滤的模型类型。</typeparam>
-public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFilter>
+public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFilter>:IQueryService<TKey,TDetail,TList,TListFilter>
     where TKey : IEquatable<TKey>
     where TCreate : class
     where TUpdate : class
@@ -95,19 +95,4 @@ public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFi
     /// <returns>一个删除方法，返回 <see cref="Returns"/> 结果。</returns>
     [Delete("{id}")]
     Task<Returns<TDetail?>> DeleteAsync([Path] TKey id);
-    /// <summary>
-    /// 获取指定 id 的结果。
-    /// </summary>
-    /// <param name="id">要获取的 id 。</param>
-    /// <returns>一个获取结果的方法，返回 <see cref="Returns{TDetail}"/> 结果。</returns>
-    [Get("{id}")]
-    Task<Returns<TDetail?>> GetAsync([Path] TKey id);
-
-    /// <summary>
-    /// 获取指定分页的结果列表。
-    /// </summary>
-    /// <param name="filter">获取列表的过滤输入模型。</param>
-    /// <returns>一个获取分页结果的方法，返回 <see cref="Returns{TList}"/> 结果。</returns>
-    [Get]
-    Task<Returns<PagedOutput<TList>>> GetListAsync([Query] TListFilter? filter = default);
 }

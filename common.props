@@ -5,9 +5,9 @@
 		<TargetFrameworks>net6.0;net7.0;</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.5.1</Version>
+		<Version>0.5.2</Version>
 		<Authors>playermaker</Authors>
-		<Copyright>playermaker（最高指挥官） © 2023</Copyright>
+		<Copyright>playermaker（最高指挥官） © 2023-2025</Copyright>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
