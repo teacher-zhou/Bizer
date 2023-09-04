@@ -73,11 +73,11 @@ public static class BizerAspNetCoreDependencyInjections
                 .UseSwaggerUi3(setting =>
                 {
                     setting.DocExpansion = "list";
-                    setting.DocumentTitle = apiOptions.Title;
+                    setting.DocumentTitle = apiOptions?.Title;
                 })
                 .UseOpenApi(setting =>
                 {
-                    setting.DocumentName = apiOptions.Version;
+                    setting.DocumentName = apiOptions?.Version;
                 })
                 ;
         }
@@ -87,5 +87,14 @@ public static class BizerAspNetCoreDependencyInjections
             endpoints.MapControllers();
         });
         return builder;
+    }
+
+    /// <summary>
+    /// 构造 Bizer 框架。
+    /// </summary>
+    public static WebApplication WithBizer(this WebApplication application)
+    {
+        ApplicationContext.SetApplicationService(application.Services);
+        return application;
     }
 }

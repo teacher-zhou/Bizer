@@ -17,15 +17,9 @@ namespace Bizer.Services;
 public abstract class ServiceBase
 {
     /// <summary>
-    /// 初始化 <see cref="ServiceBase"/> 类的新实例。
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器。</param>
-    protected ServiceBase(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
-
-    /// <summary>
     /// 获取添加的服务的提供器。
     /// </summary>
-    protected IServiceProvider ServiceProvider { get; }
+    protected IServiceProvider ServiceProvider => ApplicationContext.Services.Value;
 
     /// <summary>
     /// 获取日志对象。

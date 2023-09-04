@@ -1,6 +1,34 @@
 ﻿namespace Bizer.Services;
 
-public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, TListFilter> : QueryListServiceBase<TContext, TKey, TEntity, TList, TListFilter>, IQueryService<TKey, TDetail, TList, TListFilter>
+public abstract class QueryServiceBase<TContext, TEntity, TKey, TList> : QueryServiceBase<TContext, TEntity, TKey, TList, TList>, IQueryService<TKey, TList>
+    where TContext : DbContext
+    where TKey : IEquatable<TKey>
+    where TEntity : class
+    where TList : class
+{
+
+}
+
+public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList>: QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, TList>,IQueryService<TKey,TDetail, TList>
+    where TContext : DbContext
+    where TKey : IEquatable<TKey>
+    where TEntity : class
+    where TDetail : class
+    where TList : class
+{
+
+}
+
+/// <summary>
+/// 表示可以对数据进行查询的服务基类。
+/// </summary>
+/// <typeparam name="TContext"></typeparam>
+/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TKey"></typeparam>
+/// <typeparam name="TDetail"></typeparam>
+/// <typeparam name="TList"></typeparam>
+/// <typeparam name="TListFilter"></typeparam>
+public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, TListFilter> : QueryListServiceBase<TContext, TEntity, TList, TListFilter>, IQueryService<TKey, TDetail, TList, TListFilter>
     where TContext : DbContext
     where TKey : IEquatable<TKey>
     where TEntity : class
@@ -8,11 +36,6 @@ public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, 
     where TList : class
     where TListFilter : class
 {
-    protected QueryServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
-
     #region Get
     /// <summary>
     /// <inheritdoc/>

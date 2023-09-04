@@ -13,13 +13,6 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity> : CrudServiceBase
     where TKey : IEquatable<TKey>
     where TEntity : class
 {
-
-    /// <summary>
-    /// 初始化 <see cref="CrudServiceBase{TContext, TKey, TEntity}"/> 类的新实例。
-    /// </summary>
-    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 }
 /// <summary>
 /// 表示 CRUD 服务的基类。
@@ -34,13 +27,6 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TModel> : CrudSer
     where TEntity : class
     where TModel : class
 {
-
-    /// <summary>
-    /// 初始化 <see cref="CrudServiceBase{TContext, TKey, TEntity, TModel}"/> 类的新实例。
-    /// </summary>
-    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 }
 /// <summary>
 /// 表示 CRUD 服务的基类。
@@ -57,13 +43,6 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TCreateOrUpdate : class
     where TDisplay : class
 {
-
-    /// <summary>
-    /// 初始化 <see cref="CrudServiceBase{TContext, TKey, TEntity, TCreateOrUpdate, TDisplay}"/> 类的新实例。
-    /// </summary>
-    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 }
 
 /// <summary>
@@ -83,13 +62,6 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TDisplay : class
     where TListFilter : class
 {
-
-    /// <summary>
-    /// 初始化 <see cref="CrudServiceBase{TContext, TKey, TEntity, TCreateOrUpdate, TDisplay, TListFilter}"/> 类的新实例。
-    /// </summary>
-    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 }
 
 /// <summary>
@@ -111,13 +83,6 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TList : class
     where TListFilter : class
 {
-
-    /// <summary>
-    /// 初始化 <see cref="CrudServiceBase{TContext, TKey, TEntity, TCreateOrUpdate, TDetail, TList, TListFilter}"/> 类的新实例。
-    /// </summary>
-    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 }
 
     /// <summary>
@@ -141,13 +106,6 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TList : class
     where TListFilter : class
 {
-
-    /// <summary>
-    /// 初始化 <see cref="CrudServiceBase{TContext, TKey, TEntity, TCreate, TUpdate, TDetail, TList, TListFilter}"/> 类的新实例。
-    /// </summary>
-    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
 
 
     #region Create

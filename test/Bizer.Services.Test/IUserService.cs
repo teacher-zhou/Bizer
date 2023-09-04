@@ -8,8 +8,5 @@
 
     public class UserService : CrudServiceBase<BizerDbContext, int, User>, IUserService
     {
-        public UserService(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-        }
     }
 }

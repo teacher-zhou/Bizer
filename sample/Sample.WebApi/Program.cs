@@ -18,6 +18,7 @@ builder.Services.AddCors(options=>options.AddDefaultPolicy(b=>b.AllowAnyHeader()
 //builder.Services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("db"));
 
 var app = builder.Build();
+
 app.UseDeveloperExceptionPage();
 app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 app.UseRouting();

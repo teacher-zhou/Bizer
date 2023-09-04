@@ -109,12 +109,6 @@ public static class DependencyInjectionExtensions
     public static BizerBuilder AddDbContextPool(this BizerBuilder builder, Action<DbContextOptionsBuilder> configureOptions)
         => builder.AddDbContextFactory<BizerDbContext>(configureOptions);
 
-    public static BizerBuilder AddMemoryCache(this BizerBuilder builder)
-    {
-        builder.Services.AddLazyCache();
-        return builder;
-    }
-
 
     static BizerBuilder ConfigureBizerServices(this BizerBuilder builder, Action<DbContextConfigureOptions>? configure = default)
     {

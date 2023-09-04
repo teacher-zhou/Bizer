@@ -4,16 +4,15 @@ using Microsoft.Extensions.Hosting;
 namespace Bizer.Test;
 public abstract class TestBase
 {
-    private readonly IServiceProvider _builder;
 
     public TestBase()
     {
-        _builder = Host.CreateDefaultBuilder().ConfigureServices(ConfigureServices).Build().Services;
+        Host.CreateDefaultBuilder().ConfigureServices(ConfigureServices).Build().WithBizer();
     }
 
     protected virtual void ConfigureServices(IServiceCollection services) { }
 
-    protected IServiceProvider ServiceProvider => _builder;
+    protected IServiceProvider ServiceProvider => ApplicationContext.Services.Value;
 
-    protected T? GetService<T>() where T : class => _builder.GetService<T>();
+    protected T? GetService<T>() where T : class => ServiceProvider.GetService<T>();
 }

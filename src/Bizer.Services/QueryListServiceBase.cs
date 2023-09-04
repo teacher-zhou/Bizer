@@ -1,22 +1,36 @@
 ﻿namespace Bizer.Services;
-
-public abstract class QueryListServiceBase<TContext,TKey, TEntity, TList, TListFilter>:ServiceBase<TContext,TEntity>,IQueryListService<TList,TListFilter>
+/// <summary>
+/// 表示可以对数据进行列表查询的基类。
+/// </summary>
+/// <typeparam name="TContext">数据库上下文类型。</typeparam>
+/// <typeparam name="TEntity">实体类型。</typeparam>
+/// <typeparam name="TList">列表字段和过滤字段的类型。</typeparam>
+public abstract class QueryListServiceBase<TContext, TEntity, TList>: QueryListServiceBase<TContext, TEntity, TList, TList>, IQueryListService<TList>
     where TContext : DbContext
-    where TKey : IEquatable<TKey>
+    where TEntity : class
+    where TList : class
+{
+
+}
+/// <summary>
+/// 表示可以对数据进行列表查询的基类。
+/// </summary>
+/// <typeparam name="TContext">数据库上下文类型。</typeparam>
+/// <typeparam name="TEntity">实体类型。</typeparam>
+/// <typeparam name="TList">列表字段的类型。</typeparam>
+/// <typeparam name="TListFilter">列表过滤的类型。</typeparam>
+public abstract class QueryListServiceBase<TContext, TEntity, TList, TListFilter> : ServiceBase<TContext, TEntity>, IQueryListService<TList, TListFilter>
+    where TContext : DbContext
     where TEntity : class
     where TList : class
     where TListFilter : class
 {
-    protected QueryListServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
     #region GetList
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     /// <param name="model">列表检索的输入。</param>
-    public virtual async Task<Returns<PagedOutput<TList>>> GetListAsync([Query] TListFilter? filter = default)
+    public virtual async Task<Returns<PagedInfo<TList>>> GetListAsync([Query] TListFilter? filter = default)
     {
         var query = QueryFilter(filter);
 
@@ -27,11 +41,11 @@ public abstract class QueryListServiceBase<TContext,TKey, TEntity, TList, TListF
         {
             var data = await query.Select(m => Mapper.Map<TList>(m)).ToListAsync(CancellationToken);
             var total = await query.CountAsync();
-            return Returns<PagedOutput<TList>>.Success(new(data, total));
+            return Returns<PagedInfo<TList>>.Success(new(data, total));
         }
         catch (AggregateException ex)
         {
-            return Returns<PagedOutput<TList>>.Failed("查询发生了错误，请查看日志").LogError(Logger, logMessage: ex.InnerExceptions.Select(m => m.Message).JoinAsString("；"), ex);
+            return Returns<PagedInfo<TList>>.Failed("查询发生了错误，请查看日志").LogError(Logger, logMessage: ex.InnerExceptions.Select(m => m.Message).JoinAsString("；"), ex);
         }
     }
     #endregion
@@ -58,7 +72,7 @@ public abstract class QueryListServiceBase<TContext,TKey, TEntity, TList, TListF
             return source;
         }
 
-        if (filter is IHasSkipInput skipInput && skipInput.Skip.HasValue)
+        if (filter is IHasSkip skipInput && skipInput.Skip.HasValue)
         {
             source = source.Skip(skipInput.Skip.Value);
         }
@@ -78,7 +92,7 @@ public abstract class QueryListServiceBase<TContext,TKey, TEntity, TList, TListF
             return source;
         }
 
-        if (filter is IHasTakeInput input && input.Take.HasValue)
+        if (filter is IHasTake input && input.Take.HasValue)
         {
             source = source.Take(input.Take.Value);
         }
@@ -91,9 +105,9 @@ public abstract class QueryListServiceBase<TContext,TKey, TEntity, TList, TListF
     /// <returns>排序后的数据源。</returns>
     protected virtual IQueryable<TEntity> ApplySorting(IQueryable<TEntity> source)
     {
-        if (typeof(TEntity).IsAssignableTo(typeof(IHasId<>)))
+        if (typeof(TEntity).IsAssignableTo(typeof(IHasCreateTime)))
         {
-            return source.OrderByDescending(e => ((IHasId<TKey>)e).Id);
+            return source.OrderByDescending(e => ((IHasCreateTime)e).CreateTime);
         }
 
         return source;
