@@ -1,0 +1,21 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+@using Sample.Services
+
+@inject ITestService Service
+
+
+
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            var result= await Service.GetAsync();
+            Console.WriteLine(result.Succeed);
+        }
+    }
+}

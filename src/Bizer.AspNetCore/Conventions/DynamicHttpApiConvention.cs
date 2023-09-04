@@ -216,9 +216,21 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
         var methodName = action.ActionName;
 
-        var actionReflectedMethod = allmethods.SingleOrDefault(t => t.Name == action.ActionMethod.Name && t.GetParameters().Count()==action.Parameters.Count) ?? throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
+        //同名方法的重载必须唯一
 
-        var methodKey = DefaultHttpRemotingResolver.GetMethodCacheKey(actionReflectedMethod);
+        var filterMethods = allmethods.Where(t => t.Name == action.ActionMethod.Name && t.GetParameters().Count() == action.Parameters.Count);
+        if (!filterMethods.Any())
+        {
+            throw new InvalidOperationException($"没有在接口'{_interfaceAsControllerType.Name}'找到方法'{action.ActionName}'");
+        }
+        if (filterMethods.Count() > 1)
+        {
+            throw new InvalidOperationException($"在'{_interfaceAsControllerType.Name}'找到多个方法'{action.ActionName}'并且参数都是 {filterMethods.SelectMany(m => m.GetParameters()).Select(t => $"{t.Name}:{t.ParameterType.Name}").Aggregate((prev, next) => $"{prev},{next}")}");
+        }
+
+        var onlyMethod = filterMethods.Single();
+
+        var methodKey = DefaultHttpRemotingResolver.GetMethodCacheKey(onlyMethod);
 
         var actionMethod = allmethods.SingleOrDefault(m => DefaultHttpRemotingResolver.GetMethodCacheKey(m) == methodKey);
         return actionMethod;

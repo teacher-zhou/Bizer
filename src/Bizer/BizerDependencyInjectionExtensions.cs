@@ -1,6 +1,7 @@
 ﻿using Bizer;
 using Bizer.Security;
-using System.Reflection;
+
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.Extensions.DependencyInjection;
 public static class BizerDependencyInjectionExtensions
@@ -25,4 +26,14 @@ public static class BizerDependencyInjectionExtensions
     public static BizerBuilder AddThreadCurrentPrincipalAccessor(this BizerBuilder builder)
         => builder.AddCurrentPrincipalAccessor<ThreadCurrentPrincipalAccessor>();
 
+    /// <summary>
+    /// 构造 Bizer 框架。
+    /// </summary>
+    /// <param name="host"></param>
+    /// <returns></returns>
+    public static IHost WithBizer(this IHost host)
+    {
+        ApplicationContext.SetApplicationService(host.Services);
+        return host;
+    }
 }
