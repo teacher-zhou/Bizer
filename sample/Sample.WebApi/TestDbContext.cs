@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bizer.Services;
+
+using Microsoft.EntityFrameworkCore;
 using Sample.Services;
 
 namespace Sample.WebApi;
-public class TestDbContext : DbContext
+public class TestDbContext : BizerDbContext
 {
-    public TestDbContext(DbContextOptions options) : base(options)
+    public TestDbContext(IServiceProvider serviceProvider, DbContextConfigureOptions options) : base(serviceProvider, options)
     {
     }
 

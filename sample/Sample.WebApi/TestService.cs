@@ -16,7 +16,7 @@ namespace Sample.WebApi
         [ProducesResponseType(200,Type=typeof(Returns))]
         public Task<Returns> GetAsync()
         {
-            return Returns.Success().ToResultTask();
+            return Returns.Success().WithMessage("获取成功").ToResultTask();
         }
 
         [ProducesResponseType(200, Type = typeof(Returns))]

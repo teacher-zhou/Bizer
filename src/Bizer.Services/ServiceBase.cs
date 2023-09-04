@@ -11,14 +11,6 @@ public abstract class ServiceBase<TContext> : ServiceBase, IDisposable
     where TContext : DbContext
 {
     /// <summary>
-    /// 初始化 <see cref="ServiceBase{TContext}"/> 类的新实例。
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器。</param>
-    protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
-    /// <summary>
     /// 获取映射对象。
     /// </summary>
     protected IMapper Mapper => ServiceProvider.GetRequiredService<IMapper>();
@@ -121,15 +113,6 @@ public abstract class ServiceBase<TContext, TEntity> : ServiceBase<TContext>
     where TContext : DbContext
     where TEntity : class
 {
-
-    /// <summary>
-    /// 初始化 <see cref="ServiceBase{TContext, TEntity}"/> 类的新实例。
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器。</param>
-    protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    {
-    }
-
     /// <summary>
     /// 获取数据集对象。
     /// </summary>

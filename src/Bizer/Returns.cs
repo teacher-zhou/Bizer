@@ -13,16 +13,14 @@ public class Returns
     /// <param name="code">代码。</param>
     public Returns(bool succeed = default, IEnumerable<string>? messages = default)
     {
-        _messageCollection.AddRange(messages ?? Array.Empty<string>());
+        Messages = messages ?? Enumerable.Empty<string?>();
         Succeed = succeed;
     }
-
-     List<string> _messageCollection = new();
 
     /// <summary>
     /// 获取返回的信息数组。
     /// </summary>
-    public IEnumerable<string?> Messages => _messageCollection;
+    public IEnumerable<string?> Messages { get; internal set; } = Enumerable.Empty<string?>();
 
     /// <summary>
     /// 获取一个布尔值，表示是否成功的结果。

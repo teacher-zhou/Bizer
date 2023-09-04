@@ -48,7 +48,7 @@ public static class Checker
     /// <param name="paramName">参数名称。</param>
     /// <returns>不为 null 或空字符串的字符串。</returns>
     /// <exception cref="ArgumentException"><paramref name="value"/> 是 null 或空字符串。</exception>
-    public static string NotNullOrEmpty(string value, [NotNull] string paramName)
+    public static string NotNullOrEmpty(string? value, [NotNull] string paramName)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -65,7 +65,7 @@ public static class Checker
     /// <param name="message">自定义异常消息。</param>
     /// <returns>不为 null 或空字符串的字符串。</returns>
     /// <exception cref="ArgumentException"><paramref name="value"/> 是 null 或空字符串。</exception>
-    public static string NotNullOrEmpty(string value, [NotNull] string paramName, [NotNull] string message)
+    public static string NotNullOrEmpty(string? value, [NotNull] string paramName, [NotNull] string message)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -81,7 +81,7 @@ public static class Checker
     /// <param name="paramName">参数名称。</param>
     /// <returns>不为 null 或空白字符串的字符串。</returns>
     /// <exception cref="ArgumentException"><paramref name="value"/> 是 null 或空白字符串。</exception>
-    public static string NotNullOrWhiteSpace(string value, [NotNull] string paramName)
+    public static string NotNullOrWhiteSpace(string? value, [NotNull] string paramName)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -98,7 +98,7 @@ public static class Checker
     /// <param name="message">自定义异常消息。</param>
     /// <returns>不为 null 或空白字符串的字符串。</returns>
     /// <exception cref="ArgumentException"><paramref name="value"/> 是 null 或空白字符串。</exception>
-    public static string NotNullOrWhiteSpace(string value, string paramName, string message)
+    public static string NotNullOrWhiteSpace(string? value, string paramName, string message)
     {
         if (string.IsNullOrWhiteSpace(value))
         {

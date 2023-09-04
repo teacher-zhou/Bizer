@@ -1,14 +1,22 @@
-﻿namespace Bizer.Services;
+﻿using Microsoft.Extensions.Options;
+
+namespace Bizer.Services;
 /// <summary>
 /// 实现了自动化配置的 <see cref="DbContext"/> 类。
 /// </summary>
 public class BizerDbContext : DbContext
 {
+    private readonly DbContextConfigureOptions _options;
+
     /// <summary>
     /// 初始化 <see cref="BizerDbContext"/> 类的新实例。
     /// </summary>
     /// <param name="serviceProvider"></param>
-    public BizerDbContext(IServiceProvider serviceProvider) => ServiceProvider = serviceProvider;
+    public BizerDbContext(IServiceProvider serviceProvider, DbContextConfigureOptions options)
+    {
+        ServiceProvider = serviceProvider;
+        this._options = options;
+    }
 
     /// <summary>
     /// 获取服务。
@@ -21,17 +29,12 @@ public class BizerDbContext : DbContext
     public AutoDiscoveryOptions AutoDiscoveryOptions => ServiceProvider.GetRequiredService<AutoDiscoveryOptions>();
 
     /// <summary>
-    /// 获取 <see cref="DbContext"/> 的配置选项。
-    /// </summary>
-    public DbContextConfigureOptions DbContextConfigureOptions=>ServiceProvider.GetRequiredService<DbContextConfigureOptions>();
-
-    /// <summary>
     /// 从 <see cref="DbContextConfigureOptions"/> 配置数据库引擎模块。
     /// </summary>
     /// <param name="optionsBuilder"></param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        DbContextConfigureOptions.ConfigureOptionBuilder?.Invoke(optionsBuilder);
+        _options.ConfigureOptionBuilder?.Invoke(optionsBuilder);
     }
 
     /// <summary>

@@ -172,4 +172,29 @@ public static class ReturnsExtensions
         instance.Code = code;
         return instance;
     }
+
+    /// <summary>
+    /// 使返回结果追加指定的消息。
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="message">自定义消息。</param>
+    public static Returns WithMessage(this Returns instance, string? message)
+    {
+        Checker.NotNullOrEmpty(message, nameof(message));
+
+        instance.Messages = instance.Messages.Append(message);
+        return instance;
+    }
+    /// <summary>
+    /// 使返回结果追加指定的消息。
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="message">自定义消息。</param>
+    public static Returns<TResult> WithMessage<TResult>(this Returns<TResult> instance, string? message)
+    {
+        Checker.NotNullOrEmpty(message, nameof(message));
+
+        instance.Messages = instance.Messages.Append(message);
+        return instance;
+    }
 }
