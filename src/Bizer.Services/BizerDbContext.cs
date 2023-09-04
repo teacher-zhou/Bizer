@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Options;
 
 namespace Bizer.Services;
 /// <summary>
@@ -12,10 +14,10 @@ public class BizerDbContext : DbContext
     /// 初始化 <see cref="BizerDbContext"/> 类的新实例。
     /// </summary>
     /// <param name="serviceProvider"></param>
-    public BizerDbContext(IServiceProvider serviceProvider, DbContextConfigureOptions options)
+    public BizerDbContext(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
-        this._options = options;
+        //this._options = options;
     }
 
     /// <summary>
@@ -34,7 +36,7 @@ public class BizerDbContext : DbContext
     /// <param name="optionsBuilder"></param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        _options.ConfigureOptionBuilder?.Invoke(optionsBuilder);
+        ServiceProvider.GetRequiredService<DbContextConfigureOptions>().ConfigureOptionBuilder?.Invoke(optionsBuilder);
     }
 
     /// <summary>

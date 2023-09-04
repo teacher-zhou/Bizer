@@ -6,7 +6,7 @@ using Sample.Services;
 namespace Sample.WebApi;
 public class TestDbContext : BizerDbContext
 {
-    public TestDbContext(IServiceProvider serviceProvider, DbContextConfigureOptions options) : base(serviceProvider, options)
+    public TestDbContext(IServiceProvider serviceProvider) : base(serviceProvider)
     {
     }
 

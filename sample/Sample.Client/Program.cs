@@ -21,7 +21,7 @@ builder.ConfigureServices(services =>
 {
     log.AddDebug().AddConsole().AddFilter(level=>level== LogLevel.Debug);
 });
-var app = builder.Build();
+var app = builder.Build().WithBizer();
 app.Start();
 
 var logger = app.Services.GetRequiredService<ILogger<Program>>();

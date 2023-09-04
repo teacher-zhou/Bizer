@@ -5,7 +5,7 @@
 namespace Sample.WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Test : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
