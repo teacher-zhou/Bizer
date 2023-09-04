@@ -28,7 +28,7 @@ public static class DependencyInjectionExtensions
     /// <returns></returns>
     public static BizerBuilder AddDbContext<TContext>(this BizerBuilder builder, Action<DbContextOptionsBuilder> configureOptions) where TContext : BizerDbContext
     {
-        builder.ConfigureBizerServices(options => options.ConfigureOptionBuilder = configureOptions);
+        builder.ConfigureDbContextOptions(options => options.ConfigureOptionBuilder = configureOptions);
         builder.Services.AddDbContext<TContext>();
         return builder;
     }
@@ -59,7 +59,7 @@ public static class DependencyInjectionExtensions
     /// <returns></returns>
     public static BizerBuilder AddDbContextFactory<TContext>(this BizerBuilder builder, Action<DbContextOptionsBuilder> configureOptions) where TContext : BizerDbContext
     {
-        builder.ConfigureBizerServices(options => options.ConfigureOptionBuilder = configureOptions);
+        builder.ConfigureDbContextOptions(options => options.ConfigureOptionBuilder = configureOptions);
         builder.Services.AddDbContextFactory<TContext>(configureOptions);
         return builder;
     }
@@ -90,7 +90,7 @@ public static class DependencyInjectionExtensions
     /// <returns></returns>
     public static BizerBuilder AddDbContextPool<TContext>(this BizerBuilder builder, Action<DbContextOptionsBuilder> configureOptions,int poolSize=1024) where TContext : BizerDbContext
     {
-        builder.ConfigureBizerServices(options => options.ConfigureOptionBuilder = configureOptions);
+        builder.ConfigureDbContextOptions(options => options.ConfigureOptionBuilder = configureOptions);
         builder.Services.AddDbContextPool<TContext>(configureOptions,poolSize);
         return builder;
     }
@@ -109,11 +109,16 @@ public static class DependencyInjectionExtensions
     public static BizerBuilder AddDbContextPool(this BizerBuilder builder, Action<DbContextOptionsBuilder> configureOptions)
         => builder.AddDbContextFactory<BizerDbContext>(configureOptions);
 
-
-    static BizerBuilder ConfigureBizerServices(this BizerBuilder builder, Action<DbContextConfigureOptions>? configure = default)
+    /// <summary>
+    /// 配置 <see cref="DbContextConfigureOptions"/>。
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="configure">用于配置的委托。</param>
+    /// <returns></returns>
+    public static BizerBuilder ConfigureDbContextOptions(this BizerBuilder builder, Action<DbContextConfigureOptions> configure)
     {
         var options = new DbContextConfigureOptions();
-        configure?.Invoke(options);
+        configure.Invoke(options);
 
         builder.Services.AddSingleton(options);
         return builder;
