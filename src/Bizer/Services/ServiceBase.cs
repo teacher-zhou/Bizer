@@ -16,10 +16,15 @@ namespace Bizer.Services;
 /// </summary>
 public abstract class ServiceBase
 {
+    protected ServiceBase(IServiceProvider serviceProvider)
+    {
+        ServiceProvider = serviceProvider;
+    }
+
     /// <summary>
     /// 获取添加的服务的提供器。
     /// </summary>
-    protected IServiceProvider ServiceProvider => ApplicationContext.Services.Value;
+    protected IServiceProvider ServiceProvider { get; }
 
     /// <summary>
     /// 获取日志对象。

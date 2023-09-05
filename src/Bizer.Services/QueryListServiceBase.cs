@@ -5,12 +5,14 @@
 /// <typeparam name="TContext">数据库上下文类型。</typeparam>
 /// <typeparam name="TEntity">实体类型。</typeparam>
 /// <typeparam name="TList">列表字段和过滤字段的类型。</typeparam>
-public abstract class QueryListServiceBase<TContext, TEntity, TList>: QueryListServiceBase<TContext, TEntity, TList, TList>, IQueryListService<TList>
+public abstract class QueryListServiceBase<TContext, TEntity, TList> : QueryListServiceBase<TContext, TEntity, TList, TList>, IQueryListService<TList>
     where TContext : DbContext
     where TEntity : class
     where TList : class
 {
-
+    protected QueryListServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 /// <summary>
 /// 表示可以对数据进行列表查询的基类。
@@ -25,6 +27,9 @@ public abstract class QueryListServiceBase<TContext, TEntity, TList, TListFilter
     where TList : class
     where TListFilter : class
 {
+    protected QueryListServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
     #region GetList
     /// <summary>
     /// <inheritdoc/>

@@ -25,18 +25,15 @@ public class ApplicationContext
     /// <summary>
     /// 使用懒加载的方式获取服务。
     /// </summary>
-    public static Lazy<IServiceProvider> Services
+    public static IServiceProvider Services
     {
         get
         {
-            return new(() =>
+            if (_serviceProvider is null)
             {
-                if (_serviceProvider is null)
-                {
-                    throw new ArgumentNullException($"请在 builder.Build() 后面添加 .WithBizer() 方法，示例：var app = builder.Build().WithBizer();");
-                }
-                return _serviceProvider;
-            });
+                throw new ArgumentNullException($"请在 builder.Build() 后面添加 .WithBizer() 方法，示例：var app = builder.Build().WithBizer();");
+            }
+            return _serviceProvider;
         }
     }
 }

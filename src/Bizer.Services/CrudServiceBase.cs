@@ -1,4 +1,5 @@
 ﻿using Mapster;
+
 using System.Reflection;
 
 namespace Bizer.Services;
@@ -13,6 +14,9 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity> : CrudServiceBase
     where TKey : IEquatable<TKey>
     where TEntity : class
 {
+    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 /// <summary>
 /// 表示 CRUD 服务的基类。
@@ -27,6 +31,9 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TModel> : CrudSer
     where TEntity : class
     where TModel : class
 {
+    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 /// <summary>
 /// 表示 CRUD 服务的基类。
@@ -43,6 +50,9 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TCreateOrUpdate : class
     where TDisplay : class
 {
+    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
 /// <summary>
@@ -62,6 +72,9 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TDisplay : class
     where TListFilter : class
 {
+    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
 /// <summary>
@@ -83,20 +96,23 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TList : class
     where TListFilter : class
 {
+    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
-    /// <summary>
-    /// 表示 CRUD 服务的基类。
-    /// </summary>
-    /// <typeparam name="TContext">数据库上下文类型。</typeparam>
-    /// <typeparam name="TKey">主键类型。</typeparam>
-    /// <typeparam name="TEntity">实体类型。</typeparam>
-    /// <typeparam name="TCreate">创建字段的模型类型。</typeparam>
-    /// <typeparam name="TUpdate">更新字段的模型类型。</typeparam>
-    /// <typeparam name="TDetail">详情字段的模型类型。</typeparam>
-    /// <typeparam name="TList">列表字段的类型。</typeparam>
-    /// <typeparam name="TListFilter">列表过滤的模型类型。</typeparam>
-    public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreate, TUpdate, TDetail, TList, TListFilter> : QueryServiceBase<TContext,TEntity,TKey,TDetail,TList,TListFilter>, ICrudService<TKey, TCreate, TUpdate, TDetail, TList, TListFilter>, IDisposable
+/// <summary>
+/// 表示 CRUD 服务的基类。
+/// </summary>
+/// <typeparam name="TContext">数据库上下文类型。</typeparam>
+/// <typeparam name="TKey">主键类型。</typeparam>
+/// <typeparam name="TEntity">实体类型。</typeparam>
+/// <typeparam name="TCreate">创建字段的模型类型。</typeparam>
+/// <typeparam name="TUpdate">更新字段的模型类型。</typeparam>
+/// <typeparam name="TDetail">详情字段的模型类型。</typeparam>
+/// <typeparam name="TList">列表字段的类型。</typeparam>
+/// <typeparam name="TListFilter">列表过滤的模型类型。</typeparam>
+public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreate, TUpdate, TDetail, TList, TListFilter> : QueryServiceBase<TContext,TEntity,TKey,TDetail,TList,TListFilter>, ICrudService<TKey, TCreate, TUpdate, TDetail, TList, TListFilter>, IDisposable
     where TContext : DbContext
     where TKey : IEquatable<TKey>
     where TEntity : class
@@ -106,6 +122,9 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreateOrUpdate, 
     where TList : class
     where TListFilter : class
 {
+    protected CrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 
 
     #region Create

@@ -50,6 +50,11 @@ public abstract class ServiceBase<TContext> : ServiceBase, IDisposable
     #region Disaposable
 
     private bool _disposedValue;
+
+    protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
+
     /// <summary>
     /// 释放资源。
     /// </summary>
@@ -113,6 +118,10 @@ public abstract class ServiceBase<TContext, TEntity> : ServiceBase<TContext>
     where TContext : DbContext
     where TEntity : class
 {
+    protected ServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
+
     /// <summary>
     /// 获取数据集对象。
     /// </summary>

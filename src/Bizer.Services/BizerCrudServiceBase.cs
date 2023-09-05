@@ -13,12 +13,12 @@ public abstract class BizerCrudServiceBase<TKey, TEntity> : BizerCrudServiceBase
     where TEntity : class
 {
 
-    ///// <summary>
-    ///// 初始化 <see cref="BizerCrudServiceBase{TKey, TEntity}"/> 类的新实例。
-    ///// </summary>
-    //protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    //{
-    //}
+    /// <summary>
+    /// 初始化 <see cref="BizerCrudServiceBase{TKey, TEntity}"/> 类的新实例。
+    /// </summary>
+    protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 /// <summary>
 /// 使用 <see cref="BizerDbContext"/> 来操作 CRUD 服务的基类。
@@ -36,12 +36,12 @@ public abstract class BizerCrudServiceBase<TKey, TEntity, TModel> : BizerCrudSer
     where TModel : class
 {
 
-    ///// <summary>
-    ///// 初始化 <see cref="CrudServiceBase{TKey, TEntity, TModel}"/> 类的新实例。
-    ///// </summary>
-    //protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    //{
-    //}
+    /// <summary>
+    /// 初始化 <see cref="CrudServiceBase{TKey, TEntity, TModel}"/> 类的新实例。
+    /// </summary>
+    protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 /// <summary>
 /// 使用 <see cref="BizerDbContext"/> 来操作 CRUD 服务的基类。
@@ -61,12 +61,12 @@ public abstract class BizerCrudServiceBase<TKey, TEntity, TCreateOrUpdate, TDisp
     where TDisplay : class
 {
 
-    ///// <summary>
-    ///// 初始化 <see cref="BizerCrudServiceBase{ TKey, TEntity, TCreateOrUpdate, TDisplay}"/> 类的新实例。
-    ///// </summary>
-    //protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    //{
-    //}
+    /// <summary>
+    /// 初始化 <see cref="BizerCrudServiceBase{ TKey, TEntity, TCreateOrUpdate, TDisplay}"/> 类的新实例。
+    /// </summary>
+    protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
 /// <summary>
@@ -89,12 +89,12 @@ public abstract class BizerCrudServiceBase<TKey, TEntity, TCreateOrUpdate, TDisp
     where TListFilter : class
 {
 
-    ///// <summary>
-    ///// 初始化 <see cref="BizerCrudServiceBase{TKey, TEntity, TCreateOrUpdate, TDisplay, TListFilter}"/> 类的新实例。
-    ///// </summary>
-    //protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    //{
-    //}
+    /// <summary>
+    /// 初始化 <see cref="BizerCrudServiceBase{TKey, TEntity, TCreateOrUpdate, TDisplay, TListFilter}"/> 类的新实例。
+    /// </summary>
+    protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
 /// <summary>
@@ -119,12 +119,12 @@ public abstract class BizerCrudServiceBase<TKey, TEntity, TCreateOrUpdate, TDeta
     where TListFilter : class
 {
 
-    ///// <summary>
-    ///// 初始化 <see cref="BizerCrudServiceBase{ TKey, TEntity, TCreateOrUpdate, TDetail, TList, TListFilter}"/> 类的新实例。
-    ///// </summary>
-    //protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    //{
-    //}
+    /// <summary>
+    /// 初始化 <see cref="BizerCrudServiceBase{ TKey, TEntity, TCreateOrUpdate, TDetail, TList, TListFilter}"/> 类的新实例。
+    /// </summary>
+    protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
 /// <summary>
@@ -150,10 +150,10 @@ where TList : class
 where TListFilter : class
 {
 
-    ///// <summary>
-    ///// 初始化 <see cref="BizerCrudServiceBase{TKey, TEntity, TCreate, TUpdate, TDetail, TList, TListFilter}"/> 类的新实例。
-    ///// </summary>
-    //protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
-    //{
-    //}
+    /// <summary>
+    /// 初始化 <see cref="BizerCrudServiceBase{TKey, TEntity, TCreate, TUpdate, TDetail, TList, TListFilter}"/> 类的新实例。
+    /// </summary>
+    protected BizerCrudServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

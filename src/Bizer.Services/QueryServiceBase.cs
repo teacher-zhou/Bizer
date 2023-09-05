@@ -6,17 +6,21 @@ public abstract class QueryServiceBase<TContext, TEntity, TKey, TList> : QuerySe
     where TEntity : class
     where TList : class
 {
-
+    protected QueryServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
-public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList>: QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, TList>,IQueryService<TKey,TDetail, TList>
+public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList> : QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, TList>, IQueryService<TKey, TDetail, TList>
     where TContext : DbContext
     where TKey : IEquatable<TKey>
     where TEntity : class
     where TDetail : class
     where TList : class
 {
-
+    protected QueryServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }
 
 /// <summary>
@@ -36,6 +40,9 @@ public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, 
     where TList : class
     where TListFilter : class
 {
+    protected QueryServiceBase(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
     #region Get
     /// <summary>
     /// <inheritdoc/>
