@@ -5,17 +5,32 @@
 @using Sample.Services
 
 @inject ITestService Service
-
-
+@inject IServiceProvider Provider
+@inject HttpClient Client
 
 @code{
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            var service = Client.For<ITestService>(Provider);
+            service.GetAsync();
 
-            var result= await Service.GetAsync();
-            Console.WriteLine(result.Succeed);
+           // var result= await Service.GetAsync();
+            /*
+             *
+             *       Unhandled exception rendering component: Operation is not supported on this platform.
+    System.PlatformNotSupportedException: Operation is not supported on this platform.
+       at System.Net.Http.BrowserHttpHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
+       at System.Net.Http.DiagnosticsHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+       at System.Net.Http.HttpMessageHandlerStage.Send(HttpRequestMessage request, CancellationToken cancellationToken)
+       at System.Net.Http.HttpClientHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
+       at System.Net.Http.DelegatingHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
+       at System.Net.Http.DelegatingHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
+       at System.Net.Http.DelegatingHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
+       at System.Net.Http.HttpMessageInvoker.Send(HttpRequestMessage request, CancellationToken cancellationToken)
+             */
+            //Console.WriteLine(result.Succeed);
         }
     }
 }

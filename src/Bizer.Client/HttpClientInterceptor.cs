@@ -1,7 +1,12 @@
-﻿using Castle.DynamicProxy;
+﻿using Bizer.Client.Proxy;
+
+using Castle.DynamicProxy;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,9 +16,12 @@ using System.Xml.Linq;
 namespace Bizer.Client;
 internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TService : class
 {
-    public HttpClientInterceptor(IServiceProvider serviceProvider)
+    private readonly HttpClient _client;
+
+    public HttpClientInterceptor(IServiceProvider serviceProvider, HttpClient client)
     {
         ServiceProvider = serviceProvider;
+        this._client = client;
     }
 
     public IServiceProvider ServiceProvider { get; }
@@ -33,7 +41,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
     {
         var response = Send(invocation, out var configuration);
         var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
-        if ( stream != null && stream.Length>0 )
+        if (stream != null && stream.Length > 0)
         {
 
             invocation.ReturnValue = JsonSerializer.DeserializeAsync(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }).AsTask();
@@ -48,7 +56,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
     {
         var response = Send(invocation, out var configuration);
         var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
-        if ( stream != null && stream.Length > 0 )
+        if (stream != null && stream.Length > 0)
         {
             invocation.ReturnValue = JsonSerializer.DeserializeAsync<TResult?>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }).AsTask();
         }
@@ -62,7 +70,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
     {
         var response = Send(invocation, out var configuration);
         var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
-        if ( stream is not null && stream.Length > 0 )
+        if (stream is not null && stream.Length > 0)
         {
             invocation.ReturnValue = JsonSerializer.Deserialize(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
@@ -93,7 +101,24 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
     //    Logger?.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
     //    return (TResult?)await configuration.ResponseHandler(response);
     //}
-    HttpResponseMessage Send(IInvocation invocation,out HttpClientConfiguration configuration)
+    //public object Intercept(MethodInfo method, object[] parameters)
+    //{
+
+    //    //using HttpClient client = CreateClient(out var configuration);
+    //    //var request = new HttpRequestMessage
+    //    //{
+    //    //    Method = HttpMethod.Get
+    //    //};
+    //    //var response = client.SendAsync(request);
+
+    //    //return method.ReturnType;
+
+    //    var response = Send(method, parameters, out var configuration);
+    //    var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
+    //    return JsonSerializer.DeserializeAsync(stream, method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+    //}
+
+    HttpResponseMessage Send(IInvocation invocation, out HttpClientConfiguration configuration)
     {
         using HttpClient client = CreateClient(out configuration);
         var request = CreateRequestMessage(invocation);
@@ -101,47 +126,60 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         Logger?.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
         return response;
     }
+    //HttpResponseMessage Send(MethodInfo method, object[] parameters, out HttpClientConfiguration configuration)
+    //{
+    //    using HttpClient client = CreateClient(out configuration);
+    //    var request = CreateRequestMessage(method, parameters);
+    //    var response = client.Send(request);
+    //    Logger?.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
+    //    return response;
+    //}
 
     private HttpClient CreateClient(out HttpClientConfiguration configuration)
     {
-        var serviceType = typeof(TService);
-        configuration = Options.HttpConfigurations[serviceType];
-        var client = HttpClientFactory.CreateClient(configuration.Name);
-        return client;
-    }
+        //var serviceType = typeof(TService);
+        //configuration = Options.HttpConfigurations[serviceType];
+        //var client = HttpClientFactory.CreateClient(configuration.Name);
+        //return client;
+        configuration = new();
 
+        return _client;
+    }
+    //HttpRequestMessage CreateRequestMessage(MethodInfo method, object[] args)
     HttpRequestMessage CreateRequestMessage(IInvocation invocation)
     {
-        if ( invocation is null )
-        {
-            throw new ArgumentNullException(nameof(invocation));
-        }
+        //if ( invocation is null )
+        //{
+        //    throw new ArgumentNullException(nameof(invocation));
+        //}
+
+        var method = invocation.Method;
 
         var request = new HttpRequestMessage
         {
-            Method = Converter.GetHttpMethod(invocation.Method)
+            Method = Converter.GetHttpMethod(method)
         };
 
         var pathBuilder = new StringBuilder();
-        var apiRoute = Converter.GetApiRoute(typeof(TService), invocation.Method); 
+        var apiRoute = Converter.GetApiRoute(typeof(TService), method);
 
-        if ( !apiRoute.StartsWith("/") )
+        if (!apiRoute.StartsWith("/"))
         {
             pathBuilder.Append('/');
         }
         pathBuilder.Append(apiRoute);
 
         var queryParameters = new List<string>();
-        var parameters = Converter.GetParameters(invocation.Method);
-        var key = DefaultHttpRemotingResolver.GetMethodCacheKey(invocation.Method);
+        var parameters = Converter.GetParameters(method);
+        var key = DefaultHttpRemotingResolver.GetMethodCacheKey(method);
         var parameterInfoList = parameters[key];
 
-        foreach ( var param in parameterInfoList )
-        {            
+        foreach (var param in parameterInfoList)
+        {
             var name = param.GetParameterNameInHttpRequest();
-            var value = param.Value?.ToString() ?? invocation.GetArgumentValue(param.Position)?.ToString() ?? string.Empty;
+            var value = param.Value?.ToString(); // ?? invocation.GetArgumentValue(param.Position)?.ToString() ?? string.Empty;
 
-            switch ( param.Type )
+            switch (param.Type)
             {
                 case HttpParameterType.FromBody:
                     var json = JsonSerializer.Serialize(value);
@@ -152,11 +190,11 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     break;
                 case HttpParameterType.FromForm:
                     var arguments = new Dictionary<string, string>();
-                    if ( param.ValueType != typeof(string) && param.ValueType.IsClass )
+                    if (param.ValueType != typeof(string) && param.ValueType.IsClass)
                     {
                         param.ValueType.GetProperties().ForEach(property =>
                         {
-                            if ( property.CanRead )
+                            if (property.CanRead)
                             {
                                 name = property.Name;
                                 value = property.GetValue(value)?.ToString();
@@ -172,22 +210,22 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     break;
                 case HttpParameterType.FromPath://路由替换
                     var match = Regex.Match(pathBuilder.ToString(), @"{\w+}");
-                    if ( match.Success )
+                    if (match.Success)
                     {
                         pathBuilder.Replace(match.Value, match.Result(value));
                     }
                     break;
                 case HttpParameterType.FromQuery:
-                    if (param.ValueType!=typeof(string) && param.ValueType.IsClass )
+                    if (param.ValueType != typeof(string) && param.ValueType.IsClass)
                     {
-                        foreach ( var property in param.ValueType.GetProperties() )
+                        foreach (var property in param.ValueType.GetProperties())
                         {
-                            if ( !property.CanRead )
+                            if (!property.CanRead)
                             {
                                 continue;
                             }
 
-                            if ( property.TryGetCustomAttribute<JsonPropertyNameAttribute>(out var jsonNameProperty) )
+                            if (property.TryGetCustomAttribute<JsonPropertyNameAttribute>(out var jsonNameProperty))
                             {
                                 name = jsonNameProperty!.Name;
                             }
@@ -197,7 +235,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                             }
 
                             var propertyValue = property.GetValue(value);
-                            if ( propertyValue is not null )
+                            if (propertyValue is not null)
                             {
                                 queryParameters.Add($"{name}={propertyValue}");
                             }
@@ -220,6 +258,5 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         Logger?.LogDebug($"请求的 uri 资源路径：{uriString}");
         return request;
     }
-
 
 }

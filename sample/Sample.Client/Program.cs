@@ -1,25 +1,38 @@
 ﻿
 
 using Bizer;
+using Bizer.Client;
+using Bizer.Client.Proxy;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Sample.Client;
 using Sample.Services;
 
 var builder = Host.CreateDefaultBuilder(args);
+
+
 builder.ConfigureServices(services =>
 {
-    services.AddLogging(builder=>builder.AddDebug());
+    services.AddLogging(builder => builder.AddDebug());
     services.AddBizer(options =>
     {
         options.Assemblies.Add(typeof(ITestService).Assembly);
         //options.AssembyNames.Add("Sample.*");
     })
     .AddHttpClientConvension("http://localhost:5192");
+
+    //services.AddScoped(provider =>
+    //{
+    //    return (ITestService)BizerProxyGenerator.Create(typeof(ITestService), (IBizerInterceptor)typeof(ProxyInterceptor));
+    //});
+
+
 }).ConfigureLogging(log =>
 {
-    log.AddDebug().AddConsole().AddFilter(level=>level== LogLevel.Debug);
+    log.AddDebug().AddConsole().AddFilter(level => level == LogLevel.Debug);
 });
 var app = builder.Build().WithBizer();
 app.Start();
@@ -27,33 +40,35 @@ app.Start();
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
 var testService = app.Services.GetRequiredService<ITestService>();
 
-#region GET 请求
-//无参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetAsync))).Assert(logger);
+await testService.GetAsync();
 
-//path 中的参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromPathAsync), 1000)).Assert(logger);
+//#region GET 请求
+////无参数
+//(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetAsync))).Assert(logger);
 
-//query 中的参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromQueryAsync), "张三")).Assert(logger);
-//header 中的参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromHeaderAsync), "Token")).Assert(logger);
+////path 中的参数
+//(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromPathAsync), 1000)).Assert(logger);
 
-//无参数有返回值
-(await app.InvokeMethodAsync<ITestService, Returns<string>>(nameof(ITestService.GetHasData))).Assert(logger);
-#endregion
+////query 中的参数
+//(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromQueryAsync), "张三")).Assert(logger);
+////header 中的参数
+//(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromHeaderAsync), "Token")).Assert(logger);
 
-#region Post
+////无参数有返回值
+//(await app.InvokeMethodAsync<ITestService, Returns<string>>(nameof(ITestService.GetHasData))).Assert(logger);
+//#endregion
 
-//await app.InvokeMethodAsync<ITestService, string>(nameof(ITestService.PostAsync),"asdasdasd");
-await app.InvokeMethodAsync<ITestService>(nameof(ITestService.PostNothingAsync));
-#endregion
+//#region Post
 
-#region Put
+////await app.InvokeMethodAsync<ITestService, string>(nameof(ITestService.PostAsync),"asdasdasd");
+//await app.InvokeMethodAsync<ITestService>(nameof(ITestService.PostNothingAsync));
+//#endregion
 
-app.InvokeMethod<ITestService, Returns<string>>(nameof(ITestService.PutData), "name").Assert(logger);
-app.InvokeMethod<ITestService>(nameof(ITestService.PutNothing), 123);
-#endregion
+//#region Put
+
+//app.InvokeMethod<ITestService, Returns<string>>(nameof(ITestService.PutData), "name").Assert(logger);
+//app.InvokeMethod<ITestService>(nameof(ITestService.PutNothing), 123);
+//#endregion
 
 public static class AssertExtensions
 {
@@ -104,7 +119,7 @@ public static class AssertExtensions
         logger.LogDebug($"【Returns】{nameof(Returns.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns】{nameof(Returns.Succeed)}：{returns.Succeed}");
 
-        if ( !returns.Succeed && throwIfNotSuccess )
+        if (!returns.Succeed && throwIfNotSuccess)
         {
             throw new InvalidOperationException($"{nameof(Returns.Succeed)} 是 false");
         }
@@ -116,7 +131,7 @@ public static class AssertExtensions
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Succeed)}：{returns.Succeed}");
 
-        if ( !returns.Succeed && throwIfNotSuccess )
+        if (!returns.Succeed && throwIfNotSuccess)
         {
             throw new InvalidOperationException($"{nameof(Returns.Succeed)} 是 false");
         }

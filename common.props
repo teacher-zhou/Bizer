@@ -5,7 +5,7 @@
 		<TargetFrameworks>net6.0;net7.0;</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.6</Version>
+		<Version>0.7</Version>
 		<Authors>playermaker</Authors>
 		<Copyright>playermaker（最高指挥官） © 2023-2025</Copyright>
 		<PackageIcon>icon.png</PackageIcon>
@@ -16,7 +16,7 @@
 		<PackageProjectUrl>https://github.com/AchievedOwner/Bizer</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/AchievedOwner/Bizer</RepositoryUrl>
 		<RepositoryType>GIT</RepositoryType>
-		<Title>半专业开发也能快速上手的前后端全栈、全自动框架</Title>		
+		<Title>半专业开发也能快速上手的前后端全栈、全自动框架</Title>
 	</PropertyGroup>
 	<PropertyGroup>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -52,7 +52,7 @@
 		</None>
 		<None Include="..\..\LICENSE">
 			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>			
+			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
 </Project>
