@@ -32,15 +32,16 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
 
     protected IHttpRemotingResolver Converter => ServiceProvider.GetRequiredService<IHttpRemotingResolver>();
 
-    public IHttpClientFactory HttpClientFactory => ServiceProvider.GetRequiredService<IHttpClientFactory>();
-
-
     public HttpClientOptions Options => ServiceProvider.GetRequiredService<IOptions<HttpClientOptions>>().Value;
 
-    public void InterceptAsynchronous(IInvocation invocation)
+    public HttpRequestMessageResolver HttpRequestMessageResolver => ServiceProvider.GetRequiredService<HttpRequestMessageResolver>();
+
+    public HttpClientConfiguration Configuration => new();
+
+    public async void InterceptAsynchronous(IInvocation invocation)
     {
-        var response = Send(invocation, out var configuration);
-        var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
+        var response = await Send(invocation);
+        var stream = Configuration.ResponseHandler(response).GetAwaiter().GetResult();
         if (stream != null && stream.Length > 0)
         {
 
@@ -52,10 +53,10 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         }
     }
 
-    public void InterceptAsynchronous<TResult>(IInvocation invocation)
+    public async void InterceptAsynchronous<TResult>(IInvocation invocation)
     {
-        var response = Send(invocation, out var configuration);
-        var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
+        var response = await Send(invocation);
+        var stream = Configuration.ResponseHandler(response).GetAwaiter().GetResult();
         if (stream != null && stream.Length > 0)
         {
             invocation.ReturnValue = JsonSerializer.DeserializeAsync<TResult?>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }).AsTask();
@@ -66,63 +67,22 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         }
     }
 
-    public void InterceptSynchronous(IInvocation invocation)
+    public async void InterceptSynchronous(IInvocation invocation)
     {
-        var response = Send(invocation, out var configuration);
-        var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
+        var response = await Send(invocation);
+        var stream = Configuration.ResponseHandler(response).GetAwaiter().GetResult();
         if (stream is not null && stream.Length > 0)
         {
             invocation.ReturnValue = JsonSerializer.Deserialize(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
-
-        //invocation.ReturnValue = HandleResponse(response, res =>
-        //{
-        //    var content = res.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-        //    if ( string.IsNullOrEmpty(content) )
-        //    {
-        //        return default;
-        //    }
-
-        //    return JsonSerializer.Deserialize(content, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        //});
     }
 
 
-
-
-    //async Task<TResult?> SendAsync<TResult>(HttpRequestMessage request)
-    //{
-    //    using HttpClient client = CreateClient(out var configuration);
-
-    //    var response = await client.SendAsync(request);
-
-    //    response.EnsureSuccessStatusCode();
-    //    Logger?.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
-    //    return (TResult?)await configuration.ResponseHandler(response);
-    //}
-    //public object Intercept(MethodInfo method, object[] parameters)
-    //{
-
-    //    //using HttpClient client = CreateClient(out var configuration);
-    //    //var request = new HttpRequestMessage
-    //    //{
-    //    //    Method = HttpMethod.Get
-    //    //};
-    //    //var response = client.SendAsync(request);
-
-    //    //return method.ReturnType;
-
-    //    var response = Send(method, parameters, out var configuration);
-    //    var stream = configuration.ResponseHandler(response).GetAwaiter().GetResult();
-    //    return JsonSerializer.DeserializeAsync(stream, method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-    //}
-
-    HttpResponseMessage Send(IInvocation invocation, out HttpClientConfiguration configuration)
+    async Task<HttpResponseMessage> Send(IInvocation invocation)
     {
-        using HttpClient client = CreateClient(out configuration);
+        using HttpClient client = CreateClient();
         var request = CreateRequestMessage(invocation);
-        var response = client.Send(request);
+        var response = await client.SendAsync(request);
         Logger?.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
         return response;
     }
@@ -135,13 +95,12 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
     //    return response;
     //}
 
-    private HttpClient CreateClient(out HttpClientConfiguration configuration)
+    private HttpClient CreateClient()
     {
         //var serviceType = typeof(TService);
         //configuration = Options.HttpConfigurations[serviceType];
         //var client = HttpClientFactory.CreateClient(configuration.Name);
         //return client;
-        configuration = new();
 
         return _client;
     }
@@ -177,7 +136,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         foreach (var param in parameterInfoList)
         {
             var name = param.GetParameterNameInHttpRequest();
-            var value = param.Value?.ToString(); // ?? invocation.GetArgumentValue(param.Position)?.ToString() ?? string.Empty;
+            var value = invocation.GetArgumentValue(param.Position)?.ToString() ?? string.Empty;
 
             switch (param.Type)
             {

@@ -2,6 +2,7 @@
 
 <h1>Hello, world!</h1>
 
+@using Bizer.Client
 @using Sample.Services
 
 @inject ITestService Service
@@ -14,9 +15,14 @@
         if (firstRender)
         {
             var service = Client.For<ITestService>(Provider);
-            service.GetAsync();
+            var result = await service.GetAsync();
 
-           // var result= await Service.GetAsync();
+            //或 直接调用方法，都会报错
+
+
+            //var result= await Service.GetAsync();
+
+
             /*
              *
              *       Unhandled exception rendering component: Operation is not supported on this platform.
@@ -30,7 +36,17 @@
        at System.Net.Http.DelegatingHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
        at System.Net.Http.HttpMessageInvoker.Send(HttpRequestMessage request, CancellationToken cancellationToken)
              */
-            //Console.WriteLine(result.Succeed);
+            Console.WriteLine(result.Succeed);
+
+
+
+
+            //直接用就可以，用代理跑就不行
+
+            // var request = new HttpRequestMessageResolver(Provider).Resolve<ITestService>(nameof(ITestService.GetAsync));
+
+            // var response= await Client.SendAsync(request);
+            // response.EnsureSuccessStatusCode();
         }
     }
 }
