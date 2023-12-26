@@ -19,9 +19,9 @@ public class ProxyInterceptor : IBizerInterceptor
         this._client = client;
     }
 
-    public object Intercept(MethodInfo method, object[] parameters)
+    public async Task<object> Intercept(MethodInfo method, object[] parameters)
     {
-        var response = _client.Send(new HttpRequestMessage
+        var response = await _client.SendAsync(new HttpRequestMessage
         {
             RequestUri = new("/api/test"),
             Method = HttpMethod.Get
