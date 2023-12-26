@@ -1,16 +1,18 @@
 ﻿
 
 using Bizer;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Sample.Client;
 using Sample.Services;
 
 var builder = Host.CreateDefaultBuilder(args);
 builder.ConfigureServices(services =>
 {
-    services.AddLogging(builder=>builder.AddDebug());
+    services.AddLogging(builder => builder.AddDebug());
     services.AddBizer(options =>
     {
         options.Assemblies.Add(typeof(ITestService).Assembly);
@@ -19,7 +21,7 @@ builder.ConfigureServices(services =>
     .AddHttpClientConvension("http://localhost:5192");
 }).ConfigureLogging(log =>
 {
-    log.AddDebug().AddConsole().AddFilter(level=>level== LogLevel.Debug);
+    log.AddDebug().AddConsole().AddFilter(level => level == LogLevel.Debug);
 });
 var app = builder.Build().WithBizer();
 app.Start();
@@ -104,7 +106,7 @@ public static class AssertExtensions
         logger.LogDebug($"【Returns】{nameof(Returns.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns】{nameof(Returns.Succeed)}：{returns.Succeed}");
 
-        if ( !returns.Succeed && throwIfNotSuccess )
+        if (!returns.Succeed && throwIfNotSuccess)
         {
             throw new InvalidOperationException($"{nameof(Returns.Succeed)} 是 false");
         }
@@ -116,7 +118,7 @@ public static class AssertExtensions
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Messages)}：{string.Join("；", returns.Messages)}");
         logger.LogDebug($"【Returns<TResult>】{nameof(Returns<TResult>.Succeed)}：{returns.Succeed}");
 
-        if ( !returns.Succeed && throwIfNotSuccess )
+        if (!returns.Succeed && throwIfNotSuccess)
         {
             throw new InvalidOperationException($"{nameof(Returns.Succeed)} 是 false");
         }

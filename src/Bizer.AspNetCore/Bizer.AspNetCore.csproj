@@ -4,7 +4,7 @@
 	  <Description>让服务端的业务逻辑层服务秒变 Web API</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NSwag.AspNetCore" Version="13.19.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="14.0.0-preview012" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bizer\Bizer.csproj" />
