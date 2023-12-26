@@ -22,6 +22,7 @@ jobs:
           dotnet-version: |
             6.0.x
             7.0.x
+            8.0.x
       - name: 编译
         run: |
           dotnet build ./src/Bizer/Bizer.csproj -c release
