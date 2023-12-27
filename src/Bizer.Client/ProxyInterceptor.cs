@@ -10,25 +10,25 @@ using Bizer.Client.Proxy;
 
 namespace Bizer.Client;
 
-public class ProxyInterceptor : IBizerInterceptor
-{
-    private readonly HttpClient _client;
+//public class ProxyInterceptor : IBizerInterceptor
+//{
+//    private readonly HttpClient _client;
 
-    public ProxyInterceptor(HttpClient client)
-    {
-        this._client = client;
-    }
+//    public ProxyInterceptor(HttpClient client)
+//    {
+//        this._client = client;
+//    }
 
-    public async Task<object> Intercept(MethodInfo method, object[] parameters)
-    {
-        var response = await _client.SendAsync(new HttpRequestMessage
-        {
-            RequestUri = new("/api/test"),
-            Method = HttpMethod.Get
-        });
-        var stream = response.Content.ReadAsStream();
+//    public async object Intercept(MethodInfo method, object[] parameters)
+//    {
+//        var response = await _client.SendAsync(new HttpRequestMessage
+//        {
+//            RequestUri = new("/api/test"),
+//            Method = HttpMethod.Get
+//        });
+//        var stream = await response.Content.ReadAsStreamAsync();
 
 
-        return JsonSerializer.Deserialize(stream, method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-    }
-}
+//        return JsonSerializer.Deserialize(stream, method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+//    }
+//}

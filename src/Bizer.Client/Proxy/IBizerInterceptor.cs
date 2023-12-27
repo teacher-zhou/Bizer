@@ -4,5 +4,5 @@ namespace Bizer.Client.Proxy;
 
 public interface IBizerInterceptor
 {
-    Task<object> Intercept(MethodInfo method, object[] parameters);
+    object Intercept(MethodInfo method, object[] parameters);
 }

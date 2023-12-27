@@ -24,9 +24,11 @@ builder.ConfigureServices(services =>
     })
     .AddHttpClientConvension("http://localhost:5192");
 
+    //services.AddScoped(sp => new HttpClient { BaseAddress = new("http://localhost:5192") });
     //services.AddScoped(provider =>
     //{
-    //    return (ITestService)BizerProxyGenerator.Create(typeof(ITestService), (IBizerInterceptor)typeof(ProxyInterceptor));
+    //    return ProxyHelper.CreateProxy<ITestService>(provider);
+    //    //return BizerProxyGenerator.Create<ITestService, ProxyInterceptor>(provider.GetRequiredService<HttpClient>());
     //});
 
 
