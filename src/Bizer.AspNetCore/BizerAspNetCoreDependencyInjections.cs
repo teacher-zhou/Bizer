@@ -1,6 +1,7 @@
 ﻿using Bizer;
 using Bizer.AspNetCore;
 using Bizer.AspNetCore.Conventions;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -32,7 +33,7 @@ public static class BizerAspNetCoreDependencyInjections
         })
         .ConfigureApplicationPartManager(applicationPart =>
         {
-            foreach ( var assembly in builder.AutoDiscovery.GetDiscoveredAssemblies() )
+            foreach (var assembly in builder.AutoDiscovery.GetDiscoveredAssemblies())
             {
                 applicationPart.ApplicationParts.Add(new AssemblyPart(assembly));
             }
@@ -62,15 +63,15 @@ public static class BizerAspNetCoreDependencyInjections
     {
         var env = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
 
-        if(! builder.ApplicationServices.TryGetService<BizerOpenApiOptions>(out var apiOptions) )
+        if (!builder.ApplicationServices.TryGetService<BizerOpenApiOptions>(out var apiOptions))
         {
             throw new InvalidOperationException($"需要先添加 '{nameof(AddOpenApiConvension)}' 的服务才可以使用 '{nameof(UseBizerOpenApi)}' 中间件");
         }
 
-        if ( env.IsDevelopment() )
+        if (env.IsDevelopment())
         {
             builder
-                .UseSwaggerUi3(setting =>
+                .UseSwaggerUi(setting =>
                 {
                     setting.DocExpansion = "list";
                     setting.DocumentTitle = apiOptions?.Title;
