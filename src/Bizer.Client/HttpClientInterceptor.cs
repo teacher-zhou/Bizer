@@ -82,7 +82,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
     {
         using HttpClient client = CreateClient();
         var request = CreateRequestMessage(invocation);
-        var response = await client.SendAsync(request);
+        var response = await client.SendAsync(request, HttpCompletionOption.ResponseContentRead);
         Logger?.LogDebug($"返回的 HTTP 状态码：{response.StatusCode}（{(int)response.StatusCode}）");
         return response;
     }
