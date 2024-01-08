@@ -1,13 +1,11 @@
-﻿using Castle.DynamicProxy;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-using System.Reflection;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
+using System.Reflection;
+using Castle.DynamicProxy;
+using Microsoft.Extensions.Logging;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bizer.Client;
 internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TService : class
@@ -120,18 +118,41 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
     }
 
 
-    async Task SendAsync(IInvocation invocation)
+    void SendAsync(IInvocation invocation)
     {
         using HttpClient client = CreateClient();
         var request = CreateRequestMessage(invocation.Method, invocation.Arguments);
 
-        var response = await client.SendAsync(request);
-
-        var stream = await Configuration.ResponseHandler(response);
+        var response = client.SendAsync(request).Result;
+        var stream = Configuration.ResponseHandler(response).Result;
         if (stream is not null && stream.Length > 0)
         {
-            invocation.ReturnValue = JsonSerializer.DeserializeAsync(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }).AsTask();
+            invocation.ReturnValue= JsonSerializer.Deserialize(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
+
+
+        //result.ContinueWith<Task>(response =>
+        //    {
+        //        if (response.IsCompleted)
+        //        {
+        //            var stream = response.Result.GetAwaiter().GetResult();
+        //            if (stream is not null && stream.Length > 0)
+        //            {
+        //                return JsonSerializer.DeserializeAsync(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        //            }
+        //        }
+        //        return Task.CompletedTask;
+        //    });
+
+        //return result;
+
+        //var response = await client.SendAsync(request);
+
+        //var stream = await Configuration.ResponseHandler(response);
+        //if (stream is not null && stream.Length > 0)
+        //{
+        //    invocation.ReturnValue = await JsonSerializer.DeserializeAsync(stream, invocation.Method.ReturnType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        //}
     }
 
     async Task SendAsync<TResult>(IInvocation invocation)
@@ -144,7 +165,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         var stream = await Configuration.ResponseHandler(response);
         if (stream is not null && stream.Length > 0)
         {
-            invocation.ReturnValue = JsonSerializer.DeserializeAsync<TResult>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }).AsTask();
+            invocation.ReturnValue = await JsonSerializer.DeserializeAsync<TResult>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 

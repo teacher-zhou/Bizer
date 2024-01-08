@@ -2,14 +2,12 @@
 
 using Bizer;
 using Bizer.Client;
-using Bizer.Client.Proxy;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
 using Sample.Client;
 using Sample.Services;
+using Bizer.Client.Proxy;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = Host.CreateDefaultBuilder(args);
 
@@ -42,6 +40,8 @@ app.Start();
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
 var testService = app.Services.GetRequiredService<ITestService>();
 
+//testService.No();
+await testService.Auth();
 await testService.GetAsync();
 
 //#region GET 请求

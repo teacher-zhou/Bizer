@@ -14,13 +14,13 @@
     {
         if (firstRender)
         {
-            var service = Client.For<ITestService>(Provider);
-            var result = await service.GetAsync();
+            // var service = Client.For<ITestService>(Provider);
+            // var result = await service.GetAsync();
 
             //或 直接调用方法，都会报错
 
 
-            //var result= await Service.GetAsync();
+             await Service.Auth();
 
 
             /*
@@ -36,7 +36,7 @@
        at System.Net.Http.DelegatingHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
        at System.Net.Http.HttpMessageInvoker.Send(HttpRequestMessage request, CancellationToken cancellationToken)
              */
-            Console.WriteLine(result.Succeed);
+            //Console.WriteLine(result.Succeed);
 
 
 

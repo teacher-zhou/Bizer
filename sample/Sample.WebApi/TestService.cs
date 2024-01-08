@@ -1,18 +1,20 @@
 ﻿using Bizer;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 using Sample.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Sample.WebApi;
-
 public class TestService : ITestService
 {
     [Authorize]
     public Task Auth()
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
+    }
+
+    public Returns No()
+    {
+        return Returns.Success();
     }
 
     [ProducesResponseType(200, Type = typeof(Returns))]

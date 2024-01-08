@@ -2,7 +2,6 @@
 using Bizer.Services;
 
 namespace Sample.Services;
-
 [ApiRoute("api/test")]
 public interface ITestService
 {
@@ -12,6 +11,9 @@ public interface ITestService
     /// <returns></returns>
     [Get]
     Task<Returns> GetAsync();
+
+    [Get("no")]
+    Returns No();
 
     [Get("{id}")]
     Task<Returns> GetFromPathAsync([Path] int id);

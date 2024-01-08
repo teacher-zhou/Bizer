@@ -1,11 +1,9 @@
 using Bizer.Client;
+using Sample.Services;
 using Bizer.Client.Proxy;
-
+using Sample.WebAssembly;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-
-using Sample.Services;
-using Sample.WebAssembly;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -19,8 +17,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://
 //});
 
 
-//builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-//    .AddHttpClientConvension("http://localhost:5192");
+builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
+    .AddHttpClientConvension("http://localhost:5192");
 
 var app = builder.Build();
 
