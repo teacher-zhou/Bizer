@@ -1,6 +1,5 @@
 ﻿using Bizer;
 using Bizer.Client;
-using Bizer.Client.Proxy;
 
 using Castle.DynamicProxy;
 
@@ -87,17 +86,17 @@ public static class DypendencyInjectionExtensions
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = configuration.BaseAddress });
 
-        //var httpClientBuilder = builder.Services.AddHttpClient(configuration.Name, client => client.BaseAddress = configuration.BaseAddress);
+        var httpClientBuilder = builder.Services.AddHttpClient(configuration.Name, client => client.BaseAddress = configuration.BaseAddress);
 
-        //if (configuration.PrimaryHandler is not null)
-        //{
-        //    httpClientBuilder.ConfigurePrimaryHttpMessageHandler(configuration.PrimaryHandler);
-        //}
+        if (configuration.PrimaryHandler is not null)
+        {
+            httpClientBuilder.ConfigurePrimaryHttpMessageHandler(configuration.PrimaryHandler);
+        }
 
-        //foreach (var handler in configuration.DelegatingHandlers)
-        //{
-        //    httpClientBuilder.AddHttpMessageHandler(handler);
-        //}
+        foreach (var handler in configuration.DelegatingHandlers)
+        {
+            httpClientBuilder.AddHttpMessageHandler(handler);
+        }
 
         var interceptorType = typeof(HttpClientInterceptor<>).MakeGenericType(type);
         builder.Services.AddTransient(interceptorType);

@@ -1,6 +1,4 @@
-using Bizer.Client;
 using Sample.Services;
-using Bizer.Client.Proxy;
 using Sample.WebAssembly;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace Sample.WebApi;
 public class TestService : ITestService
 {
-    [Authorize]
     public Task Auth()
     {
         return Task.CompletedTask;
