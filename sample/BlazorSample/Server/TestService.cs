@@ -1,19 +1,18 @@
 ﻿using Bizer;
-using Sample.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
-namespace Sample.WebApi;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+using Sample.Services;
+
+namespace BlazorSample.Server;
+
 public class TestService : ITestService
 {
+    [Authorize]
     public Task Auth()
     {
-        return Task.CompletedTask;
-    }
-
-    public Returns No()
-    {
-        return Returns.Success();
+        throw new NotImplementedException();
     }
 
     [ProducesResponseType(200, Type = typeof(Returns))]
@@ -60,10 +59,5 @@ public class TestService : ITestService
 
     public void PutNothing(int? id)
     {
-    }
-
-    public Task<Returns> Search([Query] SearchFilter model)
-    {
-        return Returns.Success().ToResultTask();
     }
 }

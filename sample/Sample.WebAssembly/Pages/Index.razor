@@ -2,20 +2,27 @@
 
 <h1>Hello, world!</h1>
 
+@using Bizer.Client
 @using Sample.Services
 
 @inject ITestService Service
-
-
 
 @code{
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            var result = await Service.GetAsync();
+            Console.WriteLine(result);
+            Console.WriteLine(result.Code);
 
-            var result= await Service.GetAsync();
-            Console.WriteLine(result.Succeed);
+
+            var response= await Service.GetHasData();
+
+            Console.WriteLine(response.Data);
+
+
+             await Service.Auth();
         }
     }
 }

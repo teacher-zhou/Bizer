@@ -1,6 +1,8 @@
 ﻿using Bizer;
 using Bizer.Client;
+
 using Castle.DynamicProxy;
+
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -34,7 +36,7 @@ public static class DypendencyInjectionExtensions
 
         var serviceTypes = assemblies.SelectMany(m => m.GetExportedTypes()).Where(IsSubscribeToHttpProxy);
 
-        foreach ( var type in serviceTypes )
+        foreach (var type in serviceTypes)
         {
             builder.AddHttpClientConvension(type, configure);
         }
@@ -60,6 +62,7 @@ public static class DypendencyInjectionExtensions
 
         builder.Services.AddTransient(serviceType, provider =>
         {
+            //return BizerProxyGenerator.Create(serviceType, (IBizerInterceptor)provider.GetRequiredService(interceptorType));
             return Generator.CreateInterfaceProxyWithoutTarget(serviceType, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
         });
         return builder;
@@ -80,6 +83,8 @@ public static class DypendencyInjectionExtensions
         {
             options.HttpConfigurations[type] = configuration;
         });
+
+        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = configuration.BaseAddress });
 
         var httpClientBuilder = builder.Services.AddHttpClient(configuration.Name, client => client.BaseAddress = configuration.BaseAddress);
 

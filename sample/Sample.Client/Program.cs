@@ -1,15 +1,14 @@
 ﻿
 
 using Bizer;
-
-using Microsoft.Extensions.DependencyInjection;
+using Sample.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
-using Sample.Client;
-using Sample.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = Host.CreateDefaultBuilder(args);
+
+
 builder.ConfigureServices(services =>
 {
     services.AddLogging(builder => builder.AddDebug());
@@ -19,6 +18,8 @@ builder.ConfigureServices(services =>
         //options.AssembyNames.Add("Sample.*");
     })
     .AddHttpClientConvension("http://localhost:5192");
+
+
 }).ConfigureLogging(log =>
 {
     log.AddDebug().AddConsole().AddFilter(level => level == LogLevel.Debug);
@@ -28,6 +29,10 @@ app.Start();
 
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
 var testService = app.Services.GetRequiredService<ITestService>();
+
+//testService.No();
+//await testService.Auth();
+//await testService.GetAsync();
 
 #region GET 请求
 //无参数
