@@ -1,0 +1,18 @@
+﻿<EditForm Model="@this" OnSubmit="@Submit" FormName="Hello">
+    <InputText @bind-Value="Name" />
+    <button type="submit">Submit</button>
+</EditForm>
+
+@if (submitted)
+{
+    <p>Hello @Name from the library's form!</p>
+}
+
+@code {
+    bool submitted = false;
+
+    [SupplyParameterFromForm]
+    public string? Name { get; set; }
+
+    private void Submit() => submitted = true;
+}

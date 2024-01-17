@@ -1,0 +1,30 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<div>Hello form from a library</div>
+
+<FormMappingScope Name="ParentContext">
+<HelloForm/>
+</FormMappingScope>
+
+<div>Hello form using the same form name</div>
+
+<EditForm Model="@this" OnSubmit="@Submit" FormName="Hello">
+    <InputText @bind-Value="Name" />
+    <button type="submit">Submit</button>
+</EditForm>
+
+@if (submitted)
+{
+    <p>Hello @Name from the app form!</p>
+}
+
+@code {
+    bool submitted = false;
+
+    [SupplyParameterFromForm]
+    public string? Name { get; set; }
+
+    private void Submit() => submitted = true;
+}

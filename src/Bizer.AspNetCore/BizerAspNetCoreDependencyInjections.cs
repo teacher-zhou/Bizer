@@ -59,34 +59,50 @@ public static class BizerAspNetCoreDependencyInjections
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseBizerOpenApi(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseBizerOpenApi(this IApplicationBuilder builder, Action<BizerMiddlewareOptions>? configure = default)
     {
         var env = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
+
+        var options = new BizerMiddlewareOptions(env);
+        configure?.Invoke(options);
 
         if (!builder.ApplicationServices.TryGetService<BizerOpenApiOptions>(out var apiOptions))
         {
             throw new InvalidOperationException($"需要先添加 '{nameof(AddOpenApiConvension)}' 的服务才可以使用 '{nameof(UseBizerOpenApi)}' 中间件");
         }
 
-        if (env.IsDevelopment())
+
+        if (options!.EnableSwaggerPath)
         {
             builder
                 .UseSwaggerUi(setting =>
                 {
-                    setting.DocExpansion = "list";
                     setting.DocumentTitle = apiOptions?.Title;
-                })
-                .UseOpenApi(setting =>
+                    setting.Path = "/swagger";
+                });
+        }
+
+        if (options!.EnableRedocPath)
+        {
+            builder
+                .UseReDoc(setting =>
+                {
+                    setting.DocumentTitle = apiOptions?.Title;
+                    setting.Path = "/redoc";
+                });
+        }
+
+        builder.UseOpenApi(setting =>
                 {
                     setting.DocumentName = apiOptions?.Version;
-                })
-                ;
-        }
+                });
 
         builder.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
+
+
         return builder;
     }
 
