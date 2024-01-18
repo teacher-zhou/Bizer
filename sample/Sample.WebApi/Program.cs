@@ -15,6 +15,8 @@ builder.Services.AddBizer(options => options.AddAssmebly(typeof(ITestService).As
     .AddDbContext<TestDbContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=Test;Trusted_Connection=true", b => b.MigrationsAssembly("Sample.WebApi")))
     ;
 
+builder.Services.AddSwaggerDocument();
+
 builder.Services.AddCors(options => options.AddDefaultPolicy(b => b.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 
 //builder.Services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("db"));
@@ -24,6 +26,7 @@ var app = builder.Build().WithBizer();
 app.UseDeveloperExceptionPage();
 app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 app.UseRouting();
-app.UseBizer(options => options.EnableRedocPath = true);
+app.UseSwaggerUi().UseOpenApi();
+app.MapControllers();
 
 app.Run();
