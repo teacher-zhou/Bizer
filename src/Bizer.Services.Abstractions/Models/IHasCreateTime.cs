@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services;
+﻿namespace Bizer.Services.Abstractions;
 
 /// <summary>
 /// 定义具备创建时间的属性。

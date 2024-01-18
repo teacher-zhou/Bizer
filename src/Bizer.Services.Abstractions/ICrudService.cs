@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services;
+﻿namespace Bizer.Services.Abstractions;
 /// <summary>
 /// 提供 CRUD 的逻辑功能服务。
 /// </summary>
@@ -65,7 +65,7 @@ public interface ICrudService<in TKey, TCreateOrUpdate, TDetail, TList, TListFil
 /// <typeparam name="TDetail">详情字段的模型类型。</typeparam>
 /// <typeparam name="TList">列表字段的类型。</typeparam>
 /// <typeparam name="TListFilter">列表过滤的模型类型。</typeparam>
-public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFilter>:IQueryService<TKey,TDetail,TList,TListFilter>
+public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFilter> : IQueryService<TKey, TDetail, TList, TListFilter>
     where TKey : IEquatable<TKey>
     where TCreate : class
     where TUpdate : class

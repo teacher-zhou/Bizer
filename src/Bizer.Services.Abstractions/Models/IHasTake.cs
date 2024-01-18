@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services;
+﻿namespace Bizer.Services.Abstractions;
 
 /// <summary>
 /// 定义查询总数限制的输入。

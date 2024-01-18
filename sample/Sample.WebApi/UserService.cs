@@ -1,4 +1,5 @@
-﻿using Bizer.Services;
+﻿using Bizer.Services.EntityFrameworkCore;
+
 using Sample.Services;
 
 namespace Sample.WebApi

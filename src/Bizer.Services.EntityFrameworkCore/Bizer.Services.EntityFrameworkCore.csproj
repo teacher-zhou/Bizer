@@ -19,6 +19,6 @@
 		<PackageReference Include="Mapster.EFCore" Version="5.1.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Bizer\Bizer.csproj" />
+		<ProjectReference Include="..\Bizer.Services.Abstractions\Bizer.Services.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

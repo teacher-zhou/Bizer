@@ -1,9 +1,10 @@
 ﻿using Bizer.Security;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
-namespace Bizer.Services;
+namespace Bizer.Services.Abstractions;
 
 
 /// <summary>

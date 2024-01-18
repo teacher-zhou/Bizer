@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services;
+﻿namespace Bizer.Services.Abstractions;
 
 /// <summary>
 /// 具备分页请求的传输对象。

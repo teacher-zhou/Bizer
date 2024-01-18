@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Options;
 
-namespace Bizer.Services;
+namespace Bizer.Services.EntityFrameworkCore;
 /// <summary>
 /// 实现了自动化配置的 <see cref="DbContext"/> 类。
 /// </summary>

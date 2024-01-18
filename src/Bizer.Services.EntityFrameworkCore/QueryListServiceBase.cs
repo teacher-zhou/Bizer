@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services;
+﻿namespace Bizer.Services.EntityFrameworkCore;
 /// <summary>
 /// 表示可以对数据进行列表查询的基类。
 /// </summary>

@@ -15,7 +15,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Bizer.AspNetCore\Bizer.AspNetCore.csproj" />
-		<ProjectReference Include="..\..\src\Bizer.Services\Bizer.Services.csproj" />
+		<ProjectReference Include="..\..\src\Bizer.Services.Abstractions\Bizer.Services.Abstractions.csproj" />
+		<ProjectReference Include="..\..\src\Bizer.Services.EntityFrameworkCore\Bizer.Services.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\Sample.Services\Sample.Services.csproj" />
 	</ItemGroup>
 

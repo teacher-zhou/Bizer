@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services;
+﻿namespace Bizer.Services.EntityFrameworkCore;
 
 public abstract class QueryServiceBase<TContext, TEntity, TKey, TList> : QueryServiceBase<TContext, TEntity, TKey, TList, TList>, IQueryService<TKey, TList>
     where TContext : DbContext

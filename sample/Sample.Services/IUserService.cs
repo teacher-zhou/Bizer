@@ -1,5 +1,5 @@
 ﻿using Bizer;
-using Bizer.Services;
+using Bizer.Services.Abstractions;
 
 namespace Sample.Services;
 /// <summary>

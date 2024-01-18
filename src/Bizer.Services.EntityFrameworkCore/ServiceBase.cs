@@ -1,6 +1,6 @@
 ﻿using Mapster;
 
-namespace Bizer.Services;
+namespace Bizer.Services.EntityFrameworkCore;
 
 
 /// <summary>

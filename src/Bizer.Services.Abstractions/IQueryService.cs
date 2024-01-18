@@ -1,4 +1,4 @@
-﻿namespace Bizer.Services;
+﻿namespace Bizer.Services.Abstractions;
 /// <summary>
 /// 提供查询的服务。
 /// </summary>
@@ -17,7 +17,7 @@ public interface IQueryService<in TKey, TList> : IQueryService<TKey, TList, TLis
 /// <typeparam name="TKey">主键类型。</typeparam>
 /// <typeparam name="TDetail">详情字段的模型类型。</typeparam>
 /// <typeparam name="TList">列表字段和过滤字段的类型。</typeparam>
-public interface IQueryService<in TKey, TDetail, TList> : IQueryService<TKey, TDetail, TList,TList>, IQueryListService<TList>
+public interface IQueryService<in TKey, TDetail, TList> : IQueryService<TKey, TDetail, TList, TList>, IQueryListService<TList>
     where TKey : IEquatable<TKey>
     where TDetail : class
     where TList : class

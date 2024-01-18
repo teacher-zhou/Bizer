@@ -1,5 +1,6 @@
 ﻿using Mapster;
-namespace Bizer.Services;
+using Bizer.Services.EntityFrameworkCore;
+namespace Bizer;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
@@ -88,10 +89,10 @@ public static class DependencyInjectionExtensions
     /// <param name="builder"></param>
     /// <param name="configureOptions">配置类型。</param>
     /// <returns></returns>
-    public static BizerBuilder AddDbContextPool<TContext>(this BizerBuilder builder, Action<DbContextOptionsBuilder> configureOptions,int poolSize=1024) where TContext : BizerDbContext
+    public static BizerBuilder AddDbContextPool<TContext>(this BizerBuilder builder, Action<DbContextOptionsBuilder> configureOptions, int poolSize = 1024) where TContext : BizerDbContext
     {
         builder.ConfigureDbContextOptions(options => options.ConfigureOptionBuilder = configureOptions);
-        builder.Services.AddDbContextPool<TContext>(configureOptions,poolSize);
+        builder.Services.AddDbContextPool<TContext>(configureOptions, poolSize);
         return builder;
     }
 

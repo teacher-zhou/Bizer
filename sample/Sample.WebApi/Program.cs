@@ -1,5 +1,6 @@
+global using Bizer.Services.Abstractions;
+
 using Bizer;
-using Bizer.Services;
 
 using Microsoft.EntityFrameworkCore;
 
