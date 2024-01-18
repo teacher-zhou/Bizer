@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 using System.Reflection;
 
 namespace Bizer.AspNetCore.Conventions;
@@ -11,23 +12,21 @@ namespace Bizer.AspNetCore.Conventions;
 /// </summary>
 internal class DynamicHttpApiConvention : IApplicationModelConvention
 {
-    private readonly BizerOpenApiOptions _apiOptions;
     private readonly IHttpRemotingResolver _converter;
     private Type? _interfaceAsControllerType;
 
-    public DynamicHttpApiConvention(BizerOpenApiOptions apiOptions,IHttpRemotingResolver converter)
+    public DynamicHttpApiConvention(IHttpRemotingResolver converter)
     {
-        _apiOptions = apiOptions;
         _converter = converter;
     }
 
     /// <inheritdoc/>
     public void Apply(ApplicationModel application)
     {
-        foreach ( var controller in application.Controllers )
+        foreach (var controller in application.Controllers)
         {
             _interfaceAsControllerType = GetOnlyServiceType(controller.ControllerType);
-            if ( _interfaceAsControllerType is null )
+            if (_interfaceAsControllerType is null)
             {
                 return;
             }
@@ -42,14 +41,14 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     {
         controller.ApiExplorer.IsVisible = true;
 
-        if ( _interfaceAsControllerType!.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute) && !string.IsNullOrEmpty(routeAttribute!.Name) )
+        if (_interfaceAsControllerType!.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute) && !string.IsNullOrEmpty(routeAttribute!.Name))
         {
             controller.ControllerName = routeAttribute.Name;
         }
 
-        foreach ( var action in controller.Actions )
+        foreach (var action in controller.Actions)
         {
-            if ( action is null )
+            if (action is null)
             {
                 continue;
             }
@@ -64,26 +63,26 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     {
         RemoveEmptySelectors(controller.Selectors);
 
-        if ( controller.Selectors.Any(temp => temp.AttributeRouteModel != null) )
+        if (controller.Selectors.Any(temp => temp.AttributeRouteModel != null))
         {
             return;
         }
 
-        foreach ( var action in controller.Actions )
+        foreach (var action in controller.Actions)
         {
             ConfigureSelector(action);
         }
 
         void ConfigureSelector(ActionModel action)
         {
-            if ( FindHttpMethodFromAction(action) is null )
+            if (FindHttpMethodFromAction(action) is null)
             {
                 return;
             }
 
             RemoveEmptySelectors(action.Selectors);
 
-            if ( action.Selectors.Count <= 0 )
+            if (action.Selectors.Count <= 0)
             {
                 AddSelector(action);
             }
@@ -100,24 +99,24 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
     private void ConfigureParameters(ControllerModel controller)
     {
-        foreach ( var action in controller.Actions )
+        foreach (var action in controller.Actions)
         {
             var method = FindInterfaceMethodFromAction(action);
-            if ( method is null )
+            if (method is null)
             {
                 continue;
             }
 
             var parameters = _converter.GetParameters(method);
 
-            if ( !parameters.TryGetValue(DefaultHttpRemotingResolver.GetMethodCacheKey(method), out var parameterList) )
+            if (!parameters.TryGetValue(DefaultHttpRemotingResolver.GetMethodCacheKey(method), out var parameterList))
             {
                 continue;
             }
 
-            foreach ( var actionParameter in action.Parameters )
+            foreach (var actionParameter in action.Parameters)
             {
-                if ( actionParameter.BindingInfo != null )
+                if (actionParameter.BindingInfo != null)
                 {
                     continue;
                 }
@@ -151,13 +150,13 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     }
     void NormalizeSelectorRoutes(ActionModel action)
     {
-        foreach ( var selector in action.Selectors )
+        foreach (var selector in action.Selectors)
         {
             var route = GenerateRoute(action);
 
             selector.AttributeRouteModel ??= new AttributeRouteModel(route);
 
-            if ( !selector.ActionConstraints.Any() )
+            if (!selector.ActionConstraints.Any())
             {
                 selector.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { GetHttpMethod(action) }));
             }
@@ -174,13 +173,13 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     {
         _interfaceAsControllerType.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute);
 
-        var method=FindInterfaceMethodFromAction(action);
+        var method = FindInterfaceMethodFromAction(action);
 
         var routeTemplate = _converter.GetApiRoute(_interfaceAsControllerType, method);
 
         return new(routeTemplate)
         {
-            Name = routeAttribute?.Name ??$"{action.Controller.ControllerName}_{action.ActionName}",
+            Name = routeAttribute?.Name ?? $"{action.Controller.ControllerName}_{action.ActionName}",
             Order = routeAttribute?.Order ?? 0
         };
     }
@@ -194,7 +193,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     {
         MethodInfo? actionMethod = FindInterfaceMethodFromAction(action);
 
-        if ( actionMethod is null )
+        if (actionMethod is null)
         {
             //Action，有这个方法，但接口没有这个方法，会报错。
             //throw new InvalidOperationException($"找不到 {action.ActionName} 方法");
@@ -244,9 +243,9 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     string GetHttpMethod(ActionModel action)
     {
         //var httpMethodAttribute = FindHttpMethodFromAction(action);
-        var method= FindInterfaceMethodFromAction(action);
+        var method = FindInterfaceMethodFromAction(action);
         var httpMethod = _converter.GetHttpMethod(method);
-        
+
         return httpMethod.Method;
     }
 

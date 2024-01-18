@@ -82,7 +82,7 @@ public static class DypendencyInjectionExtensions
 
     static Type AddCommonConfiguration(BizerBuilder builder, Type type, Action<HttpClientConfiguration> configure)
     {
-        builder.AddHttpRemotingResolver();
+        builder.Services.AddSingleton<IHttpRemotingResolver, DefaultHttpRemotingResolver>();
 
         var configuration = new HttpClientConfiguration
         {

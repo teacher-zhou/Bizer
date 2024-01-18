@@ -7,28 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Hosting;
 
+using NSwag.Generation;
+
 namespace Microsoft.Extensions.DependencyInjection;
 public static class BizerAspNetCoreDependencyInjections
 {
     /// <summary>
-    /// 添加秒变API的转换功能。
+    /// 添加动态 API 的功能。
     /// </summary>
     /// <param name="builder"></param>
-    /// <param name="configure">一个用于配置的委托。</param>
     /// <returns></returns>
-    public static BizerBuilder AddOpenApiConvension(this BizerBuilder builder, Action<BizerOpenApiOptions>? configure = default)
+    public static BizerBuilder AddDynamicWebApi(this BizerBuilder builder)
     {
-        BizerOpenApiOptions apiOptions = new();
-        configure?.Invoke(apiOptions);
-
-        builder.Services.AddSingleton(apiOptions);
-
-        builder.Services.AddSwaggerDocument(apiOptions.ConfigureSwaggerDocument);
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddControllers(options =>
         {
-            options.Conventions.Add(new DynamicHttpApiConvention(apiOptions, new DefaultHttpRemotingResolver()));
+            options.Conventions.Add(new DynamicHttpApiConvention(new DefaultHttpRemotingResolver()));
             options.Filters.Add(new ProducesAttribute("application/json"));
         })
         .ConfigureApplicationPartManager(applicationPart =>
@@ -40,6 +35,26 @@ public static class BizerAspNetCoreDependencyInjections
             applicationPart.FeatureProviders.Add(new DynamicHttpApiControllerFeatureProvider());
         });
 
+        return builder;
+    }
+
+    /// <summary>
+    /// 添加动态 API 的功能并配置 Swagger 的设置。
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
+    public static BizerBuilder AddDynamicWebApi(this BizerBuilder builder, Action<OpenApiDocumentGeneratorSettings> configure)
+        => builder.AddDynamicWebApi().AddSwagger(configure);
+
+    /// <summary>
+    /// 添加 Swagger 的功能并进行配置。
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="configure"></param>
+    /// <returns></returns>
+    public static BizerBuilder AddSwagger(this BizerBuilder builder, Action<OpenApiDocumentGeneratorSettings> configure)
+    {
+        builder.Services.AddSwaggerDocument(configure);
         return builder;
     }
 
@@ -59,16 +74,16 @@ public static class BizerAspNetCoreDependencyInjections
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseBizerOpenApi(this IApplicationBuilder builder, Action<BizerMiddlewareOptions>? configure = default)
+    public static IApplicationBuilder UseBizer(this IApplicationBuilder builder, Action<BizerMiddlewareOptions>? configure = default)
     {
         var env = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
 
         var options = new BizerMiddlewareOptions(env);
         configure?.Invoke(options);
 
-        if (!builder.ApplicationServices.TryGetService<BizerOpenApiOptions>(out var apiOptions))
+        if (!builder.ApplicationServices.TryGetService<OpenApiDocumentGeneratorSettings>(out var apiOptions))
         {
-            throw new InvalidOperationException($"需要先添加 '{nameof(AddOpenApiConvension)}' 的服务才可以使用 '{nameof(UseBizerOpenApi)}' 中间件");
+            throw new InvalidOperationException($"需要先添加 Bizer 的 '{nameof(AddDynamicWebApi)}' 的服务才可以使用 '{nameof(UseBizer)}' 中间件");
         }
 
 
@@ -111,7 +126,7 @@ public static class BizerAspNetCoreDependencyInjections
     /// </summary>
     public static WebApplication WithBizer(this WebApplication application)
     {
-        ApplicationContext.SetApplicationService(application.Services);
+        App.Initialize(application.Services);
         return application;
     }
 }

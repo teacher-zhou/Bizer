@@ -3,17 +3,17 @@
 namespace Bizer;
 
 /// <summary>
-/// 应用程序全局上下文。
+/// 应用程序全局对象。
 /// </summary>
-public class ApplicationContext
+public class App
 {
     private static IServiceProvider? _serviceProvider;
     /// <summary>
-    /// 设置应用程序服务。
+    /// 初始化应用程序。
     /// </summary>
     /// <param name="serviceProvider">服务提供器。</param>
     /// <exception cref="ArgumentNullException"><paramref name="serviceProvider"/> 是 <c>null</c>。</exception>
-    public static void SetApplicationService(IServiceProvider serviceProvider)
+    public static void Initialize(IServiceProvider serviceProvider)
     {
         if (serviceProvider is null)
         {
@@ -36,4 +36,9 @@ public class ApplicationContext
             return _serviceProvider;
         }
     }
+
+    /// <summary>
+    /// 获取 <see cref="IConfiguration"/> 的实例。
+    /// </summary>
+    public static IConfiguration? Configuration => _serviceProvider?.GetService<IConfiguration>();
 }

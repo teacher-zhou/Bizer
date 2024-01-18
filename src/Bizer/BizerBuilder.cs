@@ -1,5 +1,8 @@
 ﻿using Bizer.Security;
+
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
+using System.Linq;
 using System.Reflection;
 
 namespace Bizer;
@@ -31,39 +34,39 @@ public class BizerBuilder
     /// <param name="configure">一个配置自动发现的委托。</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"><paramref name="configure"/> 是 <c>null</c>。</exception>
-    internal BizerBuilder AddAutoDiscovery(Action<AutoDiscoveryOptions>? configure=default)
+    public BizerBuilder AddAutoDiscovery(Action<AutoDiscoveryOptions>? configure = default)
     {
         configure?.Invoke(AutoDiscovery);
         Services.AddSingleton(AutoDiscovery);
         return this;
     }
 
-    /// <summary>
-    /// 添加指定的 HTTP 远程解析器。
-    /// </summary>
-    /// <typeparam name="TConverter">转换器类型。</typeparam>
-    public BizerBuilder AddHttpRemotingResolver<TConverter>() where TConverter : class, IHttpRemotingResolver
-    {
-        Services.TryAddSingleton<IHttpRemotingResolver, TConverter>();
-        return this;
-    }
+    ///// <summary>
+    ///// 添加指定的 HTTP 远程解析器。
+    ///// </summary>
+    ///// <typeparam name="TConverter">转换器类型。</typeparam>
+    //public BizerBuilder AddHttpRemotingResolver<TConverter>() where TConverter : class, IHttpRemotingResolver
+    //{
+    //    Services.TryAddSingleton<IHttpRemotingResolver, TConverter>();
+    //    return this;
+    //}
 
-    /// <summary>
-    /// 添加默认的 HTTP 远程解析器。
-    /// </summary>
-    public BizerBuilder AddHttpRemotingResolver() => AddHttpRemotingResolver<DefaultHttpRemotingResolver>();
+    ///// <summary>
+    ///// 添加默认的 HTTP 远程解析器。
+    ///// </summary>
+    //public BizerBuilder AddHttpRemotingResolver() => AddHttpRemotingResolver<DefaultHttpRemotingResolver>();
 
     /// <summary>
     /// 添加自动注入功能。
     /// 只有添加了特性 <see cref="InjectServiceAttribute"/> 的接口，会自动将实现类作为进行注册。
     /// </summary>
     /// <returns></returns>
-    public BizerBuilder AddServiceInjection()
+    internal BizerBuilder AddServiceInjection()
     {
-        var allClassTypes = AutoDiscovery.GetDiscoveredAssemblies().SelectMany(m => m.ExportedTypes).Where(m => m.IsClass && !m.IsAbstract)
+        var allClassTypes = this.AutoDiscovery.GetDiscoveredAssemblies().SelectMany(m => m.ExportedTypes).Where(m => m.IsClass && !m.IsAbstract)
            .Where(classType => classType.GetInterfaces().Any(interfaceType => interfaceType.IsDefined(typeof(InjectServiceAttribute))));
 
-        foreach ( var implementType in allClassTypes )
+        foreach (var implementType in allClassTypes)
         {
             var serviceAttributeInterface = implementType.GetInterfaces().Where(interfaceType => interfaceType.IsDefined(typeof(InjectServiceAttribute))).Last();
 

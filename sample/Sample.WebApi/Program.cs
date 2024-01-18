@@ -8,10 +8,9 @@ using Sample.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-    .AddOpenApiConvension()
+builder.Services.AddBizer(options => options.AddAssmebly(typeof(ITestService).Assembly))
+    .AddDynamicWebApi()
     .AddMapper()
-    .AddServiceInjection()
     .AddHttpContextPricipalAccessor()
     .AddDbContext<TestDbContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=Test;Trusted_Connection=true", b => b.MigrationsAssembly("Sample.WebApi")))
     ;
@@ -25,6 +24,6 @@ var app = builder.Build().WithBizer();
 app.UseDeveloperExceptionPage();
 app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 app.UseRouting();
-app.UseBizerOpenApi(options => options.EnableRedocPath = true);
+app.UseBizer(options => options.EnableRedocPath = true);
 
 app.Run();

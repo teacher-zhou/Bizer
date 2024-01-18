@@ -15,7 +15,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://
 //});
 
 
-builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
+builder.Services.AddBizer(options => options.AddAssmebly(typeof(ITestService).Assembly))
     .AddDynamicHttpProxy("http://localhost:5192");
 
 var app = builder.Build();

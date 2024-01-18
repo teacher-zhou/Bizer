@@ -14,7 +14,7 @@ builder.ConfigureServices(services =>
     services.AddLogging(builder => builder.AddDebug());
     services.AddBizer(options =>
     {
-        options.Assemblies.Add(typeof(ITestService).Assembly);
+        options.AddAssmebly(typeof(ITestService).Assembly);
         //options.AssembyNames.Add("Sample.*");
     })
     .AddDynamicHttpProxy("http://localhost:5192");
