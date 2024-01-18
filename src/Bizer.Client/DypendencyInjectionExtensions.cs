@@ -15,19 +15,32 @@ public static class DypendencyInjectionExtensions
     static readonly ProxyGenerator Generator = new();
 
     /// <summary>
-    /// 添加 HTTP 客户端的转换。
+    /// 添加动态 HTTP 客户端代理的服务。
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="baseAddress">访问 URI 的基本地址。</param>
-    public static BizerBuilder AddHttpClientConvension(this BizerBuilder builder, string baseAddress)
-    => builder.AddHttpClientConvension(configure => configure.BaseAddress = new(baseAddress));
+    public static BizerBuilder AddDynamicHttpProxy(this BizerBuilder builder, string baseAddress)
+    => builder.AddDynamicHttpProxy(configure => configure.BaseAddress = new(baseAddress));
 
     /// <summary>
-    /// 添加 HTTP 客户端的转换。
+    /// 为指定的服务添加动态 HTTP 客户端代理的服务。
+    /// </summary>
+    /// <typeparam name="TService">服务接口的类型。</typeparam>
+    /// <param name="builder"></param>
+    /// <param name="baseAddress">访问 URI 的基本地址。</param>
+    public static BizerBuilder AddDynamicHttpProxy<TService>(this BizerBuilder builder, string baseAddress) where TService : class
+        => builder.AddDynamicHttpProxy(configure =>
+        {
+            configure.BaseAddress = new(baseAddress);
+            configure.Name = typeof(TService).Name;
+        });
+
+    /// <summary>
+    /// 添加动态 HTTP 客户端代理的服务。
     /// </summary>
     /// <param name="builder"></param>
     /// <param name="configure">一个用于配置 HTTP 客户端的委托。</param>
-    public static BizerBuilder AddHttpClientConvension(this BizerBuilder builder, Action<HttpClientConfiguration> configure)
+    public static BizerBuilder AddDynamicHttpProxy(this BizerBuilder builder, Action<HttpClientConfiguration> configure)
     {
         var options = new HttpClientConfiguration();
         configure.Invoke(options);
@@ -38,7 +51,7 @@ public static class DypendencyInjectionExtensions
 
         foreach (var type in serviceTypes)
         {
-            builder.AddHttpClientConvension(type, configure);
+            builder.AddDynamicHttpProxy(type, configure);
         }
 
         return builder;
@@ -56,13 +69,12 @@ public static class DypendencyInjectionExtensions
     /// <param name="serviceType">标记了 <see cref="ApiRouteAttribute"/> 特性的接口类型。</param>
     /// <param name="configure">一个用于配置 HTTP 客户端的委托。</param>
     /// <returns></returns>
-    static BizerBuilder AddHttpClientConvension(this BizerBuilder builder, Type serviceType, Action<HttpClientConfiguration> configure)
+    static BizerBuilder AddDynamicHttpProxy(this BizerBuilder builder, Type serviceType, Action<HttpClientConfiguration> configure)
     {
         Type interceptorType = AddCommonConfiguration(builder, serviceType, configure);
 
         builder.Services.AddTransient(serviceType, provider =>
         {
-            //return BizerProxyGenerator.Create(serviceType, (IBizerInterceptor)provider.GetRequiredService(interceptorType));
             return Generator.CreateInterfaceProxyWithoutTarget(serviceType, ((IAsyncInterceptor)provider.GetRequiredService(interceptorType)).ToInterceptor());
         });
         return builder;
@@ -83,8 +95,6 @@ public static class DypendencyInjectionExtensions
         {
             options.HttpConfigurations[type] = configuration;
         });
-
-        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = configuration.BaseAddress });
 
         var httpClientBuilder = builder.Services.AddHttpClient(configuration.Name, client => client.BaseAddress = configuration.BaseAddress);
 

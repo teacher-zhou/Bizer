@@ -17,7 +17,7 @@ builder.ConfigureServices(services =>
         options.Assemblies.Add(typeof(ITestService).Assembly);
         //options.AssembyNames.Add("Sample.*");
     })
-    .AddHttpClientConvension("http://localhost:5192");
+    .AddDynamicHttpProxy("http://localhost:5192");
 
 
 }).ConfigureLogging(log =>
