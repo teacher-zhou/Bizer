@@ -121,7 +121,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
         foreach (var param in parameterInfoList)
         {
             var name = param.GetParameterNameInHttpRequest();
-            var value = invocation.Arguments[param.Position]?.ToString() ?? string.Empty;
+            var value = invocation.Arguments[param.Position] ?? default;
 
             switch (param.Type)
             {
@@ -130,7 +130,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     request.Content = new StringContent(json, Encoding.Default, "application/json");
                     break;
                 case HttpParameterType.FromHeader:
-                    request.Headers.Add(name, value);
+                    request.Headers.Add(name, value?.ToString());
                     break;
                 case HttpParameterType.FromForm:
                     var arguments = new Dictionary<string, string>();
@@ -148,7 +148,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     }
                     else
                     {
-                        arguments.Add(name!, value);
+                        arguments.Add(name!, value?.ToString());
                     }
                     request.Content = new FormUrlEncodedContent(arguments);
                     break;
@@ -156,7 +156,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     var match = Regex.Match(pathBuilder.ToString(), @"{\w+}");
                     if (match.Success)
                     {
-                        pathBuilder.Replace(match.Value, match.Result(value));
+                        pathBuilder.Replace(match.Value, match.Result(value?.ToString()));
                     }
                     break;
                 case HttpParameterType.FromQuery:
@@ -165,6 +165,11 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                         foreach (var property in param.ValueType.GetProperties())
                         {
                             if (!property.CanRead)
+                            {
+                                continue;
+                            }
+
+                            if (property.TryGetCustomAttribute<JsonIgnoreAttribute>(out _))
                             {
                                 continue;
                             }
