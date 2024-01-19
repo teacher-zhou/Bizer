@@ -20,17 +20,17 @@ Bizer.Core 用于定义前后端 HTTP 的解析规范。
 > Install-Package Bizer
 ```
 定义接口
-```cs
-[ApiRoute("api/account")] //定义 API 的路由基础路由
+```diff
++[ApiRoute("api/account")] //定义 API 的路由基础路由
 public interface IAccountService
 {
-	[Post] //定义为 Post 请求
++	[Post] //定义为 Post 请求
 	Task<Returns<string>> SignInAsync([Form]string userName, [Form]string password); //参数使用 form 方式
 
-	[Get("{id}")]//定义 Get 请求，路由为：api/account/{id}
++ 	[Get("{id}")]//定义 Get 请求，路由为：api/account/{id}
 	Task<MyData> GetAsync(int id);
 
-	[Put("student/{id}")] // 定义 Put 请求，路由为：api/account/{id}
++	[Put("student/{id}")] // 定义 Put 请求，路由为：api/account/{id}
 	Task UpdateStudentAsync([Body]Student model, int id);
 }
 ```
@@ -61,10 +61,10 @@ public class AccountApplicationService : IAccountService
 > Install-Package Bizer.AspNetCore
 ```
 配置服务
-```cs
+```diff
 builder.Services
 	.AddBizer(options => options.AddAssembly(typeof(IAccountService).Assembly)) //要扫描的程序集
-	.AddDynamicWebApi(); //将扫描到的程序集的接口和实现秒变动态 WEB API 服务
++	.AddDynamicWebApi(); //将扫描到的程序集的接口和实现秒变动态 WEB API 服务
 ```
 
 **自行安装相关的 Swagger 包即可看到生成的 API or 通过 Postman 来模拟发送 HTTP 测试 API 接口**
@@ -76,10 +76,10 @@ builder.Services
 > Install-Package Bizer.Client
 ```
 配置要作为动态 HTTP 代理所在接口的程序集
-```cs
+```diff
 builder.Services
 	.AddBizer(options => options.AddAssembly(typeof(IAccountService).Assembly)) //要扫描的程序集
-	.AddDynamicHttpProxy("http://localhost:port"); // 将扫描到的程序集的接口秒变动态 HTTP 代理
++	.AddDynamicHttpProxy("http://{localhost}:{port}"); // 将扫描到的程序集的接口秒变动态 HTTP 代理
 ```
 
 在任意地方调用接口方法：
@@ -143,16 +143,17 @@ public async Task ProcceedAsync()
 ### `Bizer.Extensions.AutoInjection` 
 实现接口的自动化注入。接口中使用 `InjectServiceAttribute` 即可：
 
-```cs
-[InjectService] //默认是 Scoped
+```diff
++[InjectService] //默认是 Scoped
 public interface IMyService { }
 
-[InjectService(Lifetime = ServiceLifetime.Transient)] //注册成 Transient 生命周期
++[InjectService(Lifetime = ServiceLifetime.Transient)] //注册成 Transient 生命周期
 public interface IMyService { }
 ```
 添加扩展模块：
-```cs
-builder.Services.AddBizer(...).AddServiceInjection() //扫描到的程序集中，接口定义了 InjectService 特性都会被添加成服务(IoC)
+```diff
+builder.Services.AddBizer(...)
++		.AddServiceInjection() //扫描到的程序集中，接口定义了 InjectService 特性都会被添加成服务(IoC)
 ```
 
 ### `Bizer.Extensions.ApplicationService.EntityFrameworkCore`
@@ -160,15 +161,15 @@ builder.Services.AddBizer(...).AddServiceInjection() //扫描到的程序集中�
 
 > 类似于 Abp 的 ApplicationService 层，但比它更简单。
 
-```cs
+```diff
 builder.Services.AddBizer(...)
-		.AddMapster() //添加 Mapster 服务
++		.AddMapster() //添加 Mapster 服务
 
 		//使用内置的 BizerDbContext 作为项目
-		.AddDbContext(options => options.UseSqlServer("...")) 
++		.AddDbContext(options => options.UseSqlServer("...")) 
 
 		//或者使用自定义的 DbContext，要求继承自 BizerDbContext
-		.AddDbContext<MyDbContext>(options => options.UseSqlServer("..."))
++		.AddDbContext<MyDbContext>(options => options.UseSqlServer("..."))
 ```
 
 - 接口可以继承自 `IQueryService`(只读查询服务) 或 `ICrudService`(CRUD 服务)
@@ -219,22 +220,22 @@ public class AppDbContext : DbContext
 }
 ```
 那么 `QueryServiceBase` 或 `CrudServiceBase` 需要显示地指定你的 `DbContext` 对象：
-```cs
+```diff
 + public class UserQueryService : IUserQueryService, QueryServiceBase<AppDbContext, Guid, User, UserQueryDto> 
 - public class UserQueryService : IUserQueryService, QueryServiceBase<Guid, User, UserQueryDto> 
 { 
 	//...
 }
 
-- public class UserService : IUserService, CrudServiceBase<Guid, User, UserQueryDto, UserListDto, UserCreateDto, UserUpdateDto>
 + public class UserService : IUserService, CrudServiceBase<AppDbContext, Guid, User, UserQueryDto, UserListDto, UserCreateDto, UserUpdateDto>
+- public class UserService : IUserService, CrudServiceBase<Guid, User, UserQueryDto, UserListDto, UserCreateDto, UserUpdateDto>
 {
 	//...
 }
 ```
 
 最终在 `Program.cs` 中修改
-```cs
+```diff
 builder.Services.AddBizer(...)
 		.AddMapster()
 -		.AddDbContext(options => options.UseSqlServer("...")) 
