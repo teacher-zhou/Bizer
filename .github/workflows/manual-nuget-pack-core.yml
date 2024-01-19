@@ -25,12 +25,12 @@ jobs:
             8.0.x
       - name: 编译
         run: |
-          dotnet build ./src/Core/Bizer/Bizer.csproj -c release
+          dotnet build ./src/Core/Bizer.Core/Bizer.Core.csproj -c release
           dotnet build ./src/Core/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release
           dotnet build ./src/Core/Bizer.Client/Bizer.Client.csproj -c release
       - name: 发布 nuget 包
         run: |
-          dotnet pack ./src/Core/Bizer/Bizer.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Core/Bizer.Core/Bizer.Core.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
           dotnet pack ./src/Core/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
           dotnet pack ./src/Core/Bizer.Client/Bizer.Client.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
 
