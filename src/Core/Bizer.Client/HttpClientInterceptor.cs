@@ -136,15 +136,14 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     var arguments = new Dictionary<string, string>();
                     if (param.ValueType != typeof(string) && param.ValueType.IsClass)
                     {
-                        param.ValueType.GetProperties().ForEach(property =>
+                        foreach (var property in param.ValueType.GetProperties())
                         {
                             if (property.CanRead)
                             {
                                 name = property.Name;
                                 value = property.GetValue(value)?.ToString();
                             }
-                        });
-
+                        }
                     }
                     else
                     {

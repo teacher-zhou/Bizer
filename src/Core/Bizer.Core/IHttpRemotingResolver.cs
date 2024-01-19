@@ -25,7 +25,7 @@ public interface IHttpRemotingResolver
     /// <param name="interfaceType">接口的类型。</param>
     /// <param name="method">正在执行的方法。</param>
     /// <returns></returns>
-    string GetApiRoute(Type interfaceType,MethodInfo method);
+    string GetApiRoute(Type interfaceType, MethodInfo method);
     /// <summary>
     /// 从接口方法中获取 <see cref="HttpMethod"/> 。
     /// </summary>
@@ -75,5 +75,5 @@ public class HttpParameterInfo
     /// 获取参数在 HTTP 请求时的名称。
     /// </summary>
     /// <returns></returns>
-    public string? GetParameterNameInHttpRequest() => Alias ?? Name;
+    public string GetParameterNameInHttpRequest() => Alias ?? Name ?? throw new ArgumentNullException($"{nameof(Name)} 或 {nameof(Alias)} 必须保证其中一个有值");
 }

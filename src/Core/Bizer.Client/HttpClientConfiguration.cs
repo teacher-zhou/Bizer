@@ -14,7 +14,7 @@ public class HttpClientConfiguration
     /// <summary>
     /// 获取或设置 HTTP 配置的名称。
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = Default;
 
     /// <summary>
     /// 获取或设置发送请求时使用的 Internet 资源的统一资源标识符(URI)的基址。

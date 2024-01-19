@@ -50,7 +50,7 @@ public abstract class QueryListServiceBase<TContext, TEntity, TList, TListFilter
         }
         catch (AggregateException ex)
         {
-            return Returns<PagedInfo<TList>>.Failed("查询发生了错误，请查看日志").LogError(Logger, logMessage: ex.InnerExceptions.Select(m => m.Message).JoinAsString("；"), ex);
+            return Returns<PagedInfo<TList>>.Failed("查询发生了错误，请查看日志").LogError(Logger, logMessage: string.Join("；", ex.InnerExceptions.Select(m => m.Message)), ex);
         }
     }
     #endregion

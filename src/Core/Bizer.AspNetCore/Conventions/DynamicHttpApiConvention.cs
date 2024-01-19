@@ -171,11 +171,11 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     /// <exception cref="InvalidOperationException"></exception>
     RouteAttribute GenerateRoute(ActionModel action)
     {
-        _interfaceAsControllerType.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute);
+        _interfaceAsControllerType!.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute);
 
         var method = FindInterfaceMethodFromAction(action);
 
-        var routeTemplate = _converter.GetApiRoute(_interfaceAsControllerType, method);
+        var routeTemplate = _converter.GetApiRoute(_interfaceAsControllerType!, method);
 
         return new(routeTemplate)
         {
@@ -209,7 +209,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     /// </summary>
     /// <param name="action"></param>
     /// <returns></returns>
-    private MethodInfo? FindInterfaceMethodFromAction(ActionModel action)
+    private MethodInfo FindInterfaceMethodFromAction(ActionModel action)
     {
         var allmethods = _interfaceAsControllerType!.GetMethods().Concat(_interfaceAsControllerType.GetInterfaces().SelectMany(m => m.GetMethods()));
 
@@ -232,6 +232,12 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
         var methodKey = DefaultHttpRemotingResolver.GetMethodCacheKey(onlyMethod);
 
         var actionMethod = allmethods.SingleOrDefault(m => DefaultHttpRemotingResolver.GetMethodCacheKey(m) == methodKey);
+
+        if (actionMethod is null)
+        {
+            throw new InvalidOperationException($"没有找到方法 '{nameof(methodKey)}:{methodKey}'");
+        }
+
         return actionMethod;
     }
 

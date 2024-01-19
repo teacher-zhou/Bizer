@@ -1,15 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Options;
-
-namespace Bizer.Extensions.ApplicatonService.EntityFrameworkCore;
+﻿namespace Bizer.Extensions.ApplicatonService.EntityFrameworkCore;
 /// <summary>
 /// 实现了自动化配置的 <see cref="DbContext"/> 类。
 /// </summary>
 public class BizerDbContext : DbContext
 {
-    private readonly DbContextConfigureOptions _options;
-
     /// <summary>
     /// 初始化 <see cref="BizerDbContext"/> 类的新实例。
     /// </summary>
@@ -17,7 +11,6 @@ public class BizerDbContext : DbContext
     public BizerDbContext(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
-        //this._options = options;
     }
 
     /// <summary>
@@ -45,7 +38,7 @@ public class BizerDbContext : DbContext
     /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        foreach ( var assembly in AutoDiscoveryOptions.GetDiscoveredAssemblies() )
+        foreach (var assembly in AutoDiscoveryOptions.GetDiscoveredAssemblies())
         {
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
         }

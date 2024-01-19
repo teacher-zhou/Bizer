@@ -75,7 +75,7 @@ public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, 
     /// <returns>映射成功的实体。</returns>
     protected virtual TDetail? MapToDetail(TEntity? entity)
     {
-        Checker.NotNull(entity, nameof(entity));
+        ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
         if (typeof(TDetail) != typeof(TEntity))
         {
