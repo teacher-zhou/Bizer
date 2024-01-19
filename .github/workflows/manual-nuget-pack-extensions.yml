@@ -1,0 +1,39 @@
+name: 扩展包发布
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "包版本"
+        required: true 
+        type: string
+
+jobs:
+  pack-push-nuget-package:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'AchievedOwner'
+    steps:
+      - name: 迁出代码
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Environment
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+      - name: 编译
+        run: |
+          dotnet build ./src/Extensions/Bizer.Extensions.ApplicationService.Abstractions/Bizer.Extensions.ApplicationService.Abstractions.csproj -c release
+          dotnet build ./src/Extensions/Bizer.Extensions.ApplicationService.EntityFrameworkCore/Bizer.Extensions.ApplicationService.EntityFrameworkCore.csproj -c release
+          dotnet build ./src/Extensions/Bizer.Extensions.AutoInjection/Bizer.Extensions.AutoInjection.csproj -c release
+      - name: 发布 nuget 包
+        run: |
+          dotnet pack ./src/Extensions/Bizer.Extensions.ApplicationService.Abstractions/Bizer.Extensions.ApplicationService.Abstractions.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Extensions/Bizer.Extensions.ApplicationService.EntityFrameworkCore/Bizer.Extensions.ApplicationService.EntityFrameworkCore.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Extensions/Bizer.Extensions.AutoInjection/Bizer.Extensions.AutoInjection.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+
+          dotnet nuget push './pack/*.nupkg' -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+
+    
