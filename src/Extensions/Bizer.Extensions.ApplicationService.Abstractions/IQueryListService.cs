@@ -1,4 +1,4 @@
-﻿namespace Bizer.Extensions.ApplicatonService.Abstractions;
+﻿namespace Bizer.Extensions.ApplicationService.Abstractions;
 
 /// <summary>
 /// 提供列表查询的服务。

@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using Bizer.Extensions.ApplicatonService.EntityFrameworkCore;
+using Bizer.Extensions.ApplicationService.EntityFrameworkCore;
 namespace Bizer;
 public static class DependencyInjectionExtensions
 {

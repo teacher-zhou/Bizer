@@ -1,4 +1,4 @@
-﻿namespace Bizer.Extensions.ApplicatonService.EntityFrameworkCore;
+﻿namespace Bizer.Extensions.ApplicationService.EntityFrameworkCore;
 /// <summary>
 /// 使用 <see cref="BizerDbContext"/> 来操作 CRUD 服务的基类。
 /// <para>

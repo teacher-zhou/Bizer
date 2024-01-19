@@ -27,9 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.Services.Test", "test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{68F6FF27-ACBE-4E84-AD7A-D1144E7228A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.Extensions.ApplicatonService.Abstractions", "src\Extensions\Bizer.Extensions.ApplicationService.Abstractions\Bizer.Extensions.ApplicatonService.Abstractions.csproj", "{2CDDF9AC-8D03-4BE0-9FFF-0D06603714DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.Extensions.ApplicationService.Abstractions", "src\Extensions\Bizer.Extensions.ApplicationService.Abstractions\Bizer.Extensions.ApplicationService.Abstractions.csproj", "{2CDDF9AC-8D03-4BE0-9FFF-0D06603714DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.Extensions.ApplicatonService.EntityFrameworkCore", "src\Extensions\Bizer.Extensions.ApplicationService.EntityFrameworkCore\Bizer.Extensions.ApplicatonService.EntityFrameworkCore.csproj", "{CAC92440-534D-4875-8CA3-306C5EA73F44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.Extensions.ApplicationService.EntityFrameworkCore", "src\Extensions\Bizer.Extensions.ApplicationService.EntityFrameworkCore\Bizer.Extensions.ApplicationService.EntityFrameworkCore.csproj", "{CAC92440-534D-4875-8CA3-306C5EA73F44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{487826EC-7805-4FC9-94E9-5FC65D7C52E6}"
 EndProject
@@ -41,11 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.AspNetCore", "src\Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bizer.Extensions.AutoInjection", "src\Extensions\Bizer.Extensions.AutoInjection\Bizer.Extensions.AutoInjection.csproj", "{57BF1ADC-002A-462B-8DB8-0F58773925E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Contracts", "sample\Sample.Contracts\Sample.Contracts.csproj", "{F6BB5AD5-166A-4D9C-B761-C902E854F105}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Contracts", "sample\Sample.Contracts\Sample.Contracts.csproj", "{F6BB5AD5-166A-4D9C-B761-C902E854F105}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Contracts.Impl", "sample\Sample.Contracts.Impl\Sample.Contracts.Impl.csproj", "{08FC4977-45C8-4F73-B57F-A65B3219F0DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Contracts.Impl", "sample\Sample.Contracts.Impl\Sample.Contracts.Impl.csproj", "{08FC4977-45C8-4F73-B57F-A65B3219F0DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WebApi", "sample\Sample.WebApi\Sample.WebApi.csproj", "{4F6C5458-79B4-4333-8695-74E399FF975E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.WebApi", "sample\Sample.WebApi\Sample.WebApi.csproj", "{4F6C5458-79B4-4333-8695-74E399FF975E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

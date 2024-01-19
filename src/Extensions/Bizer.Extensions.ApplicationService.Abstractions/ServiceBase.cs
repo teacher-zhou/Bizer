@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
-namespace Bizer.Extensions.ApplicatonService.Abstractions;
+namespace Bizer.Extensions.ApplicationService.Abstractions;
 
 
 /// <summary>

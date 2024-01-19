@@ -1,4 +1,4 @@
-﻿namespace Bizer.Extensions.ApplicatonService.EntityFrameworkCore;
+﻿namespace Bizer.Extensions.ApplicationService.EntityFrameworkCore;
 /// <summary>
 /// 实现了自动化配置的 <see cref="DbContext"/> 类。
 /// </summary>

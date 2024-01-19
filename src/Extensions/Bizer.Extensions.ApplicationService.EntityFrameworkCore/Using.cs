@@ -2,4 +2,4 @@
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 global using MapsterMapper;
-global using Bizer.Extensions.ApplicatonService.Abstractions;
+global using Bizer.Extensions.ApplicationService.Abstractions;

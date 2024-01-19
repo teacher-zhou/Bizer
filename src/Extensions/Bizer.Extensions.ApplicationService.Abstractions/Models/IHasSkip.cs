@@ -1,4 +1,4 @@
-﻿namespace Bizer.Extensions.ApplicatonService.Abstractions;
+﻿namespace Bizer.Extensions.ApplicationService.Abstractions;
 
 /// <summary>
 /// 定义具备查询时的跳过输入。

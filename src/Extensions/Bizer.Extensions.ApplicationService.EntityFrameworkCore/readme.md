@@ -1,5 +1,5 @@
 
-## Bizer.Extensions.ApplicatonService.EntityFrameworkCore
+## Bizer.Extensions.ApplicationService.EntityFrameworkCore
 基于 EntityFrameworkCore 和 Mapster 快速构建 CURD 的业务逻辑服务
 
 有以下基类：

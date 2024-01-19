@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Bizer.Extensions.ApplicatonService.Abstractions;
+namespace Bizer.Extensions.ApplicationService.Abstractions;
 
 /// <summary>
 /// 表示分页结果的输出信息。

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bizer.Extensions.ApplicatonService.Abstractions;
+namespace Bizer.Extensions.ApplicationService.Abstractions;
 
 /// <summary>
 /// 模型对象验证器。

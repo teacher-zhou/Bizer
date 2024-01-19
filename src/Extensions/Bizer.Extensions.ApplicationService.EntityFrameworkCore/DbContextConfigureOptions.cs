@@ -1,4 +1,4 @@
-﻿namespace Bizer.Extensions.ApplicatonService.EntityFrameworkCore;
+﻿namespace Bizer.Extensions.ApplicationService.EntityFrameworkCore;
 /// <summary>
 /// 表示对 <see cref="DbContext"/> 选项配置。
 /// </summary>

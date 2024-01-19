@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-namespace Bizer.Extensions.ApplicatonService.EntityFrameworkCore;
+namespace Bizer.Extensions.ApplicationService.EntityFrameworkCore;
 /// <summary>
 /// 表示 CRUD 服务的基类。
 /// </summary>

@@ -1,4 +1,4 @@
-﻿namespace Bizer.Extensions.ApplicatonService.Abstractions;
+﻿namespace Bizer.Extensions.ApplicationService.Abstractions;
 /// <summary>
 /// 提供 CRUD 的逻辑功能服务。
 /// </summary>
