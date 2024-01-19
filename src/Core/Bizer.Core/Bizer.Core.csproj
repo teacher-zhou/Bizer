@@ -1,7 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../core.props" />
 	<PropertyGroup>
-		<Description>Bizer 的核心，用于定义前后端 HTTP 的解析规范。</Description>
+		<Description>
+			Bizer 的核心，用于定义前后端 HTTP 的解析规范。
+
+			根据需要安装：
+			- 动态 HTTP 客户端 Bizer.Client: 根据接口的 HTTP 定义，自动发送 Http 请求
+			- 动态 API 服务端 Bizer.AspNetCore: 根据接口的 HTTP 定义，自动变成 WEB API 接口
+		</Description>
 		<RootNamespace>Bizer</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup Condition="$(TargetFramework) == 'net7.0'">

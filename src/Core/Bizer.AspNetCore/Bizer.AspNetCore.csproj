@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../core.props" />
 	<PropertyGroup>
-		<Description>让服务端的业务逻辑层服务秒变 Web API</Description>
+		<Description>根据接口的 HTTP 定义，自动将接口的实现自动变成 WEB API。</Description>
 
 	</PropertyGroup>
 	<ItemGroup>
