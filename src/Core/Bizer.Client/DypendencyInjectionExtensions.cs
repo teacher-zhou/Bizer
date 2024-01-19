@@ -3,9 +3,11 @@ using Bizer.Client;
 
 using Castle.DynamicProxy;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using System.Reflection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace Bizer;
 
 /// <summary>
 /// 依赖注入的扩展。

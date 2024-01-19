@@ -1,12 +1,11 @@
 ﻿using Bizer;
 using Bizer.AspNetCore;
-using Bizer.AspNetCore.Conventions;
 
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace Bizer;
 public static class BizerAspNetCoreDependencyInjections
 {
     /// <summary>
@@ -33,26 +32,5 @@ public static class BizerAspNetCoreDependencyInjections
         });
 
         return builder;
-    }
-
-
-    /// <summary>
-    /// 添加从 HttpContext 解析的主体访问器。
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <returns></returns>
-    public static BizerBuilder AddHttpContextPricipalAccessor(this BizerBuilder builder)
-    {
-        builder.Services.AddHttpContextAccessor();
-        return builder.AddCurrentPrincipalAccessor<HttpContextPrincipalAccessor>();
-    }
-
-    /// <summary>
-    /// 构造 Bizer 框架。
-    /// </summary>
-    public static WebApplication WithBizer(this WebApplication application)
-    {
-        App.Initialize(application.Services);
-        return application;
     }
 }

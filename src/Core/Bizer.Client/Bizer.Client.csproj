@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../../common.props" />
+	<Import Project="../core.props" />
 	<PropertyGroup>
 		<Description>只需要接口定义 HTTP 特性，立刻实现与远程 API 的对接能力。</Description>
 	</PropertyGroup>

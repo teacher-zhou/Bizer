@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="../../../common.props" />
+	<Import Project="../extensions.props" />
 	<PropertyGroup>
 		<Description>基于 EntityFrameworkCore 作为 ORM，使用 Mapster 作为映射，实现基本的 CRUD 功能。</Description>
 	</PropertyGroup>
@@ -19,6 +19,6 @@
 		<PackageReference Include="Mapster.EFCore" Version="5.1.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Bizer.Extensions.ApplicationService.Abstractions\Bizer.Extensions.ApplicatonService.Abstractions.csproj" />
+		<ProjectReference Include="..\Bizer.Extensions.ApplicationService.Abstractions\Bizer.Extensions.ApplicatonService.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

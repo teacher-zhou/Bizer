@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../../common.props" />
+	<Import Project="../core.props" />
 	<PropertyGroup>
-		<Description>核心类库，用于定义客户端和服务端共有的接口、模型、工具、解析器等</Description>
+		<Description>Bizer 的核心，用于定义前后端 HTTP 的解析规范。</Description>
+		<RootNamespace>Bizer</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup Condition="$(TargetFramework) == 'net7.0'">
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />

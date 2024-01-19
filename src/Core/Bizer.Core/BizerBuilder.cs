@@ -1,9 +1,4 @@
-﻿using Bizer.Security;
-
-using Microsoft.Extensions.DependencyInjection.Extensions;
-
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Bizer;
 
@@ -34,7 +29,7 @@ public class BizerBuilder
     /// <param name="configure">一个配置自动发现的委托。</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"><paramref name="configure"/> 是 <c>null</c>。</exception>
-    public BizerBuilder AddAutoDiscovery(Action<AutoDiscoveryOptions>? configure = default)
+    internal BizerBuilder AddAutoDiscovery(Action<AutoDiscoveryOptions>? configure = default)
     {
         configure?.Invoke(AutoDiscovery);
         Services.AddSingleton(AutoDiscovery);
@@ -56,36 +51,4 @@ public class BizerBuilder
     ///// </summary>
     //public BizerBuilder AddHttpRemotingResolver() => AddHttpRemotingResolver<DefaultHttpRemotingResolver>();
 
-    /// <summary>
-    /// 添加自动注入功能。
-    /// 只有添加了特性 <see cref="InjectServiceAttribute"/> 的接口，会自动将实现类作为进行注册。
-    /// </summary>
-    /// <returns></returns>
-    internal BizerBuilder AddServiceInjection()
-    {
-        var allClassTypes = this.AutoDiscovery.GetDiscoveredAssemblies().SelectMany(m => m.ExportedTypes).Where(m => m.IsClass && !m.IsAbstract)
-           .Where(classType => classType.GetInterfaces().Any(interfaceType => interfaceType.IsDefined(typeof(InjectServiceAttribute))));
-
-        foreach (var implementType in allClassTypes)
-        {
-            var serviceAttributeInterface = implementType.GetInterfaces().Where(interfaceType => interfaceType.IsDefined(typeof(InjectServiceAttribute))).Last();
-
-            var serviceAttribute = serviceAttributeInterface.GetCustomAttribute<InjectServiceAttribute>();
-
-            Services.Add(new(serviceAttributeInterface, implementType, serviceAttribute!.Lifetime));
-        }
-        return this;
-    }
-
-    /// <summary>
-    /// 添加主体访问器的服务。
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <typeparam name="TCurrentPrincipalAccessor">主体访问器类型。</typeparam>
-    public BizerBuilder AddCurrentPrincipalAccessor<TCurrentPrincipalAccessor>()
-        where TCurrentPrincipalAccessor : class, ICurrentPrincipalAccessor
-    {
-        Services.TryAddTransient<ICurrentPrincipalAccessor, TCurrentPrincipalAccessor>();
-        return this;
-    }
 }

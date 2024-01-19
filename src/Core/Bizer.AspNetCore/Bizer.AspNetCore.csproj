@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../../common.props" />
+	<Import Project="../core.props" />
 	<PropertyGroup>
 		<Description>让服务端的业务逻辑层服务秒变 Web API</Description>
 

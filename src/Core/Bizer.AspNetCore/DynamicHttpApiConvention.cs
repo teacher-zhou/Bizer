@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using System.Reflection;
 
-namespace Bizer.AspNetCore.Conventions;
+namespace Bizer.AspNetCore;
 
 /// <summary>
 /// 动态 HTTP API 的约定。

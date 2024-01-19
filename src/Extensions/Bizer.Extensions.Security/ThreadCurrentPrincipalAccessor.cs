@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Bizer.Security;
+namespace Bizer.Extensions.Security;
 /// <summary>
 /// 表示以线程方式的当前主体访问器。
 /// </summary>

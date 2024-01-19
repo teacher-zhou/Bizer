@@ -1,6 +1,4 @@
-﻿using Bizer.Security;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
@@ -34,11 +32,6 @@ public abstract class ServiceBase
     /// </para>
     /// </value>
     protected ILogger? Logger => ServiceProvider.GetService<ILoggerFactory>()?.CreateLogger(this.GetType().Name);
-
-    /// <summary>
-    /// 获取当前主体。
-    /// </summary>
-    protected ICurrentPrincipalAccessor? CurrentPricipal => ServiceProvider.GetService<ICurrentPrincipalAccessor>();
 
     /// <summary>
     /// 获取本地化器。

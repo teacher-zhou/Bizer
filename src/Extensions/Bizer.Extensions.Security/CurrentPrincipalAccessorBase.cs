@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Bizer.Security;
+namespace Bizer.Extensions.Security;
 
 /// <summary>
 /// 表示当前主体访问器的基类。这是一个抽象类。
