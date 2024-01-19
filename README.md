@@ -226,8 +226,8 @@ public class AppDbContext : DbContext
 	//...
 }
 
-+ public class UserService : IUserService, CrudServiceBase<AppDbContext, Guid, User, UserQueryDto, UserListDto, UserCreateDto, UserUpdateDto>
 - public class UserService : IUserService, CrudServiceBase<Guid, User, UserQueryDto, UserListDto, UserCreateDto, UserUpdateDto>
++ public class UserService : IUserService, CrudServiceBase<AppDbContext, Guid, User, UserQueryDto, UserListDto, UserCreateDto, UserUpdateDto>
 {
 	//...
 }
