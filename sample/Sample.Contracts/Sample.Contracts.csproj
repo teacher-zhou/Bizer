@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="../../common.props" />
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Core\Bizer.Core\Bizer.Core.csproj" />
+	</ItemGroup>
+
+</Project>

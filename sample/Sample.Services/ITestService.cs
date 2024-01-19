@@ -1,5 +1,4 @@
 ﻿using Bizer;
-using Bizer.Services.Abstractions;
 
 namespace Sample.Services;
 [ApiRoute("api/test")]
@@ -16,7 +15,7 @@ public interface ITestService
     Returns No();
 
     [Get("{id}")]
-    Task<Returns> GetFromPathAsync([Path] int id);
+    Task<Returns> GetFromPathAsync([Route] int id);
     [Get("query")]
     Task<Returns> GetFromQueryAsync([Query] string? name);
 
@@ -33,7 +32,7 @@ public interface ITestService
     Task PostNothingAsync();
 
     [Put("{name}")]
-    Returns<string> PutData([Path] string name);
+    Returns<string> PutData([Route] string name);
 
     [Put("no-return")]
     void PutNothing(int? id);
@@ -45,12 +44,7 @@ public interface ITestService
 }
 
 
-public record SearchFilter(int Page, int Size) : PagedDto(Page, Size)
+public record SearchFilter
 {
-    public SearchFilter() : this(1, 10)
-    {
-
-    }
-
     public string? Title { get; set; }
 }

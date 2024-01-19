@@ -1,10 +1,10 @@
 ﻿
 
 using Bizer;
-using Sample.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Sample.Contracts;
 
 var builder = Host.CreateDefaultBuilder(args);
 
@@ -15,51 +15,26 @@ builder.ConfigureServices(services =>
     services.AddBizer(options =>
     {
         options.AddAssmebly(typeof(ITestService).Assembly);
-        //options.AssembyNames.Add("Sample.*");
     })
-    .AddDynamicHttpProxy("http://localhost:5192");
+    .AddDynamicHttpProxy("http://localhost:5216");
 
 
 }).ConfigureLogging(log =>
 {
     log.AddDebug().AddConsole().AddFilter(level => level == LogLevel.Debug);
 });
-var app = builder.Build().WithBizer();
+var app = builder.Build();
 app.Start();
 
 var logger = app.Services.GetRequiredService<ILogger<Program>>();
 var testService = app.Services.GetRequiredService<ITestService>();
 
-//testService.No();
-//await testService.Auth();
-//await testService.GetAsync();
-
 #region GET 请求
-//无参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetAsync))).Assert(logger);
 
-//path 中的参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromPathAsync), 1000)).Assert(logger);
-
-//query 中的参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromQueryAsync), "张三")).Assert(logger);
-//header 中的参数
-(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromHeaderAsync), "Token")).Assert(logger);
-
-//无参数有返回值
-(await app.InvokeMethodAsync<ITestService, Returns<string>>(nameof(ITestService.GetHasData))).Assert(logger);
-#endregion
-
-#region Post
-
-//await app.InvokeMethodAsync<ITestService, string>(nameof(ITestService.PostAsync),"asdasdasd");
-await app.InvokeMethodAsync<ITestService>(nameof(ITestService.PostNothingAsync));
-#endregion
-
-#region Put
-
-app.InvokeMethod<ITestService, Returns<string>>(nameof(ITestService.PutData), "name").Assert(logger);
-app.InvokeMethod<ITestService>(nameof(ITestService.PutNothing), 123);
+(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromQueryParameter), "")).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns>(nameof(ITestService.GetFromQueryParameter), "abc")).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, string>(nameof(ITestService.GetWithId), 1000)).Assert(logger);
+(await app.InvokeMethodAsync<ITestService, Returns<User>>(nameof(ITestService.SignInAsync), new User { UserName = "admin", Password = "123" })).Assert(logger);
 #endregion
 
 public static class AssertExtensions
@@ -104,6 +79,11 @@ public static class AssertExtensions
         logger.LogDebug("============ {0} ================", methodName);
         logger.LogDebug("方法的参数：{0}", string.Join(", ", parameters));
         serviceType.GetMethod(methodName)?.Invoke(service, parameters);
+    }
+
+    public static void Assert(this object value, ILogger logger)
+    {
+        logger.LogDebug($"【Result】{value}");
     }
 
     public static void Assert(this Returns returns, ILogger logger, bool throwIfNotSuccess = true)

@@ -63,7 +63,7 @@ public class AccountApplicationService : IAccountService
 配置服务
 ```diff
 builder.Services
-	.AddBizer(options => options.AddAssembly(typeof(IAccountService).Assembly)) //要扫描的程序集
+	.AddBizer(options => options.AddAssembly(typeof(AccountService).Assembly)) //接口实现类所在的程序集
 +	.AddDynamicWebApi(); //将扫描到的程序集的接口和实现秒变动态 WEB API 服务
 ```
 
