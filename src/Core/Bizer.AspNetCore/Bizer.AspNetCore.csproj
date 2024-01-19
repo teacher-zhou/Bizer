@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../../common.props" />
+	<PropertyGroup>
+		<Description>让服务端的业务逻辑层服务秒变 Web API</Description>
+
+	</PropertyGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Bizer.Core\Bizer.Core.csproj" />
+	</ItemGroup>
+</Project>

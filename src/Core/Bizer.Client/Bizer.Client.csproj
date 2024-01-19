@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../../common.props" />
+	<PropertyGroup>
+		<Description>只需要接口定义 HTTP 特性，立刻实现与远程 API 的对接能力。</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Castle.Core" Version="5.1.1" />
+		<PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework) == 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="$(TargetFramework) == 'net7.0'">
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="$(TargetFramework) == 'net8.0'">
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Bizer.Core\Bizer.Core.csproj" />
+	</ItemGroup>
+</Project>

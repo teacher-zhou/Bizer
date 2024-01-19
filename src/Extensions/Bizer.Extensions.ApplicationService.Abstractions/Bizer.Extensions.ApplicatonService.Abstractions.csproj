@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../../common.props" />
+	<PropertyGroup>
+		<Description>Bizer 提供的基本应用服务抽象，用于设计规范和定义</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Bizer.Core\Bizer.Core.csproj" />
+	</ItemGroup>
+
+</Project>
