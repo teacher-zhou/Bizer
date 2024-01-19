@@ -1,11 +1,12 @@
 ﻿using Bizer.Test;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Bizer.AspNetCore.Test;
-public class AspNetCoreTestBase:TestBase,IDisposable
+public class AspNetCoreTestBase : TestBase, IDisposable
 {
     private IWebHost _host;
 
@@ -13,8 +14,8 @@ public class AspNetCoreTestBase:TestBase,IDisposable
     {
         var builder = new WebHostBuilder().UseTestServer().ConfigureServices(services =>
         {
-            services.AddBizer(options=>options.Assemblies.Add(typeof(ITestingService).Assembly))
-                    .AddOpenApiConvension();
+            services.AddBizer(options => options.AddAssmebly(typeof(ITestingService).Assembly))
+                    .AddDynamicWebApi();
             ConfigureServices(services);
         });
 

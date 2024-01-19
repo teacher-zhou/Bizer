@@ -1,0 +1,6 @@
+<Project>
+	<Import Project="../../common.props"/>
+	<PropertyGroup>
+		<Version>0.1</Version>
+	</PropertyGroup>
+</Project>

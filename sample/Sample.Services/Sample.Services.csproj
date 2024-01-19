@@ -8,8 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Bizer.Services\Bizer.Services.csproj" />
-		<ProjectReference Include="..\..\src\Bizer\Bizer.csproj" />
+		<ProjectReference Include="..\..\src\Bizer\Bizer.Core.csproj" />
 	</ItemGroup>
 
 </Project>

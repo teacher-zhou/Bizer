@@ -6,7 +6,7 @@
 		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.7</Version>
+		<VersionSuffix>preview1</VersionSuffix>
 		<Authors>playermaker</Authors>
 		<Copyright>playermaker（最高指挥官） © 2023-2025</Copyright>
 		<PackageIcon>icon.png</PackageIcon>
@@ -43,15 +43,15 @@
 		</When>
 	</Choose>
 	<ItemGroup>
-		<None Include="..\..\asset\icon.png">
+		<None Include="..\..\../asset\icon.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include=".\README.md">
+		<None Include="..\../../README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\..\LICENSE">
+		<None Include="..\..\../LICENSE">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>

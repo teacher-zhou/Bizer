@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Bizer.Localization\Bizer.Localization.csproj" />
     <ProjectReference Include="..\Bizer.Test\Bizer.Test.csproj" />
   </ItemGroup>
 

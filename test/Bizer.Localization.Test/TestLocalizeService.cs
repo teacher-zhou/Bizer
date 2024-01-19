@@ -1,10 +1,12 @@
 using Bizer.Test;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Bizer.Localization.Test;
-public class TestLocalizeService:TestBase
+public class TestLocalizeService : TestBase
 {
     private readonly IStringLocalizer<TestLocalizeService> _localizeService;
 
@@ -19,11 +21,11 @@ public class TestLocalizeService:TestBase
     }
 
     [Theory]
-    [InlineData(new object[] { "Name","Name" })]
+    [InlineData(new object[] { "Name", "Name" })]
     [InlineData(new object[] { "Age", "Age" })]
-    public void Test_Get_Localize(string key,string value)
+    public void Test_Get_Localize(string key, string value)
     {
-        var local= _localizeService[key];
+        var local = _localizeService[key];
         Assert.Equal(value, local);
     }
 
@@ -52,10 +54,10 @@ public class TestLocalizeService:TestBase
 
     public class User
     {
-        [Display(Name="Name")]
+        [Display(Name = "Name")]
         [Required()]
         public string Name { get; set; }
-        [Range(20,30,ErrorMessageResourceName ="AgeError")]
+        [Range(20, 30, ErrorMessageResourceName = "AgeError")]
         public int Age { get; set; }
     }
 }

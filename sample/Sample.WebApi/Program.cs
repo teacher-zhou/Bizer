@@ -1,33 +1,30 @@
 using Bizer;
-using Bizer.Services;
-using Microsoft.EntityFrameworkCore;
-using Sample.Services;
-using Sample.WebApi;
+
+using Sample.Contracts;
+using Sample.Contracts.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddBizer(options => options.Assemblies.Add(typeof(ITestService).Assembly))
-    .AddOpenApiConvension()
-    .AddMapper()
-    .AddServiceInjection()
-    .AddHttpContextPricipalAccessor()
-    .AddDbContext<TestDbContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=Test;Trusted_Connection=true",b=>b.MigrationsAssembly("Sample.WebApi")))
+// Add services to the container.
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddBizer(options => options.AddAssmebly(typeof(TestSerivce).Assembly)) //接口实现的程序集
+    .AddDynamicWebApi()
     ;
 
-builder.Services.AddCors(options=>options.AddDefaultPolicy(b=>b.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
+var app = builder.Build();
 
-//builder.Services.AddDbContext<TestDbContext>(options => options.UseInMemoryDatabase("db"));
-
-var app = builder.Build().WithBizer();
-
-app.UseDeveloperExceptionPage();
-app.UseCors(b => b.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
-app.UseRouting();
-app.UseBizerOpenApi();
-
-app.MapGet("/", (context) =>
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    context.Response.Redirect("/swagger");
-    return Task.CompletedTask;
-});
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseAuthorization();
+
+app.MapControllers();
+
 app.Run();

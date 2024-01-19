@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../core.props" />
+	<PropertyGroup>
+		<Description>根据接口的 HTTP 定义，自动将接口的实现自动变成 WEB API。</Description>
+
+	</PropertyGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Bizer.Core\Bizer.Core.csproj" />
+	</ItemGroup>
+</Project>
