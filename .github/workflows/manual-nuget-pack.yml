@@ -25,18 +25,20 @@ jobs:
             8.0.x
       - name: 编译
         run: |
-          dotnet build ./src/Bizer/Bizer.csproj -c release
-          dotnet build ./src/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release
-          dotnet build ./src/Bizer.Client/Bizer.Client.csproj -c release
-          dotnet build ./src/Bizer.Services/Bizer.Services.csproj -c release
-          dotnet build ./src/Bizer.Localization/Bizer.Localization.csproj -c release
+          dotnet build ./src/Core/Bizer/Bizer.csproj -c release
+          dotnet build ./src/Core/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release
+          dotnet build ./src/Core/Bizer.Client/Bizer.Client.csproj -c release
+          dotnet build ./src/Extensions/Bizer.Extensions.ApplicationService.Abstractions/Bizer.Extensions.ApplicationService.Abstractions.csproj -c release
+          dotnet build ./src/Extensions/Bizer.Extensions.ApplicationService.EntityFrameworkCore/Bizer.Extensions.ApplicationService.EntityFrameworkCore.csproj -c release
+          dotnet build ./src/Extensions/Bizer.Extensions.AutoInjection/Bizer.Extensions.AutoInjection.csproj -c release
       - name: 发布 nuget 包
         run: |
-          dotnet pack ./src/Bizer/Bizer.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack ./src/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack ./src/Bizer.Client/Bizer.Client.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack ./src/Bizer.Services/Bizer.Services.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
-          dotnet pack ./src/Bizer.Localization/Bizer.Localization.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Core/Bizer/Bizer.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Core/Bizer.AspNetCore/Bizer.AspNetCore.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Core/Bizer.Client/Bizer.Client.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Extensions/Bizer.Extensions.ApplicationService.Abstractions/Bizer.Extensions.ApplicationService.Abstractions.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Extensions/Bizer.Extensions.ApplicationService.EntityFrameworkCore/Bizer.Extensions.ApplicationService.EntityFrameworkCore.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
+          dotnet pack ./src/Extensions/Bizer.Extensions.AutoInjection/Bizer.Extensions.AutoInjection.csproj -c release -o ./pack -p:PackageVersion=${{ github.event.inputs.version }}
 
           dotnet nuget push './pack/*.nupkg' -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate
 

@@ -1,22 +1,22 @@
 using Bizer.Test;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Bizer.Services.Test;
-public class CrudSericeTest:TestBase
+public class CrudSericeTest : TestBase
 {
     private readonly IUserService _userService;
 
-    public CrudSericeTest():base()
+    public CrudSericeTest() : base()
     {
         _userService = GetService<IUserService>();
     }
 
     protected override void ConfigureServices(IServiceCollection services)
     {
-        services.AddBizer(options=>options.Assemblies.Add(typeof(IUserService).Assembly))
+        services.AddBizer(options => options.AddAssmebly(typeof(IUserService).Assembly))
             .AddMapper()
-            .AddServiceInjection()
             .AddDbContext(options => options.UseInMemoryDatabase("db"));
 
     }
@@ -36,7 +36,7 @@ public class CrudSericeTest:TestBase
         var result = await _userService.CreateAsync(new() { Id = 15, Name = "admin" });
         Assert.True(result.Succeed);
 
-        var updated= await _userService.UpdateAsync(15, new() { Name = "abc" });
+        var updated = await _userService.UpdateAsync(15, new() { Name = "abc" });
         Assert.True(updated.Succeed);
 
         Assert.NotEqual(result.Data.Name, updated.Data.Name);
@@ -65,7 +65,7 @@ public class CrudSericeTest:TestBase
 
         var user = await _userService.GetAsync(1);
         Assert.NotNull(user);
-        Assert.Equal(1,user.Data.Id);
+        Assert.Equal(1, user.Data.Id);
         Assert.Equal("admin", user.Data.Name);
     }
 

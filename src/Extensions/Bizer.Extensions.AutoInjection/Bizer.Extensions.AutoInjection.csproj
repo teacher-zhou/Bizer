@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../extensions.props" />
+
+	<PropertyGroup>
+		<Description>使程序具备自动注入的功能。</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Core\Bizer.Core\Bizer.Core.csproj" />
+	</ItemGroup>
+
+</Project>

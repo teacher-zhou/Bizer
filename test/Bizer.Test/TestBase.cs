@@ -12,7 +12,7 @@ public abstract class TestBase
 
     protected virtual void ConfigureServices(IServiceCollection services) { }
 
-    protected IServiceProvider ServiceProvider => ApplicationContext.Services;
+    protected IServiceProvider ServiceProvider => App.Services;
 
     protected T? GetService<T>() where T : class => ServiceProvider.GetService<T>();
 }
