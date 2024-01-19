@@ -11,7 +11,7 @@ public abstract class HttpParameterAttribute : Attribute
     /// </summary>
     /// <param name="type">参数访问类型。</param>
     /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public HttpParameterAttribute(HttpParameterType type = HttpParameterType.FromPath, string? name = default)
+    public HttpParameterAttribute(HttpParameterType type = HttpParameterType.FromRoute, string? name = default)
     {
         Type = type;
         Name = name;
@@ -34,7 +34,7 @@ public enum HttpParameterType
     /// <summary>
     /// 从路由获取参数。这是默认的。
     /// </summary>
-    FromPath = 0,
+    FromRoute = 0,
     /// <summary>
     /// 从 Body 中获取参数的值。
     /// </summary>
@@ -130,16 +130,16 @@ public class BodyAttribute : HttpParameterAttribute
 /// <summary>
 /// 请求参数可以用 api 路径的形式访问。
 /// </summary>
-public class PathAttribute : HttpParameterAttribute
+public class RouteAttribute : HttpParameterAttribute
 {
     /// <summary>
-    /// 初始化 <see cref="PathAttribute"/> 类的新实例。
+    /// 初始化 <see cref="RouteAttribute"/> 类的新实例。
     /// </summary>
-    public PathAttribute() : this(default) { }
+    public RouteAttribute() : this(default) { }
 
     /// <summary>
-    /// 初始化 <see cref="PathAttribute"/> 类的新实例。
+    /// 初始化 <see cref="RouteAttribute"/> 类的新实例。
     /// </summary>
     /// <param name="name">参数名称的重命名。<c>null</c> 表示使用参数本身的名称。</param>
-    public PathAttribute(string? name) : base(HttpParameterType.FromPath, name) { }
+    public RouteAttribute(string? name) : base(HttpParameterType.FromRoute, name) { }
 }

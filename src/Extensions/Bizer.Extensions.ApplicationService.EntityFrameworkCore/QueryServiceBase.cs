@@ -48,7 +48,7 @@ public abstract class QueryServiceBase<TContext, TEntity, TKey, TDetail, TList, 
     /// <inheritdoc/>
     /// </summary>
     /// <param name="id">要获取的 Id。</param>
-    public virtual async Task<Returns<TDetail?>> GetAsync([Path] TKey id)
+    public virtual async Task<Returns<TDetail?>> GetAsync([Route] TKey id)
     {
         var entity = await FindAsync(id);
         if (entity is null)

@@ -151,7 +151,7 @@ internal class HttpClientInterceptor<TService> : IAsyncInterceptor where TServic
                     }
                     request.Content = new FormUrlEncodedContent(arguments);
                     break;
-                case HttpParameterType.FromPath://路由替换
+                case HttpParameterType.FromRoute://路由替换
                     var match = Regex.Match(pathBuilder.ToString(), @"{\w+}");
                     if (match.Success)
                     {

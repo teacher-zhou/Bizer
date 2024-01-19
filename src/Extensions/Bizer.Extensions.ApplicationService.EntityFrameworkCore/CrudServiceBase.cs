@@ -158,7 +158,7 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreate, TUpdate,
     /// <param name="id">要更新的 Id。</param>
     /// <param name="model">要更新的字段。</param>
     /// <exception cref="ArgumentNullException"><paramref name="model"/> 是 null。</exception>
-    public virtual async Task<Returns<TDetail?>> UpdateAsync([Path] TKey id, [Body] TUpdate model)
+    public virtual async Task<Returns<TDetail?>> UpdateAsync([Route] TKey id, [Body] TUpdate model)
     {
         if ( model is null )
         {
@@ -191,7 +191,7 @@ public abstract class CrudServiceBase<TContext, TKey, TEntity, TCreate, TUpdate,
     /// 删除指定 id 的数据。
     /// </summary>
     /// <param name="id">要删除的 Id。</param>
-    public virtual async Task<Returns<TDetail?>> DeleteAsync([Path] TKey id)
+    public virtual async Task<Returns<TDetail?>> DeleteAsync([Route] TKey id)
     {
         var entity = await FindAsync(id);
         if ( entity is null )

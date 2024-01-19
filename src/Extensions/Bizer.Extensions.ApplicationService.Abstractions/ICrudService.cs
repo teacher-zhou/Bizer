@@ -87,12 +87,12 @@ public interface ICrudService<in TKey, TCreate, TUpdate, TDetail, TList, TListFi
     /// <param name="model">要更新的输入模型。</param>
     /// <returns>一个更新方法，返回 <see cref="Returns"/> 结果。</returns>
     [Put("{id}")]
-    Task<Returns<TDetail?>> UpdateAsync([Path] TKey id, [Body] TUpdate model);
+    Task<Returns<TDetail?>> UpdateAsync([Route] TKey id, [Body] TUpdate model);
     /// <summary>
     /// 删除指定的 id。
     /// </summary>
     /// <param name="id">要删除的 id。</param>
     /// <returns>一个删除方法，返回 <see cref="Returns"/> 结果。</returns>
     [Delete("{id}")]
-    Task<Returns<TDetail?>> DeleteAsync([Path] TKey id);
+    Task<Returns<TDetail?>> DeleteAsync([Route] TKey id);
 }

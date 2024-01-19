@@ -169,7 +169,7 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
     /// <param name="action"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    RouteAttribute GenerateRoute(ActionModel action)
+    Microsoft.AspNetCore.Mvc.RouteAttribute GenerateRoute(ActionModel action)
     {
         _interfaceAsControllerType!.TryGetCustomAttribute<ApiRouteAttribute>(out var routeAttribute);
 

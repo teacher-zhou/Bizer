@@ -43,5 +43,5 @@ where TListFilter : class
     /// <param name="id">要获取的 id 。</param>
     /// <returns>一个获取结果的方法，返回 <see cref="Returns{TDetail}"/> 结果。</returns>
     [Get("{id}")]
-    Task<Returns<TDetail?>> GetAsync([Path] TKey id);
+    Task<Returns<TDetail?>> GetAsync([Route] TKey id);
 }
