@@ -2,16 +2,16 @@
 
 namespace Sample.Contracts;
 
-[ApiRoute("api/test")]
+[ApiRoute("api/test", Name = "Users")]
 public interface ITestService
 {
     [Get("{id}")]
     Task<string> GetWithId([Route] int id);
 
-    [Get]
+    [Get(Name = "Query")]
     Task<Returns> GetFromQueryParameter(string name);
 
-    [Post]
+    [Post(Name = "asign")]
     Task<Returns<User>> SignInAsync([Body] User model);
 }
 

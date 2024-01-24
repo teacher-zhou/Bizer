@@ -11,7 +11,7 @@ public class HttpMethodAttribute : Attribute
     /// </summary>
     /// <param name="method">请求方式。</param>
     /// <param name="template">路由模板。</param>
-    public HttpMethodAttribute(HttpMethod method, string? template=default)
+    public HttpMethodAttribute(HttpMethod method, string? template = default)
     {
         Template = template;
         Method = method;
@@ -24,6 +24,11 @@ public class HttpMethodAttribute : Attribute
     /// 获取请求方式。
     /// </summary>
     public HttpMethod Method { get; }
+
+    /// <summary>
+    /// 获取或设置路由的名称。
+    /// </summary>
+    public string? Name { get; set; }
 }
 
 /// <summary>
