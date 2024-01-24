@@ -21,7 +21,7 @@ public class ApiRouteAttribute : Attribute
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public int Order { get; set; } = 1000;
+    public int? Order { get; set; } = 1000;
 
     /// <summary>
     /// <inheritdoc/>

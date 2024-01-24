@@ -175,12 +175,14 @@ internal class DynamicHttpApiConvention : IApplicationModelConvention
 
         var method = FindInterfaceMethodFromAction(action);
 
+        var actionAttribute = FindHttpMethodFromAction(action);
+
         var routeTemplate = _converter.GetApiRoute(_interfaceAsControllerType!, method);
 
         return new(routeTemplate)
         {
-            Name = routeAttribute?.Name ?? $"{action.Controller.ControllerName}_{action.ActionName}",
-            Order = routeAttribute?.Order ?? 0
+            Name = $"{routeAttribute?.Name ?? action.Controller.ControllerName}-{actionAttribute?.Name ?? action.ActionName}",
+            Order = routeAttribute?.Order ?? 1000
         };
     }
 
