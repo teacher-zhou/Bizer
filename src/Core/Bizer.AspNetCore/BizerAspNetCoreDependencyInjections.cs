@@ -1,6 +1,8 @@
 ﻿using Bizer;
 using Bizer.AspNetCore;
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,4 +35,15 @@ public static class BizerAspNetCoreDependencyInjections
 
         return builder;
     }
+
+    /// <summary>
+    /// 允许任意方式的跨域请求。适用于 localhost 的来源调试使用。
+    /// <para>
+    /// 注意：该方法请在开发环境调试时使用。
+    /// </para>
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static IApplicationBuilder UseAnyCors(this IApplicationBuilder app)
+        => app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 }
