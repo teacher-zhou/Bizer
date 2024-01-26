@@ -14,7 +14,6 @@ builder.Services.AddBizer(options => options.AddAssmebly(typeof(TestSerivce).Ass
     .AddDynamicWebApi()
     ;
 
-//builder.Services.AddCors(cors => cors.AddLocalPolicy());
 
 var app = builder.Build();
 
@@ -25,7 +24,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin());
+app.UseAnyCors();
 
 app.UseAuthorization();
 
