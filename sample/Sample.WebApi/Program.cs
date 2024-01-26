@@ -14,6 +14,7 @@ builder.Services.AddBizer(options => options.AddAssmebly(typeof(TestSerivce).Ass
     .AddDynamicWebApi()
     ;
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAnyCors();
 
 app.UseAuthorization();
 
