@@ -42,7 +42,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         // Simulate asynchronous loading to demonstrate a loading indicator
-        await Task.Delay(500);
+        //await Task.Delay(500);
 
         forecasts = await TestService.GetWeatherAsync();
     }
