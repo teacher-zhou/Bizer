@@ -6,7 +6,7 @@ on:
         - main
 
 jobs:
-  pack-push-nuget-package:
+  build-project:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'AchievedOwner'
     steps:
