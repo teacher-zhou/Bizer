@@ -1,0 +1,27 @@
+name: Pull Request
+
+on:
+  pull_request:
+    breaches:
+        - main
+
+jobs:
+  build-project:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'AchievedOwner'
+    steps:
+      - name: 迁出代码
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Environment
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+      - name: 编译
+        run: |
+          dotnet build
+
+    

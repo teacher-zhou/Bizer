@@ -1,7 +1,39 @@
 ﻿@page "/"
+@using Sample.Contracts
+@using System.Security.Claims
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+
+<button class="btn btn-primary" @onclick="Submit">Auth</button>
+
+@if (User is not null && User.Identity is not null && User.Identity.IsAuthenticated)
+{
+    <div class="alert alert-success">
+        @User?.Identity?.Name
+    </div>
+}
+
+@inject SampleAuthenticationStateProvider SampleStateProvider
+@inject AuthenticationStateProvider AuthProvider
+@inject IAuthService AuthService
+
+@code{
+
+    ClaimsPrincipal? User { get; set; }
+
+    async Task Submit()
+    {
+        var token= await AuthService.SignInAsync();
+
+        await SampleStateProvider.StoreTokenAsync(token);
+
+
+        var state = await AuthProvider.GetAuthenticationStateAsync();
+        User = state.User;
+    }
+}

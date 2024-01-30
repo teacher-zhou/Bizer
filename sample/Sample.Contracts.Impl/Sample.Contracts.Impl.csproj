@@ -3,6 +3,10 @@
 	<Import Project="../../common.props" />
 
 	<ItemGroup>
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\Sample.Contracts\Sample.Contracts.csproj" />
 	</ItemGroup>
 
